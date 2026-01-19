@@ -1,5 +1,34 @@
 <div class="layout-container">
-    <div class="drawer"></div>
+    <input type="checkbox" id="drawer-toggle">
+
+<div class="drawer">
+
+    <!-- Burger open -->
+    <label for="drawer-toggle" class="burger">
+        ☰
+    </label>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <!-- Burger close -->
+        <label for="drawer-toggle" class="burger-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/>
+            </svg>
+        </label>
+
+        <ul class="menu">
+            <li>Stolon Edu</li>
+            <li>Stolon Marketing</li>
+            <li>Stolon Business</li>
+            <li>Stolon Computerization</li>
+        </ul>
+
+    </aside>
+
+</div>
     <div class="cards-area">
             <div class="card">
                 <h4>Φτιάξε το δικο σου site</h4>
@@ -40,6 +69,72 @@
     .drawer {
         background-color: #f0f0f0;
         border-right: 1px solid #ccc;
+    }
+
+    #drawer-toggle {
+    display: none;
+    }
+
+    /* Burger open */
+    .burger {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    font-size: 26px;
+    background: #202123;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1001;
+    }
+
+    /* Sidebar drawer */
+    .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #202123;
+    color: white;
+    padding: 20px;
+    transition: left 0.35s ease;
+    z-index: 1000;
+    }
+
+    /* Open drawer */
+    #drawer-toggle:checked ~ .drawer .sidebar { 
+    left:0;
+    }
+    
+
+    /* Burger inside drawer (close) */
+    .burger-menu {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 30px;
+    }
+
+    /* Menu */
+    .menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    }
+
+    .menu li {
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    
+    }
+
+    .menu li:hover {
+    background: #2a2b32;
     }
 
     .chat-area {
