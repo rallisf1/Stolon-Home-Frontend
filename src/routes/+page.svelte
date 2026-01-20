@@ -554,10 +554,6 @@
         transform: none;
         box-shadow: 0 0 15px rgba(62, 155, 69, 0.4);
     }
-
-<<<<<<< HEAD
-
-
     .messageBox {
     height: 48px;
     display: flex;
@@ -656,7 +652,7 @@
     color: #d1d5db;
     cursor: default;
     }
-=======
+
     @media (max-width: 768px) {
 
     /* FULLSCREEN SIDEBAR DRAWER (MOBILE) */
@@ -806,6 +802,4 @@
     }
 }
 
-
->>>>>>> media-check
 </style>
