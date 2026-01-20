@@ -3,6 +3,7 @@
     import { marked } from 'marked';
 
     let activeMenu = $state(false);
+    let leftIconActive = $state(false);
     /** @type {Array<{role: string, content: string}>} */
     let messages = $state([]);
     let userInput = $state('');
@@ -108,17 +109,40 @@
         </div>
 
         <div class="input-area">
-            <div class="input-wrapper">
-                <input 
-                    type="text" 
-                    placeholder="Message ChatGPT..." 
-                    bind:value={userInput} 
-                    onkeydown={handleKeydown}
-                />
-                <button class="send-btn" onclick={sendMessage} disabled={!userInput.trim()} aria-label="Send message">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            <div class="input-wrapper messageBox">
+            <!-- LEFT ICON BUTTON (toggles between two icons) -->
+            <button class="icon-button left-icon-btn" onclick={() => leftIconActive = !leftIconActive} aria-label="Toggle left icon">
+                {#if !leftIconActive}
+                    <!-- First icon - add your first Iconify icon here -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24"><!-- Icon from Tabler Icons by Paweł Kuna - https://github.com/tabler/tabler-icons/blob/master/LICENSE --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 8v4l2 2"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></g></svg>
+                {:else}
+                    <!-- Second icon - add your second Iconify icon here -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24"><!-- Icon from Tabler Icons by Paweł Kuna - https://github.com/tabler/tabler-icons/blob/master/LICENSE --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.05 11a8.98 8.98 0 0 1 2.54-5.403M7.904 3.9a9 9 0 0 1 12.113 12.112m-1.695 2.312A9 9 0 0 1 3.55 15m-.5 5v-5h5M3 3l18 18"/></svg>
+                {/if}
+            </button>
+
+            <!-- INPUT -->
+            <input
+                id="messageInput"
+                type="text"
+                placeholder="Message us..."
+                bind:value={userInput}
+                onkeydown={handleKeydown}
+            />
+
+            <!-- RIGHT ICONS CONTAINER -->
+            <div class="right-icons-container">
+                <button class="icon-button microphone-btn" aria-label="Microphone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE --><path fill="currentColor" d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3m7 9c0 3.53-2.61 6.44-6 6.93V21h-2v-3.07c-3.39-.49-6-3.4-6-6.93h2a5 5 0 0 0 5 5a5 5 0 0 0 5-5z"/></svg>
+                </button>
+
+                <button class="icon-button voiceover-btn" aria-label="Voice over">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><!-- Icon from MingCute Icon by MingCute Design - https://github.com/Richard9394/MingCute/blob/main/LICENSE --><g fill="none"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M12 3a1 1 0 0 1 .993.883L13 4v16a1 1 0 0 1-1.993.117L11 20V4a1 1 0 0 1 1-1M8 6a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1m8 0a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1M4 9a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0v-4a1 1 0 0 1 1-1m16 0a1 1 0 0 1 .993.883L21 10v4a1 1 0 0 1-1.993.117L19 14v-4a1 1 0 0 1 1-1"/></g></svg>
                 </button>
             </div>
+
+</div>
+
         </div>
 
     </div>
@@ -501,5 +525,106 @@
         background: #15803d;
         transform: none;
         box-shadow: 0 0 15px rgba(62, 155, 69, 0.4);
+    }
+
+
+
+    .messageBox {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    }
+
+    .messageBox:focus-within {
+    border-color: #3E9B45;
+    }
+
+    /* LEFT ICON PLACEHOLDER */
+    .left-icon-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    }
+
+    /* INPUT */
+    #messageInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    color: #7c7c7c;
+    }
+
+    #messageInput::placeholder {
+    color: #9ca3af;
+    }
+
+    /* RIGHT ICONS CONTAINER */
+    .right-icons-container {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    flex-shrink: 0;
+    color:#374151;
+    }
+
+    /* ICON BUTTONS */
+    .icon-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    }
+
+    .icon-button svg {
+    height: 18px;
+    color: #6b7280;
+    transition: color 0.2s;
+    }
+
+    .icon-button:hover svg {
+    color: #3E9B45;
+    }
+
+    /* SEND BUTTON */
+    #sendButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    }
+
+    #sendButton svg {
+    height: 18px;
+    color: #6b7280;
+    transition: color 0.2s;
+    }
+
+    #sendButton:hover svg {
+    color: #3E9B45;
+    }
+
+    #sendButton:disabled svg {
+    color: #d1d5db;
+    cursor: default;
     }
 </style>
