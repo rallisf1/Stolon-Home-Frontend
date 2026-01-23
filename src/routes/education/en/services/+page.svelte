@@ -4,19 +4,19 @@
         /** @type {{ data: import('./$types').PageData }} */
         let { data } = $props();
     
-    const data_section_1a207f97_0 = {
+    const data_section_65a5e58c_0 = {
   "name": "Stolon Education",
   "items": [
     {
       "link": {
-        "url": "",
+        "url": "/education/en",
         "label": "Home",
         "active": false
       }
     },
     {
       "link": {
-        "url": "",
+        "url": "/education/en/services",
         "label": "Services",
         "active": false
       }
@@ -31,83 +31,48 @@
   ]
 };
     
-    const data_section_614d9381_1 = {
-  "text": "Δημιουργούμε μετασχηματιστικές μαθησιακές εμπειρίες που τιμούν τόσο την πολυπλοκότητα των ιδεών όσο και την απλότητα της ανθρώπινης περιέργειας. Κάθε πρόγραμμα αποτελεί πρόσκληση για ανάπτυξη.",
-  "cta_1": {
-    "url": "/el/services",
-    "label": "Εξερευνήστε τις Υπηρεσίες",
-    "active": false
-  },
-  "cta_2": {
-    "url": "",
-    "label": "Επικοινωνία",
-    "active": false
-  },
-  "title": "Επαναπροσδιορισμός της Μάθησης",
-  "header": "Όπου η γνώση συναντά την ανθρώπινη επαφή"
-};
-    
-    const data_section_8b207b47_2 = {};
-    
-    const data_section_efd59b85_3 = {
+    const data_section_b6370c71_1 = {
   "items": [
     {
       "cta": {
-        "url": "/el/security-seminars",
-        "label": "Μάθε Περισσότερα →",
+        "url": "/education/en/services/security-seminars",
+        "label": "Learn More →",
         "active": false
       },
-      "title": "Σεμινάρια Ασφάλειας",
+      "title": "Security Seminars",
       "number": "01",
-      "description": "Από την ευαισθητοποίηση στον κυβερνοχώρο έως τη συμμόρφωση με τον GDPR, σχεδιάζουμε σεμινάρια που μετατρέπουν το εργατικό δυναμικό σας στην πρώτη γραμμή άμυνάς σας."
+      "description": "From cybersecurity awareness to GDPR compliance, we design seminars that turn your workforce into your first line of defense."
     },
     {
       "cta": {
-        "url": "/el/process-documentation",
-        "label": "Μάθε Περισσότερα →",
+        "url": "/education/en/services/process-documentation",
+        "label": "Learn More →",
         "active": false
       },
-      "title": "Τεκμηρίωση Διαδικασίας",
+      "title": "Process Documentation",
       "number": "02",
-      "description": "Οι εσωτερικές διαδικασίες είναι κοινή γνώση μεταξύ των παλαιών υπαλλήλων, αλλά οι νεοπροσληφθέντες ή οι μεταθέσεις τμημάτων συχνά δυσκολεύονται να τις αντιμετωπίσουν."
+      "description": "Internal processes are common knowledge among old timers, but new hires or department transfers often struggle with them."
     },
     {
       "cta": {
-        "url": "/el/digital-onboarding",
-        "label": "Μάθε Περισσότερα →",
+        "url": "/education/en/services/digital-onboarding",
+        "label": "Learn More →",
         "active": false
       },
-      "title": "Ψηφιακή Ενσωμάτωση",
+      "title": "Digital Onboarding",
       "number": "03",
-      "description": "Ομαλή ενσωμάτωση των εργαζομένων με ψηφιακές μαθησιακές διαδρομές, διασφαλίζοντας ότι οι νεοπροσληφθέντες είναι παραγωγικοί από την πρώτη κιόλας μέρα."
+      "description": "Smooth employee integration with digital learning paths, ensuring new hires are productive from day one."
     }
   ],
-  "title": "Προσεκτικά σχεδιασμένες οδοί ανάπτυξης",
-  "description": "Κάθε προσφορά διαμορφώνεται προσεκτικά γύρω από την πεποίθηση ότι η μάθηση πρέπει να είναι φυσική, ουσιαστική και βαθιά ανθρώπινη."
+  "title": "Thoughtfully designed pathways for growth",
+  "description": " Each offering is carefully shaped around the belief that learning should feel natural, meaningful, and deeply human."
 };
     
-    const data_section_1f72056e_4 = {
-  "items": [
-    {
-      "title": "ΜΑΘΗΤΕΣ ΠΟΥ ΕΜΠΛΕΚΟΝΤΑΙ",
-      "number": "10K+"
-    },
-    {
-      "title": "ΟΡΓΑΝΙΣΜΟΙ ΠΟΥ ΕΞΥΠΗΡΕΤΟΥΝΤΑΙ",
-      "number": "150+"
-    },
-    {
-      "title": "ΠΟΣΟΣΤΟ ΙΚΑΝΟΠΟΙΗΣΗΣ",
-      "number": "98%"
-    }
-  ],
-  "title": "Η μάθηση είναι μια συζήτηση, όχι μια μετάδοση",
-  "description": "Απορρίπτουμε την βιομηχανική προσέγγιση στην εκπαίδευση. Αντίθετα, δημιουργούμε χώρους όπου η περιέργεια γίνεται σεβαστή, οι ερωτήσεις είναι ευπρόσδεκτες και η ανάπτυξη συμβαίνει στη συμβολή της πρόκλησης και της υποστήριξης. Κάθε μαθητής φέρνει σοφία. Κάθε πρόκληση προσφέρει πρόσκληση. Κάθε στιγμή σύγχυσης είναι μια ευκαιρία για σαφήνεια."
-};
+    const data_section_09a960fd_2 = {};
     
-    const data_section_50b362f0_5 = {
+    const data_section_8ae4b708_3 = {
   "cta": {
-    "url": "",
+    "url": "/contact",
     "label": "Schedule a Consultation",
     "active": false
   },
@@ -115,28 +80,28 @@
   "description": "When you partner with STOLON, cybersecurity becomes everyone's job. You build not only technical resilience but also a security culture that strengthens your organization from within."
 };
     
-    const data_section_c386ac17_6 = {
+    const data_section_e606d2e6_4 = {
   "items": [
     {
       "title": "Services",
       "columns": [
         {
           "link": {
-            "url": "/services/security-seminars",
+            "url": "/education/en/services/security-seminars",
             "label": "Security Seminars",
             "active": false
           }
         },
         {
           "link": {
-            "url": "/services/process-documentation",
+            "url": "/education/en/services/process-documentation",
             "label": "Process Documentation",
             "active": false
           }
         },
         {
           "link": {
-            "url": "/services/digital-onboarding",
+            "url": "/education/en/services/digital-onboarding",
             "label": "Digital Onboarding",
             "active": false
           }
@@ -185,9 +150,9 @@
 
 
 
-{#snippet section_1a207f97_0( { name, items } )}
+{#snippet section_65a5e58c_0( { name, items } )}
 <!-- Symbol: Navbar -->
-<section id="1a207f97-3d5f-4ce2-bf58-efdb1245f2cf">
+<section id="65a5e58c-074d-4d65-8c02-99db9de50f74">
 <nav id="header" class="section-container">
     <div class="logo">{name}</div>
     <ul class="nav-links">
@@ -199,54 +164,11 @@
 </section>
 {/snippet}
 
-{@render section_1a207f97_0(data_section_1a207f97_0)}
+{@render section_65a5e58c_0(data_section_65a5e58c_0)}
 
-{#snippet section_614d9381_1( { text, cta_1, cta_2, title, header } )}
-<!-- Symbol: Hero -->
-<section id="614d9381-9a14-4b0f-a9c5-023e8f72c913">
-<div class="section-container">
-<section id="home" class="hero">
-  <!-- <div class="floating-container">
-    <div class="floating-shape shape-1"></div>
-    <div class="floating-shape shape-2"></div>
-    <div class="floating-shape shape-3"></div>
-  </div> -->
-    <div class="hero-content">
-      <div class="hero-subtitle">{title}</div>
-      <h1>
-       {header}
-      </h1>
-      <p>
-       {text}
-      </p>
-      <div class="cta-group">
-        <a href={cta_1.url} class="cta-button">{cta_1.label}</a>
-        <a href={cta_2.url} class="cta-button secondary">{cta_2.label}</a>
-      </div>
-    </div>
-  </section>
-</div>
-</section>
-{/snippet}
-
-{@render section_614d9381_1(data_section_614d9381_1)}
-
-{#snippet section_8b207b47_2( _ )}
-<!-- Symbol: circles -->
-<section id="8b207b47-cc2d-4d0a-ab76-016f36641dcc">
-<div class="floating-shapes">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-</div>
-</section>
-{/snippet}
-
-{@render section_8b207b47_2(data_section_8b207b47_2)}
-
-{#snippet section_efd59b85_3( { items, title, description } )}
+{#snippet section_b6370c71_1( { items, title, description } )}
 <!-- Symbol: Services -->
-<section id="efd59b85-3926-44a8-a4ff-58f8ef02293a">
+<section id="b6370c71-7a65-4ba7-8f04-e8d2e858e2c9">
 <div class="section-container">
   <section id="services" class="services">
     <div class="section-header">
@@ -269,37 +191,24 @@
 </section>
 {/snippet}
 
-{@render section_efd59b85_3(data_section_efd59b85_3)}
+{@render section_b6370c71_1(data_section_b6370c71_1)}
 
-{#snippet section_1f72056e_4( { items, title, description } )}
-<!-- Symbol: Stats -->
-<section id="1f72056e-8f1c-4aae-ac14-41f93db1e9ce">
-
-<section class="philosophy-section" id="philosophy">
-    <div class="section-container">
-  <div class="philosophy-content">
-        <h2>{title}</h2>
-        <p>{description}</p>
-        <div class="stats">
-          {#each items as item}
-            <div class="stat-item">
-                <div class="stat-number">{item.number}</div>
-                <div class="stat-label">{item.title}</div>
-            </div>
-          {/each}
-        </div>
-    </div>
+{#snippet section_09a960fd_2( _ )}
+<!-- Symbol: circles -->
+<section id="09a960fd-3017-41aa-ac63-b3d17e3baad5">
+<div class="floating-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
 </div>
-</section>
-
 </section>
 {/snippet}
 
-{@render section_1f72056e_4(data_section_1f72056e_4)}
+{@render section_09a960fd_2(data_section_09a960fd_2)}
 
-{#snippet section_50b362f0_5( { cta, title, description } )}
+{#snippet section_8ae4b708_3( { cta, title, description } )}
 <!-- Symbol: Cta -->
-<section id="50b362f0-1b3a-41d7-8cbc-3d71253546ca">
+<section id="8ae4b708-3923-4a71-8120-3741fc91832c">
 <div class="section-container">
 <section class="cta-section">
     <h2>{title}</h2>
@@ -310,11 +219,11 @@
 </section>
 {/snippet}
 
-{@render section_50b362f0_5(data_section_50b362f0_5)}
+{@render section_8ae4b708_3(data_section_8ae4b708_3)}
 
-{#snippet section_c386ac17_6( { items, title, copyright, description } )}
+{#snippet section_e606d2e6_4( { items, title, copyright, description } )}
 <!-- Symbol: Footer -->
-<section id="c386ac17-f4b4-41fb-86ce-a4fa922780ec">
+<section id="e606d2e6-4556-42dc-8746-68c4466a8469">
 <footer id="contact">
   <nav>
   <div class="footer-content">
@@ -341,7 +250,7 @@
 </section>
 {/snippet}
 
-{@render section_c386ac17_6(data_section_c386ac17_6)}
+{@render section_e606d2e6_4(data_section_e606d2e6_4)}
 
 
 <style>
@@ -459,172 +368,6 @@ nav {
 .nav-links a:hover::before {
   width: 100%;
 }
-/* Symbol: Hero */
-
-.hero {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8rem 5%;
-    position: relative;
-    z-index: 1;
-}
-
-.hero-content {
-    text-align: left;
-}
-
-.hero-subtitle {
-    font-size: 1rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 1.5rem;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-.hero h1 {
-    font-size: 5rem;
-    margin-bottom: 2rem;
-    color: var(--dark-text);
-    font-weight: 300;
-    line-height: 1.2;
-    letter-spacing: -2px;
-}
-
-.hero h1 .highlight {
-    font-style: italic;
-    color: var(--soft-orange);
-    position: relative;
-    display: inline-block;
-}
-
-.hero h1 .highlight::after {
-    content: '';
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--soft-orange);
-    opacity: 0.3;
-}
-
-.hero p {
-    font-size: 1.3rem;
-    margin-bottom: 3rem;
-    color: var(--dark-text);
-    opacity: 0.8;
-    max-width: 700px;
-    line-height: 2;
-}
-
-.cta-group {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.cta-button {
-    display: inline-block;
-    padding: 1rem 2.5rem;
-    background: transparent;
-    color: var(--dark-text);
-    text-decoration: none;
-    border: 2px solid var(--dark-text);
-    font-weight: 400;
-    transition: all 0.4s ease;
-    letter-spacing: 1px;
-    font-size: 0.95rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.cta-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: var(--soft-orange);
-    transition: all 0.4s ease;
-    z-index: -1;
-}
-
-.cta-button:hover::before {
-    left: 0;
-}
-
-.cta-button:hover {
-    color: white;
-    border-color: var(--soft-orange);
-}
-
-.cta-button.secondary {
-    border-color: var(--sage);
-}
-
-.cta-button.secondary::before {
-    background: var(--sage);
-}
-
-.cta-button.secondary:hover {
-    border-color: var(--sage);
-}
-/* Symbol: circles */
-.floating-shapes {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-}
-
-.shape {
-    position: absolute;
-    opacity: 0.15;
-    animation: float 20s infinite ease-in-out;
-}
-
-.shape-1 {
-    width: 300px;
-    height: 300px;
-    background: var(--sage);
-    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
-    top: 10%;
-    left: -100px;
-    animation-delay: 0s;
-}
-
-.shape-2 {
-    width: 250px;
-    height: 250px;
-    background: var(--soft-orange);
-    border-radius: 41% 59% 42% 58% / 45% 60% 40% 55%;
-    top: 60%;
-    right: -80px;
-    animation-delay: 5s;
-}
-
-.shape-3 {
-    width: 200px;
-    height: 200px;
-    background: var(--beige);
-    border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
-    top: 80%;
-    left: 10%;
-    animation-delay: 10s;
-}
-
-@keyframes float {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    33% { transform: translate(30px, -30px) rotate(120deg); }
-    66% { transform: translate(-20px, 20px) rotate(240deg); }
-}
-
 /* Symbol: Services */
 .services {
   padding: 8rem 5%;
@@ -732,67 +475,60 @@ nav {
   transform: translateX(5px);
 }
 
-/* Symbol: Stats */
-.philosophy-section {
-  background: linear-gradient(135deg, var(--sage), var(--beige));
-  padding: 10rem 5%;
-  position: relative;
-  overflow: hidden;
+/* Symbol: circles */
+.floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
 }
 
-.philosophy-content {
-
-  margin: 0 auto;
-  text-align: center;
-  position: relative;
-  z-index: 1;
+.shape {
+    position: absolute;
+    opacity: 0.15;
+    animation: float 20s infinite ease-in-out;
 }
 
-.philosophy-section h2 {
-  font-size: 3.5rem;
-  margin-bottom: 2.5rem;
-  color: var(--dark-text);
-  font-weight: 300;
-  line-height: 1.3;
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    background: var(--sage);
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    top: 10%;
+    left: -100px;
+    animation-delay: 0s;
 }
 
-.philosophy-section p {
-  font-size: 1.3rem;
-  line-height: 2.2;
-  color: var(--dark-text);
-  opacity: 0.85;
-  margin-bottom: 2rem;
+.shape-2 {
+    width: 250px;
+    height: 250px;
+    background: var(--soft-orange);
+    border-radius: 41% 59% 42% 58% / 45% 60% 40% 55%;
+    top: 60%;
+    right: -80px;
+    animation-delay: 5s;
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
-  margin-top: 5rem;
+.shape-3 {
+    width: 200px;
+    height: 200px;
+    background: var(--beige);
+    border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+    top: 80%;
+    left: 10%;
+    animation-delay: 10s;
 }
 
-.stat-item {
-  text-align: center;
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, -30px) rotate(120deg); }
+    66% { transform: translate(-20px, 20px) rotate(240deg); }
 }
 
-.stat-number {
-  font-size: 3.5rem;
-  font-weight: 300;
-  color: var(--dark-text);
-  margin-bottom: 0.5rem;
-}
-
-.stat-label {
-  font-size: 1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--dark-text);
-  opacity: 0.7;
-}
-
- @media (max-width: 1024px) {
- .stats { grid-template-columns: 1fr; }
- }
 /* Symbol: Cta */
 .cta-section {
     text-align: center;

@@ -11,6 +11,7 @@ import path from "node:path";
 // Configuration
 const JSON_PATH = "src/routes/education/primo.json";
 const BASE_OUTPUT_DIR = "src/routes/education";
+const LANGUAGES = ["el", "en"]; // Supported languages
 
 // Helper to extract default values from symbol fields recursively
 function extractFieldDefaults(fields) {
@@ -71,75 +72,99 @@ async function main() {
   const symbolMap = new Map();
   symbols.forEach((s) => symbolMap.set(s.id, s));
 
-  // 4. Generate Pages
-  for (const page of pages) {
-    console.log(`Processing page: ${page.name} (${page.url})...`);
+  // 4. Find the navbar symbol and store its content for each language
+  const navbarSymbol = symbols.find(s => s.name === "Navbar");
+  const navbarCanonicalContent = new Map(); // Map of lang -> content
+  
+  if (navbarSymbol && navbarSymbol.content) {
+    LANGUAGES.forEach(lang => {
+      if (navbarSymbol.content[lang]) {
+        navbarCanonicalContent.set(lang, navbarSymbol.content[lang]);
+      }
+    });
+  }
 
-    const relPath = getPagePath(page.id);
-    const outputDir = path.join(BASE_OUTPUT_DIR, relPath);
-    const outputFile = path.join(outputDir, "+page.svelte");
+  // 5. Generate Pages for each language
+  for (const lang of LANGUAGES) {
+    console.log(`\n=== Generating pages for language: ${lang} ===\n`);
+    
+    for (const page of pages) {
+      console.log(`Processing page: ${page.name} (${page.url}) [${lang}]...`);
 
-    // Gather sections for this page
-    const pageSections = sections
-      .filter((s) => s.page === page.id)
-      .sort((a, b) => a.index - b.index);
+      const relPath = getPagePath(page.id);
+      const outputDir = path.join(BASE_OUTPUT_DIR, lang, relPath);
+      const outputFile = path.join(outputDir, "+page.svelte");
 
-    let scriptContent = `
+      // Gather sections for this page
+      const pageSections = sections
+        .filter((s) => s.page === page.id)
+        .sort((a, b) => a.index - b.index);
+
+      let scriptContent = `
     <script>
         /** @type {{ data: import('./$types').PageData }} */
         let { data } = $props();
     </script>
 `;
-    let templateContent = "";
-    let cssContent = "";
-    
-    // Add site-global CSS first
-    if (site.code && site.code.css) {
-        cssContent += `\n/* Site Global CSS */\n${site.code.css}`;
-    }
+      let templateContent = "";
+      let cssContent = "";
+      
+      // Add site-global CSS first
+      if (site.code && site.code.css) {
+          cssContent += `\n/* Site Global CSS */\n${site.code.css}`;
+      }
 
-    // Process each section
-    for (let i = 0; i < pageSections.length; i++) {
-        const section = pageSections[i];
-        const symbol = symbolMap.get(section.symbol);
-        
-        if (!symbol) {
-            console.warn(`Symbol not found for section ${section.id}`);
-            continue;
-        }
+      // Process each section
+      for (let i = 0; i < pageSections.length; i++) {
+          const section = pageSections[i];
+          const symbol = symbolMap.get(section.symbol);
+          
+          if (!symbol) {
+              console.warn(`Symbol not found for section ${section.id}`);
+              continue;
+          }
 
-        const snippetName = `section_${section.id.split('-')[0]}_${i}`; 
-        
-        // --- DATA PREPARATION ---
-        // 1. Extract defaults from symbol fields
-        const fieldDefaults = extractFieldDefaults(symbol.fields);
-        
-        // 2. Get symbol content defaults (el locale)
-        const symbolContentDefaults = symbol.content?.el || {};
-        
-        // 3. Get section content (el locale)
-        const sectionContent = section.content?.el || {};
-        
-        // Merge: fieldDefaults < symbolContentDefaults < sectionContent
-        const contentData = { ...fieldDefaults, ...symbolContentDefaults, ...sectionContent };
-        
-        const dataVarName = `data_${snippetName}`;
-        
-        scriptContent = scriptContent.replace('</script>', `
+          const snippetName = `section_${section.id.split('-')[0]}_${i}`; 
+          
+          // --- DATA PREPARATION ---
+          // 1. Extract defaults from symbol fields
+          const fieldDefaults = extractFieldDefaults(symbol.fields);
+          
+          // 2. Get symbol content defaults (current language)
+          const symbolContentDefaults = symbol.content?.[lang] || {};
+          
+          // 3. Get section content (current language)
+          // Special case: if this is a navbar section, use canonical content from Home page
+          let sectionContent;
+          if (navbarSymbol && section.symbol === navbarSymbol.id && navbarCanonicalContent.has(lang)) {
+            sectionContent = navbarCanonicalContent.get(lang);
+          } else {
+            sectionContent = section.content?.[lang] || {};
+          }
+          
+          // Merge: fieldDefaults < symbolContentDefaults < sectionContent
+          // Only merge sectionContent if it has actual keys (not empty)
+          const contentData = Object.keys(sectionContent).length > 0
+            ? { ...fieldDefaults, ...symbolContentDefaults, ...sectionContent }
+            : { ...fieldDefaults, ...symbolContentDefaults };
+          
+          const dataVarName = `data_${snippetName}`;
+          
+          scriptContent = scriptContent.replace('</script>', `
     const ${dataVarName} = ${JSON.stringify(contentData, null, 2)};
     </script>`);
 
-        // We use keys from the merged object
-        const propsDestructuring = Object.keys(contentData).join(', ');
-        let snippetArgs = "";
-        
-        if (propsDestructuring) {
-            snippetArgs = ` { ${propsDestructuring} } `;
-        } else {
-             snippetArgs = ` _ `; // unused
-        }
-        
-        templateContent += `
+          // We use keys from the merged object
+          const propsDestructuring = Object.keys(contentData).join(', ');
+          let snippetArgs = "";
+          
+          if (propsDestructuring) {
+              snippetArgs = ` { ${propsDestructuring} } `;
+          } else {
+               snippetArgs = ` _ `; // unused
+          }
+          
+          templateContent += `
 {#snippet ${snippetName}(${snippetArgs})}
 <!-- Symbol: ${symbol.name} -->
 <section id="${section.id}">
@@ -150,13 +175,13 @@ ${symbol.code.html}
 {@render ${snippetName}(${dataVarName})}
 `;
 
-        if (symbol.code.css) {
-            cssContent += `\n/* Symbol: ${symbol.name} */\n${symbol.code.css}`;
-        }
-    }
+          if (symbol.code.css) {
+              cssContent += `\n/* Symbol: ${symbol.name} */\n${symbol.code.css}`;
+          }
+      }
 
-    // Construct Final Svelte File
-    const svelteFileContent = `
+      // Construct Final Svelte File
+      const svelteFileContent = `
 ${scriptContent}
 
 ${templateContent}
@@ -165,13 +190,14 @@ ${templateContent}
 ${cssContent}
 </style>
 `;
-    
-    console.log(`Writing to ${outputFile}...`);
-    await mkdir(outputDir, { recursive: true });
-    await write(outputFile, svelteFileContent);
+      
+      console.log(`Writing to ${outputFile}...`);
+      await mkdir(outputDir, { recursive: true });
+      await write(outputFile, svelteFileContent);
+    }
   }
   
-  console.log("\n✅ Site generation complete!");
+  console.log("\n✅ Site generation complete for all languages!");
 }
 
 main().catch(console.error);

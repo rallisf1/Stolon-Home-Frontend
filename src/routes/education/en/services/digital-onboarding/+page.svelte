@@ -1,0 +1,1157 @@
+
+
+    <script>
+        /** @type {{ data: import('./$types').PageData }} */
+        let { data } = $props();
+    
+    const data_section_a9800fcd_0 = {
+  "name": "Stolon Education",
+  "items": [
+    {
+      "link": {
+        "url": "/education/en",
+        "label": "Home",
+        "active": false
+      }
+    },
+    {
+      "link": {
+        "url": "/education/en/services",
+        "label": "Services",
+        "active": false
+      }
+    },
+    {
+      "link": {
+        "url": "",
+        "label": "Contact",
+        "active": false
+      }
+    }
+  ]
+};
+    
+    const data_section_23c1fc30_1 = {
+  "items": [
+    {
+      "tag": " Software Guides"
+    },
+    {
+      "tag": "Staff Education"
+    },
+    {
+      "tag": "Remote Work Enhancement"
+    }
+  ],
+  "title": "Digital Onboarding",
+  "number": "SERVICE / 03",
+  "subtitle": "Smooth employee integration with digital learning paths, ensuring new hires are productive from day one.",
+  "data_number": "03"
+};
+    
+    const data_section_5549c771_2 = {
+  "box": {
+    "text": "Our sessions move beyond theoretical lectures. Instead, we use case studies, simulations, live demonstrations, and role-based exercises that reflect real-world conditions. Participants are not passive listeners—they are active problem solvers who experience firsthand how a cyberattack unfolds and how to stop it.",
+    "title": "Interactive, Engaging, Memorable"
+  },
+  "text": "Each module is continuously updated to reflect new trends in cybercrime, including social engineering, ransomware, and AI-driven attacks. We also integrate data protection principles directly into the learning journey, ensuring alignment with GDPR and NIS2 frameworks while reducing both legal and reputation risks.",
+  "intro": "The first days of a new hire define their productivity, morale, and long-term engagement. Yet in many organizations, onboarding is still reduced to paperwork, passwords, and policy briefings. At STOLON, we treat onboarding as a strategic process that determines how quickly and effectively a new employee becomes a confident and productive contributor.",
+  "items": [
+    {
+      "title": "Phishing Awareness",
+      "subtitle": "Recognizing and responding to sophisticated email attacks and social engineering tactics"
+    },
+    {
+      "title": "Password Security",
+      "subtitle": "Creating and managing secure credentials that protect critical systems"
+    },
+    {
+      "title": "Device & Wi-Fi Safety",
+      "subtitle": "Securing mobile devices and understanding network vulnerabilities"
+    },
+    {
+      "title": "GDPR Compliance",
+      "subtitle": "Handling personal data with legal precision and ethical responsibility"
+    },
+    {
+      "title": "Incident Reporting",
+      "subtitle": "Fast, effective communication when threats are detected"
+    },
+    {
+      "title": "Sector-Specific Risks",
+      "subtitle": "Insider threats, supply chain attacks, and industrial espionage"
+    }
+  ],
+  "lists": [
+    {
+      "text": "Onsite, online, or hybrid delivery formats tailored to your schedule"
+    },
+    {
+      "text": "Executive-level sessions focused on governance, compliance, and decision-making"
+    },
+    {
+      "text": "Technical and operational sessions equipping teams with daily defensive skills"
+    },
+    {
+      "text": "Quick evaluation tests to measure understanding and retention"
+    },
+    {
+      "text": "Real-world scenario simulations that mirror actual threat landscapes"
+    }
+  ],
+  "outro": {
+    "text": "Our trainers are certified professionals who have worked in high-stakes environments where a single data breach could cost millions and compromise entire operations. They combine technical expertise with excellent communication skills, making complex cybersecurity principles easy to understand and apply.",
+    "title": "Why STOLON",
+    "sub_text": "Each seminar ends with tangible deliverables: attendance certificates, audit-ready training records, awareness scorecards, and follow-up recommendations. These materials help demonstrate compliance during internal or external audits while reinforcing a long-term culture of security."
+  },
+  "texts": [
+    {
+      "intro_text": "Our goal is simple: to create a smooth transition from recruitment to performance. We design structured onboarding programs that go beyond administration and orientation, building a genuine sense of belonging from day one. When done right, onboarding improves retention, accelerates productivity, and strengthens company culture across every level."
+    }
+  ],
+  "title": "What We Cover",
+  "highlight_title": "How We Teach"
+};
+    
+    const data_section_2d841c8b_3 = {
+  "box": {
+    "text": "Each onboarding experience we design is fully tailored to the role, team, and business context. We begin by mapping out the new hire’s journey and identifying the key milestones that lead to confidence and independence. Our methodology integrates company culture, systems training, role-specific tasks, process walkthroughs, and compliance essentials into one coherent learning path.",
+    "title": "Interactive, Engaging, Easy"
+  },
+  "lists": [
+    {
+      "text": "Progress Tracking tools"
+    },
+    {
+      "text": "Perfomance Indicators"
+    },
+    {
+      "text": "Design base on the role, team and business context"
+    }
+  ],
+  "title": "Our Approach"
+};
+    
+    const data_section_03d6e94a_4 = {
+  "outro": {
+    "text": "Our credibility comes from designing onboarding systems for organizations with complex structures and multicultural teams. We understand the balance between process and emotion: technology must simplify logistics, but true integration happens when people feel recognized, supported, and inspired.",
+    "title": "Why STOLON",
+    "sub_text": " With STOLON, onboarding becomes a journey that reflects your company’s culture and values. We ensure that every new hire understands not only what to do, but also why it matters. Our programs combine human connection with structured guidance, turning early days of uncertainty into days of clarity and motivation."
+  }
+};
+    
+    const data_section_96c2cc22_5 = {};
+    
+    const data_section_e705e023_6 = {
+  "cta": {
+    "url": "/en/education/contact/",
+    "label": "Schedule a Consultation",
+    "active": false
+  },
+  "title": "Ready to strengthen your human firewall?",
+  "description": "When you partner with STOLON, cybersecurity becomes everyone's job. You build not only technical resilience but also a security culture that strengthens your organization from within."
+};
+    
+    const data_section_718468e6_7 = {
+  "items": [
+    {
+      "title": "Services",
+      "columns": [
+        {
+          "link": {
+            "url": "/education/en/services/security-seminars",
+            "label": "Security Seminars",
+            "active": false
+          }
+        },
+        {
+          "link": {
+            "url": "/education/en/services/process-documentation",
+            "label": "Process Documentation",
+            "active": false
+          }
+        },
+        {
+          "link": {
+            "url": "/education/en/services/digital-onboarding",
+            "label": "Digital Onboarding",
+            "active": false
+          }
+        }
+      ]
+    },
+    {
+      "title": "stolon's branch",
+      "columns": [
+        {
+          "link": {
+            "url": "",
+            "label": "Stolon Ai",
+            "active": false
+          }
+        },
+        {
+          "link": {
+            "url": "",
+            "label": "Stolon Computerization",
+            "active": false
+          }
+        },
+        {
+          "link": {
+            "url": "",
+            "label": "Stolon Business",
+            "active": false
+          }
+        },
+        {
+          "link": {
+            "url": "",
+            "label": "Stolon Marketing",
+            "active": false
+          }
+        }
+      ]
+    }
+  ],
+  "title": "Stolon Education",
+  "copyright": "2025 Stolon all copyrights reserved",
+  "description": "Process & security seminars that transform staff into your company's strongest defense line. Onboarding programs that integrate new hires smoothly and efficiently."
+};
+    </script>
+
+
+
+{#snippet section_a9800fcd_0( { name, items } )}
+<!-- Symbol: Navbar -->
+<section id="a9800fcd-9e8c-4a3d-9c7e-3793730ae6be">
+<nav id="header" class="section-container">
+    <div class="logo">{name}</div>
+    <ul class="nav-links">
+      {#each items as item}
+        <li><a href={item.link.url}>{item.link.label}</a></li>
+      {/each}
+    </ul>
+</nav>
+</section>
+{/snippet}
+
+{@render section_a9800fcd_0(data_section_a9800fcd_0)}
+
+{#snippet section_23c1fc30_1( { items, title, number, subtitle, data_number } )}
+<!-- Symbol: Service Hero -->
+<section id="23c1fc30-091a-4bef-96c5-d2d83a66a5ee">
+<div class="section-container">
+<section class="hero-service" data-number={data_number}>
+    <div class="hero-service-content">
+        <div class="service-label">{number}</div>
+        <h1>{title}</h1>
+        <p class="subtitle">{subtitle}</p>
+        <div class="tags">
+          {#each items as item}
+            <span class="tag">{item.tag}</span>
+          {/each}
+        </div>
+    </div>
+</section>
+</div>
+</section>
+{/snippet}
+
+{@render section_23c1fc30_1(data_section_23c1fc30_1)}
+
+{#snippet section_5549c771_2( { box, text, intro, items, lists, outro, texts, title, highlight_title } )}
+<!-- Symbol: intro -->
+<section id="5549c771-d008-41d5-975d-33a2240d04a5">
+<div class="section-container">
+  <section class="content-section">
+    <div class="intro-text">
+      {intro}
+    </div>
+    {#each texts as text}
+      <p>{text.intro_text}</p>
+    {/each}
+  </section>
+</div>
+</section>
+{/snippet}
+
+{@render section_5549c771_2(data_section_5549c771_2)}
+
+{#snippet section_2d841c8b_3( { box, lists, title } )}
+<!-- Symbol: feature list -->
+<section id="2d841c8b-96cc-4e3d-a9b6-9fa2a1abfee1">
+<div class="section-container">
+ <h2>{title}</h2>
+    
+    <div class="highlight-box">
+        <h3>{box.title}</h3>
+   
+        <p>{box.text}</p>
+    
+    </div>
+    
+    <ul class="features-list">
+      {#each lists as list}
+        <li>{list.text}</li>
+      {/each}
+    </ul>
+</div>
+</section>
+{/snippet}
+
+{@render section_2d841c8b_3(data_section_2d841c8b_3)}
+
+{#snippet section_03d6e94a_4( { outro } )}
+<!-- Symbol: Outro -->
+<section id="03d6e94a-aa36-4ce5-896c-01f0f46b127d">
+<div class="section-container">
+  <h2>{outro.title}</h2>
+  
+  <p>{outro.text}</p>
+  
+  <p>{outro.sub_text}</p>
+</div>
+</section>
+{/snippet}
+
+{@render section_03d6e94a_4(data_section_03d6e94a_4)}
+
+{#snippet section_96c2cc22_5( _ )}
+<!-- Symbol: circles -->
+<section id="96c2cc22-a9d7-464a-b1d8-29067e198098">
+<div class="floating-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
+</section>
+{/snippet}
+
+{@render section_96c2cc22_5(data_section_96c2cc22_5)}
+
+{#snippet section_e705e023_6( { cta, title, description } )}
+<!-- Symbol: Cta -->
+<section id="e705e023-a007-49fa-9a04-7b3b261aaf7f">
+<div class="section-container">
+<section class="cta-section">
+    <h2>{title}</h2>
+    <p>{description}</p>
+    <a href={cta.url} class="cta-button">{cta.label}</a>
+</section>
+</div>
+</section>
+{/snippet}
+
+{@render section_e705e023_6(data_section_e705e023_6)}
+
+{#snippet section_718468e6_7( { items, title, copyright, description } )}
+<!-- Symbol: Footer -->
+<section id="718468e6-2363-4e2e-b27f-84cc3e710b07">
+<footer id="contact">
+  <nav>
+  <div class="footer-content">
+    <div class="footer-brand">
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </div>
+    {#each items as item}
+        <div class="footer-links">
+         <h4>{item.title}</h4> 
+          {#each item.columns as column}
+        
+          <a href={column.link.url}>{column.link.label}</a>
+          {/each}
+        </div>
+    {/each}
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy;{copyright}</p>
+  </div>
+    </nav>
+</footer>
+</section>
+{/snippet}
+
+{@render section_718468e6_7(data_section_718468e6_7)}
+
+
+<style>
+
+/* Site Global CSS */
+
+@import url("https://unpkg.com/@primo-app/primo@1.3.64/reset.css");
+
+
+#page {
+  font-family: 'Georgia', serif;
+  color: var(--dark-text);
+  line-height: 1.8; 
+  font-size: 1rem;
+  background-color: var(--off-white);
+}
+
+:root {
+  --beige: #E8DCC4;
+  --sage: #9CAF88;
+  --off-white: #F5F5F0;
+  --soft-orange: #E8956B;
+  --dark-text: #3A3A3A;
+}
+
+.section-container {
+  max-width: var(--max-width, 1450px);
+  margin: 0 auto;
+  padding: 3rem var(--padding, 1rem); 
+}
+
+.heading {
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 700;
+  margin: 0;
+}
+
+.button {
+  color: white;
+  background: var(--color-accent);
+  border-radius: 5px;
+  padding: 8px 20px;
+  transition: var(--transition);
+
+  &:hover {
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+  } 
+
+  &.inverted {
+    background: transparent; 
+    color: var(--color-accent); 
+    border: 2px solid var(--color-accent);
+  }
+}
+
+
+/* Symbol: Navbar */
+header {
+  background: var(--off-white);
+  width: 100%;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+header.scrolled {
+  background: rgba(232, 220, 196, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--dark-text);
+  letter-spacing: 2px;
+  font-style: italic;
+}
+
+.nav-links {
+  display: flex;
+  gap: 3rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--dark-text);
+  font-weight: 400;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--soft-orange);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-links a:hover::before {
+  width: 100%;
+}
+/* Symbol: Service Hero */
+.hero-service::before {
+  content: attr(data-number);
+  position: absolute;
+  top: -50px;
+  right: 10%;
+  font-size: 20rem;
+  font-weight: 700;
+  opacity: 0.05;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.hero-service-content {
+  z-index: 1;
+}
+
+.service-label {
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 1.5rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.hero-service h1 {
+  font-size: 4.5rem;
+  margin-bottom: 2rem;
+  color: var(--dark-text);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.hero-service .subtitle {
+  font-size: 1.4rem;
+  line-height: 1.9;
+  color: var(--dark-text);
+  opacity: 0.85;
+  margin-bottom: 2.5rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tag {
+  padding: 0.5rem 1.2rem;
+  background: white;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  color: var(--dark-text);
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 1024px) {
+  .hero-service::before {
+    font-size: 14rem;
+    top: -40px;
+  }
+
+  .hero-service h1 {
+    font-size: 3.5rem;
+  }
+
+  .hero-service .subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-service::before {
+    font-size: 10rem;
+    top: -30px;
+    right: 5%;
+  }
+
+  .service-label {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+  }
+
+  .hero-service h1 {
+    font-size: 2.8rem;
+    letter-spacing: -1px;
+  }
+
+  .hero-service .subtitle {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .tags {
+    gap: 0.7rem;
+  }
+
+  .tag {
+    font-size: 0.8rem;
+    padding: 0.45rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-service::before {
+    font-size: 6rem;
+    top: -20px;
+    right: 0;
+  }
+
+  .service-label {
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+  }
+
+  .hero-service h1 {
+    font-size: 2.1rem;
+    line-height: 1.15;
+  }
+
+  .hero-service .subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .tags {
+    gap: 0.6rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.9rem;
+  }
+}
+
+/* Symbol: intro */
+.intro-text {
+  font-size: 1.3rem;
+  line-height: 2.1;
+  color: var(--dark-text);
+  opacity: 0.85;
+  margin-bottom: 3rem;
+  padding: 3rem;
+  background: white;
+  border-left: 4px solid var(--sage);
+}
+
+.content-section h2 {
+  font-size: 2.8rem;
+  margin-bottom: 2rem;
+  margin-top: 4rem;
+  color: var(--dark-text);
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+.content-section h2:first-of-type {
+  margin-top: 0;
+}
+
+.content-section p {
+  font-size: 1.15rem;
+  line-height: 2;
+  color: var(--dark-text);
+  opacity: 0.8;
+  margin-bottom: 1.8rem;
+}
+
+.highlight-box {
+  background: linear-gradient(135deg, var(--beige), var(--off-white));
+  padding: 3rem;
+  margin: 3rem 0;
+  border-radius: 0;
+  border-left: 6px solid var(--soft-orange);
+}
+
+.highlight-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--dark-text);
+  font-weight: 400;
+}
+
+.highlight-box p {
+  margin-bottom: 1.2rem;
+}
+
+.coverage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.coverage-item {
+  background: white;
+  padding: 2rem;
+  border-left: 3px solid var(--sage);
+  transition: all 0.3s ease;
+}
+
+.coverage-item:hover {
+  transform: translateX(5px);
+  border-left-width: 6px;
+}
+
+.coverage-item h4 {
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  color: var(--dark-text);
+  font-weight: 400;
+}
+
+.coverage-item p {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.features-list {
+  list-style: none;
+  margin: 2rem 0;
+}
+
+.features-list li {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid rgba(58, 58, 58, 0.1);
+  font-size: 1.15rem;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.features-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--soft-orange);
+  font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+  .content-section h2 {
+    font-size: 2.3rem;
+  }
+
+  .intro-text {
+    padding: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .intro-text {
+    font-size: 1.15rem;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .content-section h2 {
+    font-size: 2rem;
+    margin-top: 3rem;
+  }
+
+  .content-section p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+  }
+
+  .highlight-box {
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .highlight-box h3 {
+    font-size: 1.5rem;
+  }
+
+  .coverage-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .coverage-item {
+    padding: 1.5rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .intro-text {
+    font-size: 1rem;
+    padding: 1.5rem;
+  }
+
+  .content-section h2 {
+    font-size: 1.7rem;
+    line-height: 1.3;
+  }
+
+  .highlight-box {
+    padding: 1.5rem;
+  }
+
+  .coverage-item h4 {
+    font-size: 1.15rem;
+  }
+
+  .features-list li {
+    font-size: 1rem;
+    padding: 1rem 0 1rem 1.6rem;
+  }
+
+  .features-list li::before {
+    font-size: 1rem;
+    left: 0;
+  }
+}
+/* Symbol: feature list */
+
+.highlight-box {
+  background: linear-gradient(135deg, var(--beige), var(--off-white));
+  padding: 3rem;
+  margin: 3rem 0;
+  border-radius: 0;
+  border-left: 6px solid var(--soft-orange);
+}
+
+ h2 {
+  font-size: 2.8rem;
+  margin-bottom: 2rem;
+
+  color: var(--dark-text);
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+.highlight-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--dark-text);
+  font-weight: 400;
+}
+
+.highlight-box p {
+  margin-bottom: 1.2rem;
+}
+
+.features-list li {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid rgba(58, 58, 58, 0.1);
+  font-size: 1.15rem;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.features-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--soft-orange);
+  font-weight: 700;
+}
+
+/* Symbol: Outro */
+
+ h2 {
+  font-size: 2.8rem;
+  margin-bottom: 2rem;
+  margin-top: 4rem;
+  color: var(--dark-text);
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+ h2:first-of-type {
+  margin-top: 0;
+}
+
+ p {
+  font-size: 1.15rem;
+  line-height: 2;
+  color: var(--dark-text);
+  opacity: 0.8;
+  margin-bottom: 1.8rem;
+}
+/* Symbol: circles */
+.floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    opacity: 0.15;
+    animation: float 20s infinite ease-in-out;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    background: var(--sage);
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    top: 10%;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 250px;
+    height: 250px;
+    background: var(--soft-orange);
+    border-radius: 41% 59% 42% 58% / 45% 60% 40% 55%;
+    top: 60%;
+    right: -80px;
+    animation-delay: 5s;
+}
+
+.shape-3 {
+    width: 200px;
+    height: 200px;
+    background: var(--beige);
+    border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+    top: 80%;
+    left: 10%;
+    animation-delay: 10s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, -30px) rotate(120deg); }
+    66% { transform: translate(-20px, 20px) rotate(240deg); }
+}
+
+/* Symbol: Cta */
+.cta-section {
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--dark-text);
+    font-weight: 300;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    color: var(--dark-text);
+    opacity: 0.8;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    background: transparent;
+    color: var(--dark-text);
+    text-decoration: none;
+    border: 2px solid var(--dark-text);
+    font-weight: 400;
+    transition: all 0.4s ease;
+    letter-spacing: 1px;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--soft-orange);
+    transition: all 0.4s ease;
+    z-index: -1;
+}
+
+.cta-button:hover::before {
+    left: 0;
+}
+
+.cta-button:hover {
+    color: white;
+    border-color: var(--soft-orange);
+}
+@media (max-width: 1024px) {
+  .cta-section h2 {
+    font-size: 2.1rem;
+  }
+
+  .cta-section p {
+    font-size: 1.1rem;
+  }
+
+  .cta-button {
+    padding: 1.1rem 2.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cta-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .cta-section p {
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+  }
+
+  .cta-button {
+    padding: 1rem 2.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-section h2 {
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+
+  .cta-section p {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    padding: 0.9rem 2rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.8px;
+  }
+}
+
+/* Symbol: Footer */
+footer {
+    background-color: var(--dark-text);
+    color: var(--off-white);
+    padding: 5rem 5% 3rem;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+}
+
+.footer-brand h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.footer-brand p {
+    opacity: 0.7;
+    line-height: 1.9;
+}
+
+.footer-links h4 {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+.footer-links a {
+    display: block;
+    color: var(--off-white);
+    text-decoration: none;
+    opacity: 0.7;
+    margin-bottom: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    opacity: 0.6;
+}
+
+@media (max-width: 1024px) {
+  footer {
+    padding: 4rem 5% 2.5rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-brand h3 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  footer {
+    padding: 3.5rem 6% 2.5rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-brand {
+    grid-column: span 2;
+  }
+
+  .footer-brand h3 {
+    font-size: 1.5rem;
+  }
+
+  .footer-links h4 {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 3rem 7% 2rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-brand h3 {
+    font-size: 1.4rem;
+  }
+
+  .footer-links a {
+    margin-bottom: 0.7rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.85rem;
+  }
+}
+
+</style>

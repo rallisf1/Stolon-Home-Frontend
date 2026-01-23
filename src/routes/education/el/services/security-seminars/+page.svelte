@@ -9,22 +9,22 @@
   "items": [
     {
       "link": {
-        "url": "",
-        "label": "Home",
+        "url": "/education/el/",
+        "label": "Αρχική",
+        "active": false
+      }
+    },
+    {
+      "link": {
+        "url": "/education/el/services",
+        "label": "Υπηρεσίες",
         "active": false
       }
     },
     {
       "link": {
         "url": "",
-        "label": "Services",
-        "active": false
-      }
-    },
-    {
-      "link": {
-        "url": "",
-        "label": "Contact",
+        "label": "Επικοινωνία",
         "active": false
       }
     }
@@ -179,44 +179,44 @@
     
     const data_section_1b8e7e57_6 = {
   "cta": {
-    "url": "",
-    "label": "Schedule a Consultation",
+    "url": "/el/education/contact/",
+    "label": "Προγραμματίστε μια διαβούλευση",
     "active": false
   },
-  "title": "Ready to strengthen your human firewall?",
-  "description": "When you partner with STOLON, cybersecurity becomes everyone's job. You build not only technical resilience but also a security culture that strengthens your organization from within."
+  "title": "Είστε έτοιμοι να ενισχύσετε το ανθρώπινο τείχος προστασίας σας;",
+  "description": "Όταν συνεργάζεστε με την STOLON, η κυβερνοασφάλεια γίνεται δουλειά όλων. Χτίζετε όχι μόνο τεχνική ανθεκτικότητα αλλά και μια κουλτούρα ασφάλειας που ενδυναμώνει τον οργανισμό σας εκ των έσω."
 };
     
     const data_section_9a950755_7 = {
   "items": [
     {
-      "title": "Services",
+      "title": "Υπηρεσίες",
       "columns": [
         {
           "link": {
-            "url": "/services/security-seminars",
-            "label": "Security Seminars",
+            "url": "/education/el/services/security-seminars",
+            "label": "Σεμινάρια Ασφάλειας",
             "active": false
           }
         },
         {
           "link": {
-            "url": "/services/process-documentation",
+            "url": "/education/el/services/process-documentation",
             "label": "Process Documentation",
             "active": false
           }
         },
         {
           "link": {
-            "url": "/services/digital-onboarding",
-            "label": "Digital Onboarding",
+            "url": "/education/el/services/digital-onboarding",
+            "label": "Ψηφιακή Ενσωμάτωση",
             "active": false
           }
         }
       ]
     },
     {
-      "title": "stolon's branch",
+      "title": "Υποκαταστήματα Στόλον",
       "columns": [
         {
           "link": {
@@ -251,7 +251,7 @@
   ],
   "title": "Stolon Education",
   "copyright": "2025 Stolon all copyrights reserved",
-  "description": "Process & security seminars that transform staff into your company's strongest defense line. Onboarding programs that integrate new hires smoothly and efficiently."
+  "description": "Σεμινάρια διαδικασιών και ασφάλειας που μετατρέπουν το προσωπικό στην ισχυρότερη γραμμή άμυνας της εταιρείας σας. Προγράμματα ένταξης που ενσωματώνουν τους νέους υπαλλήλους ομαλά και αποτελεσματικά."
 };
     </script>
 

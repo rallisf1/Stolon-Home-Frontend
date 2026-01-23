@@ -4,64 +4,58 @@
         /** @type {{ data: import('./$types').PageData }} */
         let { data } = $props();
     
-    const data_section_ab86f22c_0 = {
+    const data_section_a9800fcd_0 = {
   "name": "Stolon Education",
   "items": [
     {
       "link": {
-        "url": "",
-        "label": "Home",
+        "url": "/education/el/",
+        "label": "Αρχική",
+        "active": false
+      }
+    },
+    {
+      "link": {
+        "url": "/education/el/services",
+        "label": "Υπηρεσίες",
         "active": false
       }
     },
     {
       "link": {
         "url": "",
-        "label": "Services",
-        "active": false
-      }
-    },
-    {
-      "link": {
-        "url": "",
-        "label": "Contact",
+        "label": "Επικοινωνία",
         "active": false
       }
     }
   ]
 };
     
-    const data_section_54c6a616_1 = {
+    const data_section_23c1fc30_1 = {
   "items": [
     {
-      "tag": "Εσωτερικές Διαδικασίες"
-    },
-    {
-      "tag": "Επιχειρησιακή Τεκμηρίωση"
-    },
-    {
-      "tag": "Τυποποιημένες Διαδικασίες Λειτουργίας (SOPs)"
+      "tag": "Οδηγοί λογισμικού"
     },
     {
       "tag": "Εκπαίδευση Προσωπικού"
     },
     {
-      "tag": "Συμμόρφωση με τον Κανονισμό"
+      "tag": "Βελτίωση Τηλεργασίας"
     }
   ],
-  "title": "Τεκμηρίωση Διαδικασίας",
-  "number": "ΕΞΥΠΗΡΕΤΗΣΗ / 02",
-  "subtitle": "Οι εσωτερικές διαδικασίες είναι κοινή γνώση μεταξύ των παλαιών υπαλλήλων, αλλά οι νεοπροσληφθέντες ή οι μεταθέσεις τμημάτων συχνά δυσκολεύονται να τις αντιμετωπίσουν.",
-  "data_number": "02"
+  "title": "Ψηφιακή Ενσωμάτωση",
+  "number": "ΕΞΥΠΗΡΕΤΗΣΗ / 03",
+  "subtitle": "Ομαλή ενσωμάτωση των εργαζομένων με ψηφιακές μαθησιακές διαδρομές, διασφαλίζοντας ότι οι νεοπροσληφθέντες είναι παραγωγικοί από την πρώτη κιόλας μέρα.",
+  "data_number": "03"
 };
     
-    const data_section_a0bf6c54_2 = {
+    const data_section_5549c771_2 = {
   "box": {
     "text": "Our sessions move beyond theoretical lectures. Instead, we use case studies, simulations, live demonstrations, and role-based exercises that reflect real-world conditions. Participants are not passive listeners—they are active problem solvers who experience firsthand how a cyberattack unfolds and how to stop it.",
     "title": "Interactive, Engaging, Memorable"
   },
   "text": "Each module is continuously updated to reflect new trends in cybercrime, including social engineering, ransomware, and AI-driven attacks. We also integrate data protection principles directly into the learning journey, ensuring alignment with GDPR and NIS2 frameworks while reducing both legal and reputation risks.",
-  "intro": "Κάθε εταιρεία τις έχει — αυτές τις μακροχρόνιες εσωτερικές διαδικασίες που όλοι γνωρίζουν. Για τους μακροχρόνιους υπαλλήλους, είναι δεύτερη φύση. Αλλά για τους νεοπροσληφθέντες ή τα μέλη της ομάδας που μετατίθενται από άλλο τμήμα, αυτές οι διαδικασίες μπορεί να είναι ένας λαβύρινθος άγραφων κανόνων, ξεπερασμένων εγγράφων και ασυνεπών συνηθειών.",
+  "intro": "Οι πρώτες ημέρες ενός νέου υπαλλήλου καθορίζουν την παραγωγικότητα, το ηθικό και τη μακροπρόθεσμη δέσμευσή του. Ωστόσο, σε πολλούς οργανισμούς, η ένταξη εξακολουθεί να περιορίζεται σε γραφειοκρατία, κωδικούς πρόσβασης και ενημερώσεις πολιτικής. Στη STOLON, αντιμετωπίζουμε την ένταξη ως μια στρατηγική διαδικασία που καθορίζει πόσο γρήγορα και αποτελεσματικά ένας νέος υπάλληλος γίνεται ένας σίγουρος και παραγωγικός συνεργάτης.",
   "items": [
     {
       "title": "Phishing Awareness",
@@ -110,159 +104,111 @@
     "title": "Why STOLON",
     "sub_text": "Each seminar ends with tangible deliverables: attendance certificates, audit-ready training records, awareness scorecards, and follow-up recommendations. These materials help demonstrate compliance during internal or external audits while reinforcing a long-term culture of security."
   },
-  "texts": [],
+  "texts": [
+    {
+      "intro_text": "Ο στόχος μας είναι απλός: να δημιουργήσουμε μια ομαλή μετάβαση από την πρόσληψη στην απόδοση. Σχεδιάζουμε δομημένα προγράμματα ένταξης που ξεπερνούν τη διοίκηση και τον προσανατολισμό, χτίζοντας ένα γνήσιο αίσθημα του ανήκειν από την πρώτη κιόλας μέρα. Όταν γίνεται σωστά, η ένταξη βελτιώνει τη διατήρηση της θέσης, επιταχύνει την παραγωγικότητα και ενισχύει την εταιρική κουλτούρα σε κάθε επίπεδο."
+    }
+  ],
   "title": "What We Cover",
   "highlight_title": "How We Teach"
 };
     
-    const data_section_1f8bd3c9_3 = {
-  "text": "Οι εσωτερικές διαδικασίες αποτελούν τη ραχοκοκαλιά των καθημερινών λειτουργιών. Καλύπτουν τα πάντα, από την καταγραφή εργασιών και την τήρηση πολιτικών συμμόρφωσης έως τη διαχείριση των αλληλεπιδράσεων με τους πελάτες και την παρακολούθηση της προόδου. Το αποτέλεσμα των ανεπαρκώς τεκμηριωμένων διαδικασιών; Σύγχυση, αναποτελεσματικότητα και λάθη που θα μπορούσαν να είχαν αποφευχθεί με δομημένη εκπαίδευση.",
-  "items": [
+    const data_section_2d841c8b_3 = {
+  "box": {
+    "text": "Κάθε εμπειρία ένταξης που σχεδιάζουμε είναι πλήρως προσαρμοσμένη στον ρόλο, την ομάδα και το επιχειρηματικό πλαίσιο. Ξεκινάμε χαρτογραφώντας την πορεία του νέου προσληφθέντος και προσδιορίζοντας τα βασικά ορόσημα που οδηγούν στην αυτοπεποίθηση και την ανεξαρτησία. Η μεθοδολογία μας ενσωματώνει την εταιρική κουλτούρα, την εκπαίδευση σε συστήματα, τις εργασίες που αφορούν συγκεκριμένους ρόλους, τις οδηγίες για τις διαδικασίες και τα βασικά στοιχεία συμμόρφωσης σε μια συνεκτική μαθησιακή πορεία.",
+    "title": "Διαδραστικό, Συναρπαστικό, Εύκολο"
+  },
+  "lists": [
     {
-      "style": "problem-box",
-      "title": "Το Πρόβλημα",
-      "description": "Όταν τα εσωτερικά συστήματα βασίζονται σε προφορική ή «φυλετική γνώση», τα κενά γνώσης εμφανίζονται γρήγορα. Ένα μόνο βήμα που δεν έχει γίνει μπορεί να οδηγήσει σε καθυστερήσεις, κινδύνους συμμόρφωσης ή δυσαρέσκεια πελατών."
+      "text": "Εργαλεία παρακολούθησης προόδου"
     },
     {
-      "style": "solution-box",
-      "title": "Η Λύση",
-      "description": "Η σαφής και προσβάσιμη εκπαίδευση διασφαλίζει ότι η γνώση μοιράζεται ομοιόμορφα σε όλη την ομάδα σας και δεν είναι παγιδευμένη στα κεφάλια μερικών βετεράνων. Η εκπαίδευση μετατρέπει τη σύγχυση σε αυτοπεποίθηση."
-    }
-  ]
-};
-    
-    const data_section_bd883a4f_4 = {
-  "text": "When employees understand the why and how behind your processes, they perform better, stay compliant, and feel more confident in their work. Clear documentation and training aren't just nice-to-have — they're essential for operational excellence.",
-  "quote": "Education is the key to smoother operations"
-};
-    
-    const data_section_000cb2e0_5 = {
-  "text": "Μετατρέποντας τις εσωτερικές σας διαδικασίες σε δομημένα, εύκολα στην παρακολούθηση μαθήματα, το STOLON μετατρέπει τη διάσπαρτη γνώση σε οργανωμένη μάθηση. Φανταστείτε να έχετε κάθε διαδικασία, πολιτική και καθημερινή εργασία να εξηγείται με σαφήνεια μέσω διαδραστικών μαθημάτων, οπτικών οδηγών και γρήγορων αξιολογήσεων.",
-  "items": [
-    {
-      "title": "Γρήγορη Ενσωμάτωση",
-      "description": "Ενημερώστε τους νέους υπαλλήλους σε λίγες μέρες αντί για εβδομάδες με δομημένες μαθησιακές διαδρομές"
+      "text": "Δείκτες Απόδοσης"
     },
     {
-      "title": "Τυποποιημένες Διαδικασίες",
-      "description": "Διασφάλιση συνέπειας μεταξύ των τμημάτων με ενοποιημένη τεκμηρίωση διαδικασιών"
-    },
-    {
-      "title": "Διασφάλιση συμμόρφωσης",
-      "description": "Τηρείτε αυστηρούς κανονισμούς με τεκμηριωμένα, ελεγχόμενα συστήματα εκπαίδευσης"
-    },
-    {
-      "title": "Μεταφορά Γνώσης",
-      "description": "Διατηρήστε τη γνώση του ιδρύματος μέσω διαδραστικών μαθημάτων και οπτικών οδηγών"
+      "text": "Σχεδιασμός με βάση τον ρόλο, την ομάδα και το επιχειρηματικό πλαίσιο"
     }
   ],
   "title": "Η προσέγγισή μας"
 };
     
-    const data_section_defb1f1f_6 = {
-  "box": {
-    "text": "",
-    "title": "Πέρα από την ευκολία, αυτή η προσέγγιση δημιουργεί διαρκή πλεονεκτήματα για τον οργανισμό σας:"
-  },
-  "lists": [
-    {
-      "text": "Οι ομάδες φτάνουν στην κορυφή της απόδοσης πιο γρήγορα με συνεπή πλαίσια μάθησης"
-    },
-    {
-      "text": "Οι νέοι υπάλληλοι εξοικειώνονται με τις εξελίξεις σε λίγες μέρες αντί για εβδομάδες"
-    },
-    {
-      "text": "Το έμπειρο προσωπικό μπορεί να ανανεώσει τις γνώσεις του ή να κάνει διαδοχική εκπαίδευση για νέους ρόλους"
-    },
-    {
-      "text": "Οι διευθυντές παρακολουθούν εύκολα την πρόοδο και εντοπίζουν τομείς που χρειάζονται υποστήριξη"
-    },
-    {
-      "text": "Η εκπαίδευση που βασίζεται σε πραγματικές διαδικασίες διασφαλίζει ότι κάθε μάθημα είναι σχετικό και εφαρμόσιμο"
-    },
-    {
-      "text": "Η τεκμηρίωση αποδεικνύει τη συμμόρφωση κατά τη διάρκεια ελέγχων και ελέγχων ποιότητας"
-    },
-    {
-      "text": "Οι εργαζόμενοι αποκτούν αυτοπεποίθηση γνωρίζοντας ακριβώς τι αναμένεται από αυτούς"
-    }
-  ],
-  "title": "Μακροπρόθεσμα οφέλη"
-};
-    
-    const data_section_91429f37_7 = {
-  "text": "",
-  "items": [
-    {
-      "style": "problem-box",
-      "title": "Τώρα είναι η καλύτερη στιγμή",
-      "description": "Οι κανονισμοί για την ασφάλεια, το εμπόριο και τους εξειδικευμένους κανονισμούς ή τους κανονισμούς για συγκεκριμένες τοποθεσίες αποτελούν ένα μεγάλο αγκάθι για κάθε εξελισσόμενη επιχείρηση. Η τάση είναι αυτοί οι κανονισμοί να γίνονται ολοένα και περισσότεροι, πιο αυστηροί και πιο δύσκολοι στην τήρηση. Ένα απλό λάθος βήμα σε αυτό το ναρκοπέδιο κανονισμών μπορεί να κοστίσει ένα σημαντικό ποσό (πολύ περισσότερο από το να τακτοποιήσετε τώρα) ή ακόμα και ολόκληρη την επιχείρησή σας. Η έναρξη με την τεκμηρίωση των Τυποποιημένων Διαδικασιών Λειτουργίας (SOP) και ένα σύστημα εκπαίδευσης του προσωπικού όχι μόνο θα βοηθήσει στην παραγωγικότητα, αλλά θα γίνει και το εφαλτήριο για τη συμμόρφωση με την πλειονότητα αυτών των κανονισμών με απλό τρόπο που καμία υπηρεσία ή δικαστήριο δεν μπορεί να αμφισβητήσει. Το κόστος της αδράνειας υπερβαίνει κατά πολύ την επένδυση σε σωστή τεκμηρίωση."
-    }
-  ]
-};
-    
-    const data_section_3c4d8540_8 = {
+    const data_section_03d6e94a_4 = {
   "outro": {
-    "text": "Εάν η ομάδα σας αντιμετωπίζει πολύπλοκες διαδικασίες, ασυνεπή απόδοση ή προβλήματα συμμόρφωσης, ήρθε η ώρα να επανεξετάσετε την προσέγγισή σας στην εσωτερική εκπαίδευση. Βοηθάμε τους ανθρώπους σας να εργάζονται πιο έξυπνα, πιο γρήγορα και με μεγαλύτερη αυτοπεποίθηση.",
-    "title": "Ακόμα το σκέφτεσαι;",
-    "sub_text": "Γιατί όταν όλοι ξέρουν πώς λειτουργούν τα πράγματα, όλα λειτουργούν καλύτερα."
+    "text": "Η αξιοπιστία μας πηγάζει από τον σχεδιασμό συστημάτων ένταξης για οργανισμούς με σύνθετες δομές και πολυπολιτισμικές ομάδες. Κατανοούμε την ισορροπία μεταξύ διαδικασίας και συναισθήματος: η τεχνολογία πρέπει να απλοποιεί την εφοδιαστική, αλλά η πραγματική ενσωμάτωση συμβαίνει όταν οι άνθρωποι αισθάνονται ότι αναγνωρίζονται, υποστηρίζονται και εμπνέονται.",
+    "title": "Γιατί STOLON",
+    "sub_text": "Με την STOLON, η ένταξη γίνεται ένα ταξίδι που αντικατοπτρίζει την κουλτούρα και τις αξίες της εταιρείας σας. Διασφαλίζουμε ότι κάθε νέος υπάλληλος κατανοεί όχι μόνο τι πρέπει να κάνει, αλλά και γιατί έχει σημασία. Τα προγράμματά μας συνδυάζουν την ανθρώπινη επαφή με τη δομημένη καθοδήγηση, μετατρέποντας τις πρώτες ημέρες αβεβαιότητας σε ημέρες σαφήνειας και κινήτρων."
   }
 };
     
-    const data_section_1fb2e9d0_9 = {};
+    const data_section_96c2cc22_5 = {};
     
-    const data_section_14f40db5_10 = {
+    const data_section_e705e023_6 = {
   "cta": {
-    "url": "",
-    "label": "Schedule a Consultation",
+    "url": "/el/education/contact/",
+    "label": "Προγραμματίστε μια διαβούλευση",
     "active": false
   },
-  "title": "Ready to strengthen your human firewall?",
-  "description": "When you partner with STOLON, cybersecurity becomes everyone's job. You build not only technical resilience but also a security culture that strengthens your organization from within."
+  "title": "Είστε έτοιμοι να ενισχύσετε το ανθρώπινο τείχος προστασίας σας;",
+  "description": "Όταν συνεργάζεστε με την STOLON, η κυβερνοασφάλεια γίνεται δουλειά όλων. Χτίζετε όχι μόνο τεχνική ανθεκτικότητα αλλά και μια κουλτούρα ασφάλειας που ενδυναμώνει τον οργανισμό σας εκ των έσω."
 };
     
-    const data_section_b9e465fd_11 = {
+    const data_section_718468e6_7 = {
   "items": [
     {
-      "title": "Services",
+      "title": "Υπηρεσίες",
       "columns": [
         {
           "link": {
-            "url": "",
-            "label": "Security Seminars",
+            "url": "/education/el/services/security-seminars",
+            "label": "Σεμινάρια Ασφάλειας",
             "active": false
           }
         },
         {
           "link": {
-            "url": "",
+            "url": "/education/el/services/process-documentation",
             "label": "Process Documentation",
             "active": false
           }
         },
         {
           "link": {
-            "url": "",
-            "label": "Digital Onboarding",
-            "active": false
-          }
-        },
-        {
-          "link": {
-            "url": "",
-            "label": "Certifications",
+            "url": "/education/el/services/digital-onboarding",
+            "label": "Ψηφιακή Ενσωμάτωση",
             "active": false
           }
         }
       ]
     },
     {
-      "title": "Connect",
+      "title": "Υποκαταστήματα Στόλον",
       "columns": [
         {
           "link": {
             "url": "",
-            "label": ""
+            "label": "Stolon Ai",
+            "active": false
+          }
+        },
+        {
+          "link": {
+            "url": "",
+            "label": "Stolon Computerization",
+            "active": false
+          }
+        },
+        {
+          "link": {
+            "url": "",
+            "label": "Stolon Business",
+            "active": false
+          }
+        },
+        {
+          "link": {
+            "url": "",
+            "label": "Stolon Marketing",
+            "active": false
           }
         }
       ]
@@ -270,15 +216,15 @@
   ],
   "title": "Stolon Education",
   "copyright": "2025 Stolon all copyrights reserved",
-  "description": "Process & security seminars that transform staff into your company's strongest defense line. Onboarding programs that integrate new hires smoothly and efficiently."
+  "description": "Σεμινάρια διαδικασιών και ασφάλειας που μετατρέπουν το προσωπικό στην ισχυρότερη γραμμή άμυνας της εταιρείας σας. Προγράμματα ένταξης που ενσωματώνουν τους νέους υπαλλήλους ομαλά και αποτελεσματικά."
 };
     </script>
 
 
 
-{#snippet section_ab86f22c_0( { name, items } )}
+{#snippet section_a9800fcd_0( { name, items } )}
 <!-- Symbol: Navbar -->
-<section id="ab86f22c-29fb-41de-9533-9a3301c5f886">
+<section id="a9800fcd-9e8c-4a3d-9c7e-3793730ae6be">
 <nav id="header" class="section-container">
     <div class="logo">{name}</div>
     <ul class="nav-links">
@@ -290,11 +236,11 @@
 </section>
 {/snippet}
 
-{@render section_ab86f22c_0(data_section_ab86f22c_0)}
+{@render section_a9800fcd_0(data_section_a9800fcd_0)}
 
-{#snippet section_54c6a616_1( { items, title, number, subtitle, data_number } )}
+{#snippet section_23c1fc30_1( { items, title, number, subtitle, data_number } )}
 <!-- Symbol: Service Hero -->
-<section id="54c6a616-22b9-4d5b-ab9b-58b41e57ceee">
+<section id="23c1fc30-091a-4bef-96c5-d2d83a66a5ee">
 <div class="section-container">
 <section class="hero-service" data-number={data_number}>
     <div class="hero-service-content">
@@ -312,11 +258,11 @@
 </section>
 {/snippet}
 
-{@render section_54c6a616_1(data_section_54c6a616_1)}
+{@render section_23c1fc30_1(data_section_23c1fc30_1)}
 
-{#snippet section_a0bf6c54_2( { box, text, intro, items, lists, outro, texts, title, highlight_title } )}
+{#snippet section_5549c771_2( { box, text, intro, items, lists, outro, texts, title, highlight_title } )}
 <!-- Symbol: intro -->
-<section id="a0bf6c54-8b63-4eb2-a46b-aa191f0cac6e">
+<section id="5549c771-d008-41d5-975d-33a2240d04a5">
 <div class="section-container">
   <section class="content-section">
     <div class="intro-text">
@@ -330,66 +276,11 @@
 </section>
 {/snippet}
 
-{@render section_a0bf6c54_2(data_section_a0bf6c54_2)}
+{@render section_5549c771_2(data_section_5549c771_2)}
 
-{#snippet section_1f8bd3c9_3( { text, items } )}
-<!-- Symbol: highlight box -->
-<section id="1f8bd3c9-7ecc-4667-baba-7d04a84aaa14">
-<div class="section-container">
-  
-  <div class="problem-solution">
-    {#each items as item}
-      <div class="{item.style}">
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
-      </div>
-    {/each}
-  </div>
-  <p>{text}</p>
-</div>
-</section>
-{/snippet}
-
-{@render section_1f8bd3c9_3(data_section_1f8bd3c9_3)}
-
-{#snippet section_bd883a4f_4( { text, quote } )}
-<!-- Symbol: quote -->
-<section id="bd883a4f-ecd9-4f30-ba24-d3437605da77">
-<div class="section-container">
-
-<div class="quote-block">
-  <p>{quote}</p>
-</div>
-<p>{text}</p>
-</div>
-</section>
-{/snippet}
-
-{@render section_bd883a4f_4(data_section_bd883a4f_4)}
-
-{#snippet section_000cb2e0_5( { text, items, title } )}
-<!-- Symbol: Grid box -->
-<section id="000cb2e0-c7b3-42a4-8bcc-61e3082577c9">
-<div class="section-container">
-<h2>{title}</h2>
-  <div class="coverage-grid">
-    {#each items as item}
-      <div class="coverage-item">
-          <h4>{item.title}</h4>
-          <p>{item.description}</p>
-      </div>
-    {/each}
-  </div>
-  <p>{text}</p>
-</div>
-</section>
-{/snippet}
-
-{@render section_000cb2e0_5(data_section_000cb2e0_5)}
-
-{#snippet section_defb1f1f_6( { box, lists, title } )}
+{#snippet section_2d841c8b_3( { box, lists, title } )}
 <!-- Symbol: feature list -->
-<section id="defb1f1f-a366-4d9f-a68e-1786764cc938">
+<section id="2d841c8b-96cc-4e3d-a9b6-9fa2a1abfee1">
 <div class="section-container">
  <h2>{title}</h2>
     
@@ -409,31 +300,11 @@
 </section>
 {/snippet}
 
-{@render section_defb1f1f_6(data_section_defb1f1f_6)}
+{@render section_2d841c8b_3(data_section_2d841c8b_3)}
 
-{#snippet section_91429f37_7( { text, items } )}
-<!-- Symbol: highlight box -->
-<section id="91429f37-976d-4b93-900f-f94d3e957068">
-<div class="section-container">
-  
-  <div class="problem-solution">
-    {#each items as item}
-      <div class="{item.style}">
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
-      </div>
-    {/each}
-  </div>
-  <p>{text}</p>
-</div>
-</section>
-{/snippet}
-
-{@render section_91429f37_7(data_section_91429f37_7)}
-
-{#snippet section_3c4d8540_8( { outro } )}
+{#snippet section_03d6e94a_4( { outro } )}
 <!-- Symbol: Outro -->
-<section id="3c4d8540-b915-45a2-ae62-24d4f1d10beb">
+<section id="03d6e94a-aa36-4ce5-896c-01f0f46b127d">
 <div class="section-container">
   <h2>{outro.title}</h2>
   
@@ -444,11 +315,11 @@
 </section>
 {/snippet}
 
-{@render section_3c4d8540_8(data_section_3c4d8540_8)}
+{@render section_03d6e94a_4(data_section_03d6e94a_4)}
 
-{#snippet section_1fb2e9d0_9( _ )}
+{#snippet section_96c2cc22_5( _ )}
 <!-- Symbol: circles -->
-<section id="1fb2e9d0-c8aa-4713-826e-ee2cabdd0ca5">
+<section id="96c2cc22-a9d7-464a-b1d8-29067e198098">
 <div class="floating-shapes">
     <div class="shape shape-1"></div>
     <div class="shape shape-2"></div>
@@ -457,11 +328,11 @@
 </section>
 {/snippet}
 
-{@render section_1fb2e9d0_9(data_section_1fb2e9d0_9)}
+{@render section_96c2cc22_5(data_section_96c2cc22_5)}
 
-{#snippet section_14f40db5_10( { cta, title, description } )}
+{#snippet section_e705e023_6( { cta, title, description } )}
 <!-- Symbol: Cta -->
-<section id="14f40db5-e3d2-4dd7-bfc1-b46601895090">
+<section id="e705e023-a007-49fa-9a04-7b3b261aaf7f">
 <div class="section-container">
 <section class="cta-section">
     <h2>{title}</h2>
@@ -472,11 +343,11 @@
 </section>
 {/snippet}
 
-{@render section_14f40db5_10(data_section_14f40db5_10)}
+{@render section_e705e023_6(data_section_e705e023_6)}
 
-{#snippet section_b9e465fd_11( { items, title, copyright, description } )}
+{#snippet section_718468e6_7( { items, title, copyright, description } )}
 <!-- Symbol: Footer -->
-<section id="b9e465fd-1530-422e-816d-14fb686bec0c">
+<section id="718468e6-2363-4e2e-b27f-84cc3e710b07">
 <footer id="contact">
   <nav>
   <div class="footer-content">
@@ -503,7 +374,7 @@
 </section>
 {/snippet}
 
-{@render section_b9e465fd_11(data_section_b9e465fd_11)}
+{@render section_718468e6_7(data_section_718468e6_7)}
 
 
 <style>
@@ -940,128 +811,6 @@ nav {
     left: 0;
   }
 }
-/* Symbol: highlight box */
-p{
-  font-size: 1.15rem;
-  line-height: 2;
-  color: var(--dark-text);
-  opacity: 0.8;
-  margin-bottom: 1.8rem;
-}
-.problem-solution {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  margin: 4rem 0;
-}
-
-.problem-box, .solution-box {
-  padding: 2.5rem;
-  border-radius: 0;
-}
-
-.problem-box {
-  background: linear-gradient(135deg, rgba(232, 149, 107, 0.1), rgba(232, 149, 107, 0.05));
-  border-left: 4px solid var(--soft-orange);
-}
-
-.solution-box {
-  background: linear-gradient(135deg, rgba(156, 175, 136, 0.1), rgba(156, 175, 136, 0.05));
-  border-left: 4px solid var(--sage);
-}
-
-.problem-box h3, .solution-box h3 {
-  font-size: 1.6rem;
-  margin-bottom: 1.2rem;
-  color: var(--dark-text);
-  font-weight: 400;
-}
-
-.problem-box p, .solution-box p {
-  font-size: 1.05rem;
-  line-height: 1.9;
-}
-/* Symbol: quote */
- p {
-  font-size: 1.15rem;
-  line-height: 2;
-  color: var(--dark-text);
-  opacity: 0.8;
-  margin-bottom: 1.8rem;
-}
-
-.quote-block {
-  background: white;
-  padding: 3rem;
-  margin-bottom: 3rem;
-  border-left: 6px solid var(--soft-orange);
-  position: relative;
-}
-
-.quote-block::before {
-  content: '"';
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  font-size: 6rem;
-  color: var(--soft-orange);
-  opacity: 0.15;
-  font-family: Georgia, serif;
-  line-height: 1;
-}
-
-.quote-block p {
-  font-size: 1.5rem;
-  line-height: 1.8;
-  font-style: italic;
-  margin: 0;
-  position: relative;
-  z-index: 1;
-}
-/* Symbol: Grid box */
-h2{
-  font-size: 2.8rem;
-  margin-bottom: 2rem;
-  color: var(--dark-text);
-  font-weight: 300;
-  letter-spacing: -1px;
-}
-.coverage-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin: 3rem 0;
-}
-p{
-  font-size: 1.15rem;
-  line-height: 2;
-  color: var(--dark-text);
-  opacity: 0.8;
-  margin-bottom: 1.8rem;
-}
-.coverage-item {
-  background: white;
-  padding: 2rem;
-  border-left: 3px solid var(--sage);
-  transition: all 0.3s ease;
-}
-
-.coverage-item:hover {
-  transform: translateX(5px);
-  border-left-width: 6px;
-}
-
-.coverage-item h4 {
-  font-size: 1.3rem;
-  margin-bottom: 0.8rem;
-  color: var(--dark-text);
-  font-weight: 400;
-}
-
-.coverage-item p {
-  font-size: 1rem;
-  line-height: 1.8;
-}
 /* Symbol: feature list */
 
 .highlight-box {
@@ -1107,47 +856,6 @@ p{
   font-weight: 700;
 }
 
-/* Symbol: highlight box */
-p{
-  font-size: 1.15rem;
-  line-height: 2;
-  color: var(--dark-text);
-  opacity: 0.8;
-  margin-bottom: 1.8rem;
-}
-.problem-solution {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  margin: 4rem 0;
-}
-
-.problem-box, .solution-box {
-  padding: 2.5rem;
-  border-radius: 0;
-}
-
-.problem-box {
-  background: linear-gradient(135deg, rgba(232, 149, 107, 0.1), rgba(232, 149, 107, 0.05));
-  border-left: 4px solid var(--soft-orange);
-}
-
-.solution-box {
-  background: linear-gradient(135deg, rgba(156, 175, 136, 0.1), rgba(156, 175, 136, 0.05));
-  border-left: 4px solid var(--sage);
-}
-
-.problem-box h3, .solution-box h3 {
-  font-size: 1.6rem;
-  margin-bottom: 1.2rem;
-  color: var(--dark-text);
-  font-weight: 400;
-}
-
-.problem-box p, .solution-box p {
-  font-size: 1.05rem;
-  line-height: 1.9;
-}
 /* Symbol: Outro */
 
  h2 {
