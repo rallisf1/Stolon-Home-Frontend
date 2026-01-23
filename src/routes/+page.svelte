@@ -165,7 +165,7 @@
         </button>
 
         <aside class="sidebar" class:active={activeMenu}>
-            <ul class="menu">
+            <div class="menu">
                 <li>
                     <div class="menu-item">
                         <svg
@@ -262,7 +262,7 @@
                         Stolon AI
                     </div>
                 </li>
-            </ul>
+            </div>
 
             <!-- Mobile-only cards render here -->
             <div class="mobile-cards-wrapper">
