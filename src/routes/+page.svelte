@@ -12,6 +12,14 @@
     /** @type {HTMLElement} */
     let chatContainer;
 
+    let messageInputel;
+    
+   function autoResize(e) {
+       const el = e.target;
+       el.style.height = "auto";
+       el.style.height = Math.min(el.scrollHeight, 240) + "px"; // cap height
+   }
+
     function loadMessages() {
         const saved = localStorage.getItem("chat_history");
         if (saved) {
@@ -267,23 +275,27 @@
         <img
             src="/StolonLogo.png"
             alt="Stolon Logo"
-            style="width: 100px; height: 100px;"
+            style="width: 150px; height: 150px;"
         />
-        <img
+        <!-- <img
             src="/stolonas1.png"
             alt="Stolon Logo"
-            style="width: 100px; height: 100px;"
-        />
+            style="width: 150px; height: 150px;"
+        /> -->
     </div>
 
     <div class="chat-area" class:startup={messages.length === 0}>
-        <h1>What are you searching today</h1>
-
+        <h1>How may I help you today?</h1>
         <div class="messages-container" bind:this={chatContainer}>
             {#each messages as msg}
                 <div class="message {msg.role}">
                     {#if msg.role === "assistant"}
-                        <div class="avatar ai">AI</div>
+                        <div >
+                            <img 
+                            src="/stolonas1.png"
+                            alt="Stolon Logo"
+                            style="width: 100px; height: 100px;"/>
+                    </div>
                         <div class="bubble ai-bubble">
                             {@html marked(msg.content)}
                         </div>
@@ -339,15 +351,15 @@
                         >
                     {/if}
                 </button>
-
-                <!-- INPUT -->
-                <input
-                    id="messageInput"
-                    type="text"
-                    placeholder="Message us..."
+                <textarea
+                id="messageInput"
+                    rows="1"
+                    placeholder="Message us... (Shift+Enter for new line)"
                     bind:value={userInput}
-                    onkeydown={handleKeydown}
-                />
+                    bind:this={messageInputel}
+                    onkeydown={(e) => handleKeydown(e)}
+                    oninput={(e) => autoResize(e)}
+                ></textarea>
 
                 <!-- RIGHT ICONS CONTAINER -->
                 <div class="right-icons-container">
@@ -547,17 +559,14 @@
         /* No transition on justify-content needed */
     }
 
-    /* Deleted .chat-area.startup */
-
     .chat-area h1 {
-        font-size: 2.5rem;
-        font-weight: 600;
-        opacity: 0.9;
-        margin-bottom: 40px;
-        color: #000000;
-        text-align: center; /* Ensure centered text especially on mobile wrapping */
+        font-size:2.5rem;
+        font-weight:600;
+        opacity:0.9;
+        margin-bottom:40px;
+        color:#000000;
+        text-align:center;
     }
-
     .messages-container {
         flex-grow: 1; /* Grow to fill space */
         width: 100%;
@@ -952,14 +961,15 @@
         text-transform: uppercase;
     }
     .messageBox {
-        height: 48px;
+        min-height: 48px;
         display: flex;
-        align-items: center;
+        align-items: flex-end; /* keep icons aligned to bottom while textarea grows */
         gap: 8px;
-        padding: 0 12px;
+        padding: 6px 12px;
         border-radius: 12px;
         border: 1px solid #e5e7eb;
         background: #ffffff;
+        box-sizing: border-box;
     }
 
     .messageBox:focus-within {
@@ -979,11 +989,19 @@
     /* INPUT */
     #messageInput {
         flex: 1;
+        width: 100%;
+        min-height: 40px;
+        max-height: 240px; /* cap growth */
+        box-sizing: border-box;
+        background: transparent;
         border: none;
         outline: none;
-        background: transparent;
+        padding: 8px 10px;
+        color: #000;
         font-size: 16px;
-        color: #7c7c7c;
+        line-height: 1.4;
+        resize: none;
+        overflow: auto; /* scroll once it reaches max-height */
     }
 
     #messageInput::placeholder {
@@ -1023,32 +1041,9 @@
     }
 
     /* SEND BUTTON */
-    #sendButton {
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        padding: 0;
-    }
+    
 
-    #sendButton svg {
-        height: 18px;
-        color: #6b7280;
-        transition: color 0.2s;
-    }
-
-    #sendButton:hover svg {
-        color: #3e9b45;
-    }
-
-    #sendButton:disabled svg {
-        color: #d1d5db;
-        cursor: default;
-    }
+    
 
     /* Mobile Cards Wrapper (Hidden on desktop by default) */
     .mobile-cards-wrapper {
@@ -1172,6 +1167,7 @@
             overflow-y: scroll;
             padding: 0 16px;
         }
+        
 
         /* INPUT BAR ADJUSTMENT */
         .input-area {
