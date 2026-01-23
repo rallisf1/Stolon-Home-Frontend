@@ -78,33 +78,54 @@
 
 <div class="layout-container">
     {#snippet cardsContent()}
-        <div class="card">
-            <img
-                src="https://w0.peakpx.com/wallpaper/59/567/HD-wallpaper-web-designing-training-in-pune-web-design-web-design-training-in-pune-website-design-training-web-development-course-in-pune-web-development-training-in-india-website-design-training-in-india.jpg"
-                alt="Website"
-                class="card-image"
-            />
-            <h4>Φτιάξε το δικο σου site</h4>
-            <p class="price">ΜΟΝΟ ΜΕ</p>
-            <ul>
-                <li>250€</li>
-            </ul>
-            <button>Ενεργοποίηση</button>
+    <div class="section-container">
+    <div class="cards-area">
+        <div class="card card-website">
+            <div class="card-glow"></div>
+            <div class="card-image-wrapper">
+                <img
+                    src="https://cdn.pixabay.com/photo/2020/02/24/04/25/web-design-4875183_1280.jpg"
+                    alt="Website"
+                    class="card-image"
+                />
+                <div class="card-image-overlay"></div>
+            </div>
+            <div class="card-content">
+                <h4>Φτιάξε το δικό σου site</h4>
+                <div class="price-container">
+                    <span class="price-label">Μόνο με</span>
+                    <div class="price-value">
+                        <span class="currency">€</span>
+                        <span class="amount">250</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <img
-                src="https://cdn.thenewstack.io/media/2023/09/94b1d1e3-nextcloud.jpg"
-                alt="Microsoft 365"
-                class="card-image"
-            />
-            <h4>Ακομα εισαι στην microsoft 360;</h4>
-            <p class="price">ΜΠΕΣ ΤΩΡΑ ΣΤΟ NEXTCLOUD ΜΕ</p>
-            <ul>
-                <li>1€</li>
-            </ul>
-            <button>Δοκιμή 14 ημερών</button>
+        <div class="card card-nextcloud">
+            <div class="card-glow"></div>
+            <div class="card-image-wrapper">
+                <img
+                    src="https://cdn.thenewstack.io/media/2023/09/94b1d1e3-nextcloud.jpg"
+                    alt="Nextcloud"
+                    class="card-image"
+                />
+                <div class="card-image-overlay"></div>
+            </div>
+            <div class="card-content">
+                <h4>Άκομα είσαι στην Microsoft 365;</h4>
+                <div class="price-container">
+                    <span class="price-label">Μπες τώρα με</span>
+                    <div class="price-value">
+                        <span class="currency">€</span>
+                        <span class="amount">1</span>
+                        <span class="period">/μήνα</span>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
     {/snippet}
 
     <div class="drawer">
@@ -417,7 +438,7 @@
 
     .layout-container {
         display: grid;
-        grid-template-columns: 260px 1fr 300px;
+        grid-template-columns: 260px 1fr 327px;
         height: 100vh;
         width: 100vw;
         box-sizing: border-box;
@@ -701,102 +722,234 @@
         color: #9ca3af;
         cursor: default;
     }
-
-    .cards-area {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-
+.cards-area {
         display: flex;
         flex-direction: column;
-        gap: 16px;
-
-        width: 280px;
-        z-index: 1000;
-        pointer-events: none; /* Allow scrolling underneath if needed, but cards need pointer events */
+        gap: 20px;
+        width: 327px;
     }
 
     .card {
-        pointer-events: auto;
         position: relative;
         background: #ffffff;
-        border-radius: 18px;
-        padding: 20px;
-        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        overflow: hidden;
         box-shadow:
-            0 4px 6px -1px rgba(0, 0, 0, 0.1),
-            0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        transition:
-            transform 0.25s ease,
-            box-shadow 0.25s ease;
-        text-align: center; /* Center text inside cards */
+            0 10px 30px rgba(0, 0, 0, 0.15),
+            0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .section-container {
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    .card-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        border-radius: 20px 20px 0 0;
+        box-shadow: none;
+    }
+    @keyframes shimmer {
+        0%, 100% { background-position: 0% 0%; }
+        50% { background-position: 100% 0%; }
     }
 
     .card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-8px) scale(1.02);
         box-shadow:
-            0 10px 15px -3px rgba(0, 0, 0, 0.1),
-            0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        border-color: #d1d5db;
+            0 20px 40px rgba(0, 0, 0, 0.2),
+            0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
-    /* CARD IMAGE */
+    .card-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(62, 155, 69, 0.15) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+
+    .card:hover .card-glow {
+        opacity: 1;
+    }
+
+    .card-ribbon {
+        position: absolute;
+        top: 20px;
+        right: -40px;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        color: white;
+        padding: 8px 50px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        transform: rotate(45deg);
+        box-shadow: 0 4px 12px rgba(238, 90, 111, 0.4);
+        z-index: 10;
+    }
+
     .card-image {
         width: 100%;
-        height: 77px;
+        height: 161px;
         object-fit: cover;
-        border-radius: 12px;
-        margin-bottom: 16px;
         display: block;
+        transition: transform 0.4s ease;
     }
 
-    /* ΤΙΤΛΟΣ */
+    .card:hover .card-image {
+        transform: scale(1.08);
+    }
+
+    .card-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .card:hover .card-image-overlay {
+        opacity: 1;
+    }
+
+    .card-content {
+        padding: 0 20px 20px;
+    }
+
     .card h4 {
-        margin: 0 0 6px;
-        font-size: 18px;
-        font-weight: 700;
-        color: #000000;
-    }
-
-    /* ΥΠΟΤΙΤΛΟΣ */
-    .card .price {
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 1px;
-        color: #3e9b45;
-        margin-bottom: 10px;
-    }
-
-    /* PRICE VALUE */
-    .card ul {
-        list-style: none;
-        padding: 0;
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 800;
+    color: #1a1a1a;
+    line-height: 1.3;
+    text-align: center;
+}
+    .card-description {
+        font-size: 13px;
+        color: #6b7280;
         margin: 0 0 16px;
+        line-height: 1.5;
     }
 
-    .card ul li {
-        font-size: 29px;
+    .price-container {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border: 2px solid #86efac;
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .price-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .card:hover .price-container::before {
+        opacity: 1;
+    }
+
+    .price-label {
+        display: block;
+        font-size: 11px;
         font-weight: 800;
-        color: #000000;
+        letter-spacing: 1.5px;
+        color: #15803d;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        text-align: center;
+        padding-left: 12px;
     }
 
-    /* BUTTON */
-    .card button {
-        width: 100%;
-        padding: 12px;
-        border-radius: 12px;
-        border: none;
+    .price-value {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 2px;
+    }
+
+    .currency {
+        font-size: 24px;
+        font-weight: 800;
+        color: #15803d;
+    }
+
+    .amount {
+        font-size: 42px;
+        font-weight: 900;
+        color: #15803d;
+        line-height: 1;
+        letter-spacing: -2px;
+    }
+
+    .period {
+        font-size: 15px;
         font-weight: 700;
-        cursor: pointer;
-        background: #3e9b45;
-        color: white;
-        transition: all 0.2s ease;
+        color: #15803d;
     }
 
-    .card button:hover {
-        background: #15803d;
-        transform: none;
-        box-shadow: 0 0 15px rgba(62, 155, 69, 0.4);
+    /* Card-specific styling */
+    .card-website::before {
+        background: linear-gradient(90deg, #3e9b45, #15803d, #3e9b45);
+        background-size: 200% 100%;
+    }
+
+    .card-nextcloud::before {
+        background: linear-gradient(90deg, #3e9b45, #15803d, #3e9b45);
+        background-size: 200% 100%;
+    }
+
+    .card-nextcloud .card-glow {
+        background: radial-gradient(circle, rgba(62, 155, 69, 0.15) 0%, transparent 70%);
+    }
+
+    .card-nextcloud .price-container {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        border-color: #86efac;
+    }
+
+    .card-nextcloud .price-label,
+    .card-nextcloud .currency,
+    .card-nextcloud .amount,
+    .card-nextcloud .period {
+        color: #15803d;
+    }
+
+    /* Badge on card */
+    .card-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #15803d;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        z-index: 5;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        text-transform: uppercase;
     }
     .messageBox {
         height: 48px;
