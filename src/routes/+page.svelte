@@ -762,6 +762,10 @@ $effect(() => {
         margin: 0 0 10px 0;
         color: #000000;
     }
+    .ai-bubble :global(a) {
+        color: #3e9b45;
+        text-decoration: underline;
+    }
     .ai-bubble :global(pre) {
         background: #f9fafb;
         padding: 12px;
@@ -1369,7 +1373,7 @@ $effect(() => {
     color: var(--text);
 }
 .card .price-label {
-    color: var(--card-bg);
+    color: black;
 }
 h1,
 h4,
@@ -1377,6 +1381,10 @@ h4,
 .bubble
  {
     color: var(--text);
+}
+.bubble-assistant a{
+    color: var(--border-strong);
+    text-decoration: underline;
 }
 
 .chat-area,
