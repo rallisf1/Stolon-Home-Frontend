@@ -1,16 +1,61 @@
 #!/bin/bash
 
-# Parse JSON and generate SvelteKit structure using Bun
-# This script embeds the JavaScript logic to handle complex JSON parsing safely.
+# Configuration for Repositories
+# Format: "folder_name:repo_name"
+REPOS=(
+  "ai:stolon-ai"
+  "business:stolon-business"
+  "computerization:stolon-computerization"
+  "education:stolon-education"
+  "marketing:stolon-marketing"
+)
 
+# GitHub Token (Extracted from user provided URLs)
+TOKEN="YOUR_GITHUB_TOKEN" # Replace with your token or set as environment variable
+OWNER="rallisf1"
+
+# 1. Fetch primo.json for each repo
+echo "=== Fetching primo.json files from GitHub ==="
+
+for entry in "${REPOS[@]}"; do
+  FOLDER="${entry%%:*}"
+  REPO="${entry##*:}"
+  
+  TARGET_DIR="src/routes/$FOLDER"
+  TARGET_FILE="$TARGET_DIR/primo.json"
+  
+  echo "Processing $FOLDER ($REPO)..."
+  
+  # Ensure directory exists
+  mkdir -p "$TARGET_DIR"
+  
+  # Fetch file using GitHub API
+  # Using raw header to get content directly
+  HTTP_STATUS=$(curl -s -w "%{http_code}" -H "Authorization: token $TOKEN" \
+       -H "Accept: application/vnd.github.v3.raw" \
+       -L "https://api.github.com/repos/$OWNER/$REPO/contents/primo.json" \
+       -o "$TARGET_FILE")
+
+  if [ "$HTTP_STATUS" -eq 200 ]; then
+    echo "✅ Successfully fetched primo.json for $FOLDER"
+  else
+    echo "❌ Failed to fetch primo.json for $FOLDER (Status: $HTTP_STATUS)"
+    # Optional: cleanup empty file if failed
+    rm -f "$TARGET_FILE"
+  fi
+done
+
+echo -e "\n=== Starting Site Generation ===\n"
+
+# 2. Run Bun script to generate pages
 bun run - << 'EOF'
 import { file, write } from "bun";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
+import { existsSync } from "node:fs";
 
 // Configuration
-const JSON_PATH = "src/routes/education/primo.json";
-const BASE_OUTPUT_DIR = "src/routes/education";
+const SECTIONS = ["ai", "business", "computerization", "education", "marketing"];
 const LANGUAGES = ["el", "en"]; // Supported languages
 
 // Helper to extract default values from symbol fields recursively
@@ -24,16 +69,12 @@ function extractFieldDefaults(fields) {
     
     // Handle different field types
     if (field.type === 'repeater' && field.value) {
-      // Repeater with default value
       defaults[key] = field.value;
     } else if (field.type === 'group' && field.fields) {
-      // Group field - extract nested defaults
       defaults[key] = extractFieldDefaults(field.fields);
     } else if (field.type === 'link' && field.value) {
-      // Link field
       defaults[key] = field.value;
     } else if (field.value !== undefined) {
-      // Simple field with value
       defaults[key] = field.value;
     }
   }
@@ -41,10 +82,25 @@ function extractFieldDefaults(fields) {
   return defaults;
 }
 
-async function main() {
-  console.log(`Reading JSON from ${JSON_PATH}...`);
-  const content = await file(JSON_PATH).text();
-  const data = JSON.parse(content);
+async function generateSection(sectionName) {
+  const jsonPath = `src/routes/${sectionName}/primo.json`;
+  const baseOutputDir = `src/routes/${sectionName}`;
+
+  if (!existsSync(jsonPath)) {
+    console.warn(`⚠️  Skipping ${sectionName}: primo.json not found at ${jsonPath}`);
+    return;
+  }
+
+  console.log(`\n📘 Processing Section: ${sectionName}`);
+  const content = await file(jsonPath).text();
+  
+  let data;
+  try {
+    data = JSON.parse(content);
+  } catch (e) {
+    console.error(`❌ Error parsing JSON for ${sectionName}:`, e.message);
+    return;
+  }
 
   const { pages, sections, symbols, site } = data;
 
@@ -86,13 +142,11 @@ async function main() {
 
   // 5. Generate Pages for each language
   for (const lang of LANGUAGES) {
-    console.log(`\n=== Generating pages for language: ${lang} ===\n`);
+    // console.log(`   Detailed generation for language: ${lang}...`);
     
     for (const page of pages) {
-      console.log(`Processing page: ${page.name} (${page.url}) [${lang}]...`);
-
       const relPath = getPagePath(page.id);
-      const outputDir = path.join(BASE_OUTPUT_DIR, lang, relPath);
+      const outputDir = path.join(baseOutputDir, lang, relPath);
       const outputFile = path.join(outputDir, "+page.svelte");
 
       // Gather sections for this page
@@ -120,21 +174,17 @@ async function main() {
           const symbol = symbolMap.get(section.symbol);
           
           if (!symbol) {
-              console.warn(`Symbol not found for section ${section.id}`);
+              console.warn(`      ⚠️  Symbol not found for section ${section.id}`);
               continue;
           }
 
           const snippetName = `section_${section.id.split('-')[0]}_${i}`; 
           
           // --- DATA PREPARATION ---
-          // 1. Extract defaults from symbol fields
           const fieldDefaults = extractFieldDefaults(symbol.fields);
-          
-          // 2. Get symbol content defaults (current language)
           const symbolContentDefaults = symbol.content?.[lang] || {};
           
-          // 3. Get section content (current language)
-          // Special case: if this is a navbar section, use canonical content from Home page
+          // Special case: Navbar canonical content
           let sectionContent;
           if (navbarSymbol && section.symbol === navbarSymbol.id && navbarCanonicalContent.has(lang)) {
             sectionContent = navbarCanonicalContent.get(lang);
@@ -142,8 +192,6 @@ async function main() {
             sectionContent = section.content?.[lang] || {};
           }
           
-          // Merge: fieldDefaults < symbolContentDefaults < sectionContent
-          // Only merge sectionContent if it has actual keys (not empty)
           const contentData = Object.keys(sectionContent).length > 0
             ? { ...fieldDefaults, ...symbolContentDefaults, ...sectionContent }
             : { ...fieldDefaults, ...symbolContentDefaults };
@@ -154,15 +202,8 @@ async function main() {
     const ${dataVarName} = ${JSON.stringify(contentData, null, 2)};
     </script>`);
 
-          // We use keys from the merged object
           const propsDestructuring = Object.keys(contentData).join(', ');
-          let snippetArgs = "";
-          
-          if (propsDestructuring) {
-              snippetArgs = ` { ${propsDestructuring} } `;
-          } else {
-               snippetArgs = ` _ `; // unused
-          }
+          let snippetArgs = propsDestructuring ? ` { ${propsDestructuring} } ` : ` _ `;
           
           templateContent += `
 {#snippet ${snippetName}(${snippetArgs})}
@@ -191,13 +232,21 @@ ${cssContent}
 </style>
 `;
       
-      console.log(`Writing to ${outputFile}...`);
       await mkdir(outputDir, { recursive: true });
       await write(outputFile, svelteFileContent);
     }
   }
+  console.log(`   ✅ Validated and generated ${LANGUAGES.length * pages.length} pages for ${sectionName}`);
+}
+
+async function main() {
+  console.log("Starting multi-repo site generation...");
   
-  console.log("\n✅ Site generation complete for all languages!");
+  for (const section of SECTIONS) {
+    await generateSection(section);
+  }
+  
+  console.log("\n✨ All sections processed!");
 }
 
 main().catch(console.error);

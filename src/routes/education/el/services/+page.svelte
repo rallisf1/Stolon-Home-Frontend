@@ -4,7 +4,7 @@
         /** @type {{ data: import('./$types').PageData }} */
         let { data } = $props();
     
-    const data_section_65a5e58c_0 = {
+    const data_section_e87efe15_0 = {
   "name": "Stolon Education",
   "items": [
     {
@@ -150,9 +150,9 @@
 
 
 
-{#snippet section_65a5e58c_0( { name, items } )}
+{#snippet section_e87efe15_0( { name, items } )}
 <!-- Symbol: Navbar -->
-<section id="65a5e58c-074d-4d65-8c02-99db9de50f74">
+<section id="e87efe15-d139-490f-b0d6-dcf9fef5c9c2">
 <nav id="header" class="section-container">
     <div class="logo">{name}</div>
     <ul class="nav-links">
@@ -164,7 +164,7 @@
 </section>
 {/snippet}
 
-{@render section_65a5e58c_0(data_section_65a5e58c_0)}
+{@render section_e87efe15_0(data_section_e87efe15_0)}
 
 {#snippet section_b6370c71_1( { items, title, description } )}
 <!-- Symbol: Services -->
