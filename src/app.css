@@ -1,0 +1,122 @@
+:root {
+    /* Brand Colors */
+    --brand: #3e9b45;
+    --brand-dark: #15803d;
+    --brand-soft: #dcfce7;
+    --brand-glow: rgba(62, 155, 69, 0.15);
+
+    /* Backgrounds */
+    --bg: #ffffff;
+    --bg-soft: #f9fafb;
+    --bg-muted: #f3f4f6;
+
+    /* Text */
+    --text: #000000;
+    --text-muted: #6b7280;
+    --text-soft: #9ca3af;
+
+    /* Borders */
+    --border: #e5e7eb;
+    --border-strong: #86efac;
+
+    /* Cards & Components */
+    --card-bg: #ffffff;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.1);
+
+    /* Sidebar & Header */
+    --sidebar-bg: #ffffff;
+    --nav-bg: rgba(255, 255, 255, 0.8);
+
+    /* Inputs */
+    --input-bg: #ffffff;
+    --input-border: #e5e7eb;
+    --input-focus: #3e9b45;
+
+    /* Buttons */
+    --btn-bg: #f3f4f6;
+    --btn-text: #000000;
+    --btn-hover: #e5e7eb;
+
+    /* Avatars */
+    --avatar-ai: #3e9b45;
+    --avatar-user: #ec2025;
+
+    /* Grid */
+    --grid-line: rgba(62, 155, 69, 0.05);
+
+    /* Chat Bubbles */
+    --bubble-ai-bg: rgba(255, 255, 255, 0.7);
+    --bubble-ai-border: rgba(255, 255, 255, 0.5);
+    --bubble-ai-text: #1a1a1a;
+    --bubble-pre-bg: rgba(0, 0, 0, 0.05);
+    --bubble-pre-border: rgba(0, 0, 0, 0.1);
+    --bubble-code-bg: rgba(62, 155, 69, 0.1);
+    --bubble-code-text: var(--brand-dark);
+}
+
+:root[data-theme="dark"] {
+    --brand: #4ade80;
+    --brand-dark: #22c55e;
+    --brand-soft: #052e16;
+    --brand-glow: rgba(74, 222, 128, 0.25);
+
+    --bg: #0b0f0d;
+    --bg-soft: #111827;
+    --bg-muted: #1f2937;
+
+    --text: #f9fafb;
+    --text-muted: #9ca3af;
+    --text-soft: #6b7280;
+
+    --border: #1f2937;
+    --border-strong: #166534;
+
+    --card-bg: #111827;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+        0 4px 8px rgba(0, 0, 0, 0.4);
+
+    --sidebar-bg: #0f172a;
+    --nav-bg: rgba(11, 15, 13, 0.8);
+
+    --input-bg: #020617;
+    --input-border: #1f2937;
+    --input-focus: #4ade80;
+
+    --btn-bg: #020617;
+    --btn-text: #f9fafb;
+    --btn-hover: #1f2937;
+
+    --avatar-ai: #4ade80;
+    --avatar-user: #f87171;
+
+    --grid-line: rgba(74, 222, 128, 0.06);
+
+    /* Chat Bubbles Dark */
+    --bubble-ai-bg: rgba(31, 41, 55, 0.6);
+    --bubble-ai-border: rgba(255, 255, 255, 0.1);
+    --bubble-ai-text: #f9fafb;
+    --bubble-pre-bg: rgba(0, 0, 0, 0.3);
+    --bubble-pre-border: rgba(255, 255, 255, 0.1);
+    --bubble-code-bg: rgba(74, 222, 128, 0.1);
+    --bubble-code-text: var(--brand);
+}
+
+@keyframes gridScroll {
+    to {
+        transform: translate(50px, 50px);
+    }
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(var(--grid-line) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 0;
+    animation: gridScroll 20s linear infinite;
+}

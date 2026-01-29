@@ -1,7 +1,7 @@
 <script>
     import { marked } from "marked";
+    import { translations } from "$lib/translations";
     let { data } = $props();
-    const { chatService } = data;
 
     let activeMenu = $state(false);
     let leftIconActive = $state(false);
@@ -14,6 +14,7 @@
 
     let messageInputel;
     let theme = $state("light");
+    /** @type {"english" | "greek"} */
     let language = $state("english");
 
     function toggleTheme() {
@@ -31,15 +32,11 @@
             document.documentElement.setAttribute("data-theme", theme);
         }
     });
-    let lang = false;
     function toggleLanguage() {
-        if (lang == true) {
-            language = "greek";
-        } else {
-            language = "english";
-        }
+        language = language === "english" ? "greek" : "english";
     }
 
+    /** @param {any} e */
     function autoResize(e) {
         const el = e.target;
         el.style.height = "auto";
@@ -91,7 +88,7 @@
         let responseContent = "";
 
         // Start streaming
-        await chatService.sendMessage(currentInput, (chunk) => {
+        await data.chatService.sendMessage(currentInput, (chunk) => {
             responseContent += chunk;
             // Update the last message (AI) with new content
             messages[messages.length - 1].content = responseContent;
@@ -125,9 +122,12 @@
                         <div class="card-image-overlay"></div>
                     </div>
                     <div class="card-content">
-                        <h4>Φτιάξε το δικό σου site</h4>
+                        <h4>{translations[language].cards.website_title}</h4>
                         <div class="price-container">
-                            <span class="price-label">Μόνο με</span>
+                            <span class="price-label"
+                                >{translations[language].cards
+                                    .website_price_label}</span
+                            >
                             <div class="price-value">
                                 <span class="currency">€</span>
                                 <span class="amount">250</span>
@@ -147,13 +147,19 @@
                         <div class="card-image-overlay"></div>
                     </div>
                     <div class="card-content">
-                        <h4>Άκομα είσαι στην Microsoft 365;</h4>
+                        <h4>{translations[language].cards.nextcloud_title}</h4>
                         <div class="price-container">
-                            <span class="price-label">Μπες τώρα με</span>
+                            <span class="price-label"
+                                >{translations[language].cards
+                                    .nextcloud_price_label}</span
+                            >
                             <div class="price-value">
                                 <span class="currency">€</span>
                                 <span class="amount">1</span>
-                                <span class="period">/μήνα</span>
+                                <span class="period"
+                                    >{translations[language].cards
+                                        .per_month}</span
+                                >
                             </div>
                         </div>
                     </div>
@@ -229,10 +235,7 @@
 
                 <button
                     class="language-toggle"
-                    onclick={() => {
-                        lang = !lang;
-                        toggleLanguage();
-                    }}
+                    onclick={() => toggleLanguage()}
                     aria-label="Toggle language"
                 >
                     {#if language === "english"}
@@ -354,7 +357,7 @@
                                     /></g
                                 ></svg
                             >
-                            Stolon Edu
+                            {translations[language].sidebar.edu}
                         </div>
                     </a>
                 </li>
@@ -374,7 +377,7 @@
                                     d="M9 17s7 1 10 4h1a1 1 0 0 0 1-1v-6.063a2 2 0 0 0 0-3.874V4a1 1 0 0 0-1-1h-1C16 6 9 7 9 7H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h1l1 5h2zm2-8.339c.683-.146 1.527-.35 2.44-.617c1.678-.494 3.81-1.271 5.56-2.47v12.851c-1.75-1.198-3.883-1.975-5.56-2.469A34 34 0 0 0 11 15.34zM5 9h4v6H5z"
                                 /></svg
                             >
-                            Stolon Marketing
+                            {translations[language].sidebar.marketing}
                         </div>
                     </a>
                 </li>
@@ -406,7 +409,7 @@
                                     /></g
                                 ></svg
                             >
-                            Stolon Business
+                            {translations[language].sidebar.business}
                         </div>
                     </a>
                 </li>
@@ -426,7 +429,7 @@
                                     d="M1 20q-.425 0-.712-.288T0 19t.288-.712T1 18h1V5q0-.825.588-1.412T4 3h16q.825 0 1.413.588T22 5v13h1q.425 0 .713.288T24 19t-.288.713T23 20zm9.5-2h3q.2 0 .35-.15t.15-.35t-.15-.35t-.35-.15h-3q-.2 0-.35.15t-.15.35t.15.35t.35.15M4 15h16V5H4zm8-5"
                                 /></svg
                             >
-                            Stolon Computerization
+                            {translations[language].sidebar.computerization}
                         </div>
                     </a>
                 </li>
@@ -443,7 +446,7 @@
                                     d="M22 14h-1c0-3.87-3.13-7-7-7h-1V5.73A2 2 0 1 0 10 4c0 .74.4 1.39 1 1.73V7h-1c-3.87 0-7 3.13-7 7H2c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h1v1a2 2 0 0 0 2 2h14c1.11 0 2-.89 2-2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1m-1 3h-2v3H5v-3H3v-1h2v-2c0-2.76 2.24-5 5-5h4c2.76 0 5 2.24 5 5v2h2zM8.5 13.5l2.36 2.36l-1.18 1.18l-1.18-1.18l-1.18 1.18l-1.18-1.18zm7 0l2.36 2.36l-1.18 1.18l-1.18-1.18l-1.18 1.18l-1.18-1.18z"
                                 /></svg
                             >
-                            Stolon AI
+                            {translations[language].sidebar.ai}
                         </div>
                     </a>
                 </li>
@@ -460,7 +463,7 @@
                                     d="M19 19V5H5v14zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-2.3 6.35l-1 1l-2.05-2.05l1-1c.21-.22.56-.22.77 0l1.28 1.28c.22.21.22.56 0 .77M7 14.94l6.06-6.06l2.06 2.06L9.06 17H7z"
                                 /></svg
                             >
-                            Blog
+                            {translations[language].sidebar.blog}
                         </div>
                     </a>
                 </li>
@@ -475,20 +478,20 @@
         {#if theme === "light"}
             <img
                 src="/StolonLogo.png"
-                alt="Stolon Logo"
+                alt={translations[language].chat.logo_alt}
                 style="width: 150px; height: 150px;"
             />
         {:else}
             <img
                 src="/StolonDark.png"
-                alt="Stolon Logo Dark"
+                alt={translations[language].chat.logo_dark_alt}
                 style="width: 150px; height: 150px;"
             />
         {/if}
     </div>
 
     <div class="chat-area" class:startup={messages.length === 0}>
-        <h1>How may I help you today?</h1>
+        <h1>{translations[language].chat.headline}</h1>
         <div class="messages-container" bind:this={chatContainer}>
             {#each messages as msg}
                 <div
@@ -503,7 +506,9 @@
                                 <img src="/stolonas1.png" alt="AI Agent" />
                             </div>
                             <div class="bubble ai-bubble">
-                                <div class="message-info">Stolon AI</div>
+                                <div class="message-info">
+                                    {translations[language].chat.ai_name}
+                                </div>
                                 <div class="message-content">
                                     {@html marked(msg.content)}
                                 </div>
@@ -528,8 +533,8 @@
                     class="icon-button left-icon-btn"
                     onclick={() => (leftIconActive = !leftIconActive)}
                     title={leftIconActive
-                        ? "Disable history mode"
-                        : "Enable history mode"}
+                        ? translations[language].chat.history_disable
+                        : translations[language].chat.history_enable}
                     aria-label="Toggle left icon"
                 >
                     {#if !leftIconActive}
@@ -571,7 +576,7 @@
                 <textarea
                     id="messageInput"
                     rows="1"
-                    placeholder="Message us... (Shift+Enter for new line)"
+                    placeholder={translations[language].chat.placeholder}
                     bind:value={userInput}
                     bind:this={messageInputel}
                     onkeydown={(e) => handleKeydown(e)}
@@ -583,7 +588,7 @@
                     <button
                         class="icon-button microphone-btn"
                         aria-label="Microphone"
-                        title="Dictate"
+                        title={translations[language].chat.dictate}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -600,7 +605,7 @@
                     <button
                         class="icon-button voiceover-btn"
                         aria-label="Voice over"
-                        title="Use voice"
+                        title={translations[language].chat.voice}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -629,112 +634,6 @@
 </div>
 
 <style>
-    :root {
-        /* Brand Colors */
-        --brand: #3e9b45;
-        --brand-dark: #15803d;
-        --brand-soft: #dcfce7;
-        --brand-glow: rgba(62, 155, 69, 0.15);
-
-        /* Backgrounds */
-        --bg: #ffffff;
-        --bg-soft: #f9fafb;
-        --bg-muted: #f3f4f6;
-
-        /* Text */
-        --text: #000000;
-        --text-muted: #6b7280;
-        --text-soft: #9ca3af;
-
-        /* Borders */
-        --border: #e5e7eb;
-        --border-strong: #86efac;
-
-        /* Cards & Components */
-        --card-bg: #ffffff;
-        --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.15),
-            0 4px 8px rgba(0, 0, 0, 0.1);
-
-        /* Sidebar & Header */
-        --sidebar-bg: #ffffff;
-        --nav-bg: rgba(255, 255, 255, 0.8);
-
-        /* Inputs */
-        --input-bg: #ffffff;
-        --input-border: #e5e7eb;
-        --input-focus: #3e9b45;
-
-        /* Buttons */
-        --btn-bg: #f3f4f6;
-        --btn-text: #000000;
-        --btn-hover: #e5e7eb;
-
-        /* Avatars */
-        --avatar-ai: #3e9b45;
-        --avatar-user: #ec2025;
-
-        /* Grid */
-        --grid-line: rgba(62, 155, 69, 0.05);
-
-        /* Chat Bubbles */
-        --bubble-ai-bg: rgba(255, 255, 255, 0.7);
-        --bubble-ai-border: rgba(255, 255, 255, 0.5);
-        --bubble-ai-text: #1a1a1a;
-        --bubble-pre-bg: rgba(0, 0, 0, 0.05);
-        --bubble-pre-border: rgba(0, 0, 0, 0.1);
-        --bubble-code-bg: rgba(62, 155, 69, 0.1);
-        --bubble-code-text: var(--brand-dark);
-    }
-
-    /* ===== DARK MODE ===== */
-
-    :root[data-theme="dark"] {
-        --brand: #4ade80;
-        --brand-dark: #22c55e;
-        --brand-soft: #052e16;
-        --brand-glow: rgba(74, 222, 128, 0.25);
-
-        --bg: #0b0f0d;
-        --bg-soft: #111827;
-        --bg-muted: #1f2937;
-
-        --text: #f9fafb;
-        --text-muted: #9ca3af;
-        --text-soft: #6b7280;
-
-        --border: #1f2937;
-        --border-strong: #166534;
-
-        --card-bg: #111827;
-        --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
-            0 4px 8px rgba(0, 0, 0, 0.4);
-
-        --sidebar-bg: #0f172a;
-        --nav-bg: rgba(11, 15, 13, 0.8);
-
-        --input-bg: #020617;
-        --input-border: #1f2937;
-        --input-focus: #4ade80;
-
-        --btn-bg: #020617;
-        --btn-text: #f9fafb;
-        --btn-hover: #1f2937;
-
-        --avatar-ai: #4ade80;
-        --avatar-user: #f87171;
-
-        --grid-line: rgba(74, 222, 128, 0.06);
-
-        /* Chat Bubbles Dark */
-        --bubble-ai-bg: rgba(31, 41, 55, 0.6);
-        --bubble-ai-border: rgba(255, 255, 255, 0.1);
-        --bubble-ai-text: #f9fafb;
-        --bubble-pre-bg: rgba(0, 0, 0, 0.3);
-        --bubble-pre-border: rgba(255, 255, 255, 0.1);
-        --bubble-code-bg: rgba(74, 222, 128, 0.1);
-        --bubble-code-text: var(--brand);
-    }
-
     :global(body) {
         margin: 0;
         padding: 0;
@@ -1018,7 +917,7 @@
     }
 
     .avatar.ai {
-        background: #fff;
+        background: var(--card-bg);
         border-color: var(--brand);
     }
 
@@ -1125,30 +1024,13 @@
         width: 100%;
         max-width: 768px;
         position: relative;
-        background: #ffffff;
+        background: var(--input-bg);
         border-radius: 12px;
-        box-shadow:
-            0 10px 15px -3px rgba(0, 0, 0, 0.1),
-            0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e5e7eb;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border);
         display: flex;
         align-items: center;
         pointer-events: auto;
-    }
-
-    .input-wrapper input {
-        width: 100%;
-        background: transparent;
-        border: none;
-        padding: 16px 45px 16px 16px;
-        color: #000000;
-        font-size: 16px;
-        outline: none;
-        border-radius: 12px;
-    }
-
-    .input-wrapper input::placeholder {
-        color: #9ca3af;
     }
 
     .send-btn {
@@ -1188,13 +1070,12 @@
 
     .card {
         position: relative;
-        background: #ffffff;
+        background: var(--card-bg);
         border-radius: 20px;
         overflow: hidden;
-        box-shadow:
-            0 10px 30px rgba(0, 0, 0, 0.15),
-            0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--card-shadow);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid var(--border);
     }
     .section-container {
         padding: 40px 20px;
@@ -1209,15 +1090,6 @@
         margin: 0;
         border-radius: 20px 20px 0 0;
         box-shadow: none;
-    }
-    @keyframes shimmer {
-        0%,
-        100% {
-            background-position: 0% 0%;
-        }
-        50% {
-            background-position: 100% 0%;
-        }
     }
 
     .card:hover {
@@ -1235,7 +1107,7 @@
         height: 200%;
         background: radial-gradient(
             circle,
-            rgba(62, 155, 69, 0.15) 0%,
+            var(--brand-glow) 0%,
             transparent 70%
         );
         opacity: 0;
@@ -1245,21 +1117,6 @@
 
     .card:hover .card-glow {
         opacity: 1;
-    }
-
-    .card-ribbon {
-        position: absolute;
-        top: 20px;
-        right: -40px;
-        background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
-        color: white;
-        padding: 8px 50px;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 1px;
-        transform: rotate(45deg);
-        box-shadow: 0 4px 12px rgba(238, 90, 111, 0.4);
-        z-index: 10;
     }
 
     .card-image {
@@ -1307,14 +1164,14 @@
     }
     .card-description {
         font-size: 13px;
-        color: #6b7280;
+        color: var(--text-muted);
         margin: 0 0 16px;
         line-height: 1.5;
     }
 
     .price-container {
-        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-        border: 2px solid #86efac;
+        background: var(--brand-soft);
+        border: 2px solid var(--border-strong);
         border-radius: 14px;
         padding: 16px;
         margin-bottom: 0;
@@ -1383,51 +1240,23 @@
     }
 
     /* Card-specific styling */
-    .card-website::before {
-        background: linear-gradient(90deg, #3e9b45, #15803d, #3e9b45);
-        background-size: 200% 100%;
-    }
-
+    .card-website::before,
     .card-nextcloud::before {
-        background: linear-gradient(90deg, #3e9b45, #15803d, #3e9b45);
-        background-size: 200% 100%;
-    }
-
-    .card-nextcloud .card-glow {
-        background: radial-gradient(
-            circle,
-            rgba(62, 155, 69, 0.15) 0%,
-            transparent 70%
+        background: linear-gradient(
+            90deg,
+            var(--brand),
+            var(--brand-dark),
+            var(--brand)
         );
-    }
-
-    .card-nextcloud .price-container {
-        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-        border-color: #86efac;
+        background-size: 200% 100%;
     }
 
     .card-nextcloud .currency,
     .card-nextcloud .amount,
     .card-nextcloud .period {
-        color: #15803d;
+        color: var(--brand-dark);
     }
 
-    /* Badge on card */
-    .card-badge {
-        position: absolute;
-        top: 16px;
-        left: 16px;
-        background: rgba(255, 255, 255, 0.95);
-        color: #15803d;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-        z-index: 5;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        text-transform: uppercase;
-    }
     .messageBox {
         min-height: 48px;
         display: flex;
@@ -1435,8 +1264,8 @@
         gap: 8px;
         padding: 6px 12px;
         border-radius: 12px;
-        border: 1px solid #e5e7eb;
-        background: #ffffff;
+        border: 1px solid var(--border);
+        background: var(--input-bg);
         box-sizing: border-box;
     }
 
@@ -1586,67 +1415,6 @@
     /* Desktop Sidebar Cards - Hidden by default */
     .mobile-cards-wrapper {
         display: none;
-    }
-
-    /* ===== DARK MODE OVERRIDES & CLEANUP ===== */
-    :global(body) {
-        background-color: var(--bg);
-        color: var(--text);
-        transition:
-            background-color 0.3s ease,
-            color 0.3s ease;
-    }
-
-    .card,
-    .sidebar,
-    .input-wrapper,
-    .messageBox {
-        background-color: var(--card-bg);
-        border-color: var(--border);
-    }
-
-    h1,
-    h4,
-    .menu-item,
-    .bubble {
-        color: var(--text);
-    }
-
-    /* Bubbles */
-    .bubble {
-        color: var(--text);
-        border: 1px solid var(--border);
-        background: color-mix(in srgb, var(--card-bg) 95%, var(--text) 5%);
-    }
-
-    .ai-bubble {
-        background: color-mix(in srgb, var(--card-bg) 90%, var(--text) 10%);
-    }
-
-    .ai-bubble :global(pre) {
-        background: color-mix(in srgb, var(--card-bg) 85%, var(--text) 15%);
-        border: 1px solid var(--border);
-        color: var(--text);
-    }
-
-    .user-bubble {
-        background: var(--brand-soft);
-        color: var(--brand-dark);
-        border-color: var(--brand-strong);
-    }
-
-    [data-theme="dark"] .user-bubble {
-        background: var(--brand-dark);
-        color: #fff;
-    }
-
-    /* Input area */
-    #messageInput {
-        color: var(--text);
-    }
-
-    .icon-button svg {
-        color: var(--text-muted);
     }
 
     .icon-button:hover svg {
