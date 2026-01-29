@@ -16,4 +16,11 @@ for (const repo of repos) {
     }
 }
 
+try {
+    await rm(`./src/lib/symbols`, { recursive: true, force: true });
+    console.log(`Deleted symbols.`);
+} catch(e) {
+    console.error(`Could not delete symbols`);
+}
+
 console.log('Finished.');

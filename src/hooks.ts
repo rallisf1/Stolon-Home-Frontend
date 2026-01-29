@@ -1,15 +1,17 @@
-import type { Handle } from '@sveltejs/kit';
+import { type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	if(!event.params.lang) {
+    const { pathname } = event.url;
+
+    if (pathname === '/') {
         const prefLang = event.request.headers.get('accept-language');
-        if(prefLang?.includes('gr')) {
-            return Response.redirect('/el');
-        } else {
-            return Response.redirect('/en');
-        }
+        const targetLang = prefLang?.includes('el') || prefLang?.includes('gr') ? 'el' : 'en';
+        
+        return new Response(null, {
+            status: 302,
+            headers: { location: `/${targetLang}` }
+        });
     }
 
-	const response = await resolve(event);
-	return response;
+    return await resolve(event);
 };

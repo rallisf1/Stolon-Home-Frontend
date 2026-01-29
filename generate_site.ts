@@ -1,5 +1,6 @@
 import { mkdir } from "node:fs/promises";
 import { deepmerge } from "deepmerge-ts";
+import beautify from 'js-beautify';
 
 type PrimoPage = {
     id: string;
@@ -63,7 +64,13 @@ if(!Bun.env.GH_TOKEN) {
     throw new Error('GH_TOKEN is empty!');
 }
 
+const beautifyOptions = {
+    indent_size: 2,
+    max_preserve_newlines: 3
+};
+
 const cleanCSS = (css: string): string => {
+    css = beautify.css(css, beautifyOptions);
     let siteCSS: string[] = css.split('\n');
     siteCSS = siteCSS.filter(l => !l.startsWith('/*')); // remove comments
     siteCSS = siteCSS.filter(l => !l.includes('reset.css')); // remove original reset.css
@@ -72,6 +79,7 @@ const cleanCSS = (css: string): string => {
 }
 
 const cleanJS = (js: string): string => {
+    js = beautify.js(js, beautifyOptions);
     let has_icons = false;
     let siteJS: string[] = js.split('\n');
     siteJS = siteJS.filter(l => !l.startsWith('#')); // remove comments
@@ -82,13 +90,14 @@ const cleanJS = (js: string): string => {
     siteJS = siteJS.filter(Boolean); // remove empty lines
 
     if(has_icons) {
-        siteJS.unshift(`import Icon from "@iconify/svelte";`);
+        siteJS.unshift(`  import Icon from '@iconify/svelte';`);
     }
 
     return siteJS.join("\n").trim();
 }
 
 const cleanHTML = (html: string): string => {
+    html = beautify.html(html, beautifyOptions);
     let siteHTML: string[] = html.split('\n');
     // remove common meta tags
     siteHTML = siteHTML.filter(l => !l.includes('viewport'));
@@ -103,24 +112,24 @@ const generateDataLoader = ( type: "Page" | "Layout", content: object): string =
     return `import type { ${type}ServerLoad } from './$types';
 
 export const load: ${type}ServerLoad = async ({ params }) => {
-    const content = ${JSON.stringify(content)};
-	return {
-		content: content[params.lang]
-	};
+  const content = ${JSON.stringify(content)};
+  return {
+    content: content[params.lang]
+  };
 };`
 }
 
-const generateRoute = ( type: "Page" | "Layout", fields: string[], js: string, css: string, head: string, footer: string, header?: string): string => {
+const generateRoute = ( type: "Page" | "Layout" | "Component", fields: string[], js: string, css: string, head: string, footer: string, header: string = ''): string => {
 
     function countIdentation(str: string): number {
         return str.length - str.trimStart().length;
     }
     let result = "";
-    if(type === "Layout" && css.length) {
+    if(type !== "Component" && css.length) {
         // add :global() to all non-nested selectors except #page and :root
         let cssLines = css.split("\n");
         let identation = -1;
-        const regex = /((?<!&)[\.|#].+)\s{/;
+        const regex = /((?<!&).+)\s{/;
         const subst = `#page :global { $1 {`;
         for(let i=0;i<cssLines.length;i++) {
             if(cssLines[i].startsWith('#page') || cssLines[i].startsWith(':root')) continue;
@@ -140,23 +149,37 @@ const generateRoute = ( type: "Page" | "Layout", fields: string[], js: string, c
         }
         css = cssLines.join("\n");
     }
-    if(fields.length || js.length || type === "Layout") {
+    if(fields.length || js.length) {
         result += '<script lang="ts">';
         if(fields.length) {
-            result += `
-    import type { ${type}Props } from './$types';
+            if(type !== "Component") {
+                result += `
+  import type { ${type}Props } from './$types';
 `;
-            if(type === "Page") {
-                result += `    let { data }: ${type}Props = $props();`
-            } else {
-                result += `    let { data, children }: ${type}Props = $props();`
             }
-            result += `
-    const { ${fields.join(', ')} } = data.content;
-`;
+            switch(type) {
+                case "Page":
+                    result += `  let { data }: ${type}Props = $props();`
+                    break;
+                case "Layout":
+                    result += `  let { data, children }: ${type}Props = $props();`
+                    break;
+                case "Component":
+                    result += `  let { ${fields.join(', ')} } = $props();`
+                    break;
+            }
+            if(type !== "Component") {
+                for (const field of fields) {
+                    result += `
+  let ${field} = $derived(data.content.${field});`;
+                }
+            }
+
         } else {
             if(type === "Layout") {
-                result += `    let { children }: ${type}Props = $props();`
+                result += `
+  let { children }: ${type}Props = $props();
+`
             }
         }
         if(js.length) {
@@ -178,20 +201,35 @@ ${css}
 ${head}
 </svelte:head>`;
     }
-    if(header) {
-        result += `
-${header}
-`;
-    }
     if(type === "Layout") {
         result += `
-<div id="page">{@render children()}</div>
+<div id="page">`;
+
+        if(header.length) {
+            result += `
+${header}
 `;
-    }
-    if(footer.length) {
+        }
         result += `
+{@render children()}
+`;
+        if(footer.length) {
+            result += `
 ${footer}
 `;
+        }
+        result += `</div>`;
+    } else {
+        if(header.length) {
+            result += `
+${header}
+`;
+        }
+        if(footer.length) {
+            result += `
+${footer}
+`;
+        }
     }
     return result;
 }
@@ -233,7 +271,7 @@ for (const repo of repos) {
     const json = JSON.parse(await res.text());
     const site = json.site as PrimoPage;
     const route = repo.split('-')[1];
-    // const languages = Object.keys(site.content);
+    const languages = Object.keys(site.content);
 
     try {
         await mkdir(`./src/routes/[lang]/${route}`, { recursive: true });
@@ -248,6 +286,17 @@ for (const repo of repos) {
     let siteHTML = '';
     let has_nav = false;
     let has_footer = false;
+    // symbols -> components, because assume the data entry is bad
+    try {
+        await mkdir(`./src/lib/symbols/${route}`, { recursive: true });
+    } catch(e) { /* do nothing, directory just exists */ }
+    for (const symbol of json.symbols as PrimoSymbol[]) {
+        const symbolName = symbol.name.replace(/[\s-.]/g, '_');
+        const symbolJS = cleanJS(symbol.code.js);
+        const symbolCSS = cleanCSS(symbol.code.css);
+        const symbolHTML = cleanHTML(symbol.code.html);
+        await Bun.write(`./src/lib/symbols/${route}/${symbolName}.svelte`, generateRoute('Component', (symbol.fields as PrimoSymbol["fields"]).map(f => f.key), symbolJS, symbolCSS, '', '', symbolHTML));
+    }
     // pages
     for (const page of json.pages as PrimoPage[]) {
         const path = generatePagePath(page, json.pages);
@@ -262,40 +311,72 @@ for (const repo of repos) {
         let values = page.content;
         let js = page.code.js;
         const sections: PrimoSection[] = json.sections.filter((s: PrimoSection) => s.page === page.id);
+        const symbolsImported: string[] = [];
         let html = '';
         sections.sort((a,b) => a.index - b.index); // this should be the default, but just in case...
         for (const section of sections) {
             const symbol = json.symbols.find((s: PrimoSymbol) => s.id === section.symbol);
+            const symbolName = symbol.name.replace(/[\s-.]/g, '_');
             // we assume only the nav and the footer have ANY static fields
             if((symbol.fields as PrimoSymbol["fields"]).some(f => f.is_static === true)) {
                 if (!section.index) {
                     if (!has_nav) {
-                        // inject nav once
-                        siteHTML += "\n" + symbol.code.html;
-                        siteCSS += "\n" + symbol.code.css;
-                        siteJS += "\n" + symbol.code.js;
-                        siteFields = siteFields.concat((symbol.fields as PrimoSymbol["fields"]).map(f => f.key));
+                        siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + siteJS;
+                        siteHTML += `<${symbolName}`;
+                        for (const field of symbol.fields) {
+                            siteHTML += ` ${field.key}={${symbolName}_${section.index}_${field.key}}`;
+                            siteFields.push(`${symbolName}_${section.index}_${field.key}`);
+                        }
+                        siteHTML += ' />\n';
+                        for (const lang of languages) {
+                            for (const [oldKey, value] of Object.entries(symbol.content[lang])) {
+                                symbol.content[lang][`${symbolName}_${section.index}_${oldKey}`] = value;
+                                delete symbol.content[lang][oldKey];
+                            }
+                        }
                         siteValues = deepmerge(siteValues, symbol.content);
                         has_nav = true;
                     }
                 } else {
                     if (!has_footer) {
-                        // inject footer once
-                        siteFooter = symbol.code.html + "\n" + siteFooter;
-                        siteCSS += "\n" + symbol.code.css;
-                        siteJS += "\n" + symbol.code.js;
-                        siteFields = siteFields.concat((symbol.fields as PrimoSymbol["fields"]).map(f => f.key));
+                        siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + siteJS;
+                        siteFooter += `<${symbolName}`;
+                        for (const field of symbol.fields) {
+                            siteFooter += ` ${field.key}={${symbolName}_${section.index}_${field.key}}`;
+                            siteFields.push(`${symbolName}_${section.index}_${field.key}`);
+                        }
+                        siteFooter += ' />\n';
+                        for (const lang of languages) {
+                            for (const [oldKey, value] of Object.entries(symbol.content[lang])) {
+                                symbol.content[lang][`${symbolName}_${section.index}_${oldKey}`] = value;
+                                delete symbol.content[lang][oldKey];
+                            }
+                        }
                         siteValues = deepmerge(siteValues, symbol.content);
                         has_footer = true;
                     }
                 }
                 continue;
             }
-            html += "\n" + symbol.code.html;
-            css += "\n" + symbol.code.css;
-            js += "\n" + symbol.code.js;
-            fields = fields.concat((symbol.fields as PrimoSymbol["fields"]).map(f => f.key));
-            values = deepmerge(values, section.content);
+            if(symbolsImported.indexOf(symbolName) === -1) {
+                js = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + js;
+                symbolsImported.push(symbolName);
+            }
+            html += `\n<${symbolName}`;
+            for (const field of symbol.fields) {
+                html += ` ${field.key}={${symbolName}_${section.index}_${field.key}}`;
+                fields.push(`${symbolName}_${section.index}_${field.key}`);
+            }
+            html += ' />';
+            for (const lang of languages) {
+                if(Object.keys(section.content).length){
+                    for (const [oldKey, value] of Object.entries(section.content[lang])) {
+                        section.content[lang][`${symbolName}_${section.index}_${oldKey}`] = value;
+                        delete section.content[lang][oldKey];
+                    }
+                }
+            }
+            if(Object.keys(section.content).length) values = deepmerge(values, section.content);
         }
         console.log(`Generating ${path}`);
         js = cleanJS(js);
