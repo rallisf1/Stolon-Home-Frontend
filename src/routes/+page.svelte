@@ -455,7 +455,7 @@
                                 width="28"
                                 height="28"
                                 viewBox="0 0 24 24"
-                                ><!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE --><path
+                                ><path
                                     fill="currentColor"
                                     d="M19 19V5H5v14zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-2.3 6.35l-1 1l-2.05-2.05l1-1c.21-.22.56-.22.77 0l1.28 1.28c.22.21.22.56 0 .77M7 14.94l6.06-6.06l2.06 2.06L9.06 17H7z"
                                 /></svg
@@ -491,22 +491,32 @@
         <h1>How may I help you today?</h1>
         <div class="messages-container" bind:this={chatContainer}>
             {#each messages as msg}
-                <div class="message {msg.role}">
-                    {#if msg.role === "assistant"}
-                        <div>
-                            <img
-                                src="/stolonas1.png"
-                                alt="Stolon Logo"
-                                style="width: 100px; height: 100px;"
-                            />
-                        </div>
-                        <div class="bubble ai-bubble">
-                            {@html marked(msg.content)}
-                        </div>
-                    {:else}
-                        <div class="bubble user-bubble">{msg.content}</div>
-                        <div class="avatar user">U</div>
-                    {/if}
+                <div
+                    class="message {msg.role}"
+                    class:generating={isGenerating &&
+                        msg === messages[messages.length - 1] &&
+                        msg.role === "assistant"}
+                >
+                    <div class="message-wrapper">
+                        {#if msg.role === "assistant"}
+                            <div class="avatar ai">
+                                <img src="/stolonas1.png" alt="AI Agent" />
+                            </div>
+                            <div class="bubble ai-bubble">
+                                <div class="message-info">Stolon AI</div>
+                                <div class="message-content">
+                                    {@html marked(msg.content)}
+                                </div>
+                            </div>
+                        {:else}
+                            <div class="bubble user-bubble">
+                                <div class="message-content">{msg.content}</div>
+                            </div>
+                            <div class="avatar user">
+                                <span>U</span>
+                            </div>
+                        {/if}
+                    </div>
                 </div>
             {/each}
         </div>
@@ -665,6 +675,15 @@
 
         /* Grid */
         --grid-line: rgba(62, 155, 69, 0.05);
+
+        /* Chat Bubbles */
+        --bubble-ai-bg: rgba(255, 255, 255, 0.7);
+        --bubble-ai-border: rgba(255, 255, 255, 0.5);
+        --bubble-ai-text: #1a1a1a;
+        --bubble-pre-bg: rgba(0, 0, 0, 0.05);
+        --bubble-pre-border: rgba(0, 0, 0, 0.1);
+        --bubble-code-bg: rgba(62, 155, 69, 0.1);
+        --bubble-code-text: var(--brand-dark);
     }
 
     /* ===== DARK MODE ===== */
@@ -705,6 +724,15 @@
         --avatar-user: #f87171;
 
         --grid-line: rgba(74, 222, 128, 0.06);
+
+        /* Chat Bubbles Dark */
+        --bubble-ai-bg: rgba(31, 41, 55, 0.6);
+        --bubble-ai-border: rgba(255, 255, 255, 0.1);
+        --bubble-ai-text: #f9fafb;
+        --bubble-pre-bg: rgba(0, 0, 0, 0.3);
+        --bubble-pre-border: rgba(255, 255, 255, 0.1);
+        --bubble-code-bg: rgba(74, 222, 128, 0.1);
+        --bubble-code-text: var(--brand);
     }
 
     :global(body) {
@@ -839,7 +867,7 @@
         padding: 0;
         border-radius: 8px;
         cursor: pointer;
-        color: #374151;
+        color: var(--text);
         font-weight: 450;
         transition: all 0.2s;
     }
@@ -849,15 +877,15 @@
         align-items: center;
         gap: 12px;
         padding: 12px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border);
         border-radius: 8px;
         transition: all 0.2s;
     }
 
     .menu li:hover .menu-item {
-        background: #f3f4f6;
-        color: #3e9b45;
-        border-color: #3e9b45;
+        background: var(--btn-hover);
+        color: var(--brand);
+        border-color: var(--brand);
     }
 
     /* MENU LINKS */
@@ -899,7 +927,7 @@
         align-items: center;
         width: 100%;
         height: 100vh;
-        color: #000000;
+        color: var(--text);
         padding-top: 70px; /* Offset for top-nav */
         box-sizing: border-box;
     }
@@ -909,7 +937,7 @@
         font-weight: 600;
         opacity: 0.9;
         margin-bottom: 40px;
-        color: #000000;
+        color: var(--text);
         text-align: center;
     }
     .messages-container {
@@ -942,75 +970,142 @@
 
     .message {
         display: flex;
-        gap: 16px;
-        padding: 20px;
         width: 100%;
         box-sizing: border-box;
-        border-radius: 8px;
+        padding: 4px 0;
+        animation: messageFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .message.assistant {
-        background-color: transparent;
+    @keyframes messageFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .message.user {
         justify-content: flex-end;
     }
 
+    .message-wrapper {
+        display: flex;
+        gap: 12px;
+        max-width: 85%;
+        align-items: flex-end;
+    }
+
+    .message.user .message-wrapper {
+        flex-direction: row;
+    }
+
     .avatar {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 14px;
-        font-weight: bold;
+        font-weight: 700;
         flex-shrink: 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 2px solid var(--border);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .avatar.ai {
-        background: #3e9b45;
-        color: white;
+        background: #fff;
+        border-color: var(--brand);
+    }
+
+    .avatar.ai img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .avatar.user {
-        background: #ec2025;
+        background: linear-gradient(135deg, #ec2025, #991b1b);
         color: white;
+        border-color: rgba(255, 255, 255, 0.2);
     }
 
     .bubble {
-        max-width: 70%;
-        line-height: 1.6;
+        padding: 12px 16px;
+        border-radius: 18px;
         font-size: 16px;
+        line-height: 1.5;
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    .ai-bubble :global(p) {
-        margin: 0 0 10px 0;
-        color: #000000;
-    }
-    .ai-bubble :global(a) {
-        color: #3e9b45;
-        text-decoration: underline;
-    }
-    .ai-bubble :global(pre) {
-        background: #f9fafb;
-        padding: 12px;
-        border-radius: 8px;
-        overflow-x: auto;
-        border: 1px solid #e5e7eb;
-    }
-    .ai-bubble :global(code) {
-        color: #000000;
+    .ai-bubble {
+        background: var(--bubble-ai-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--bubble-ai-border);
+        color: var(--bubble-ai-text);
+        border-bottom-left-radius: 4px;
     }
 
     .user-bubble {
-        background: #f3f4f6;
-        padding: 12px 18px;
+        background: var(--brand);
+        color: white;
+        border-bottom-right-radius: 4px;
+        box-shadow: 0 4px 15px var(--brand-glow);
+    }
+
+    .message-info {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+        opacity: 0.7;
+    }
+
+    .message-content :global(p) {
+        margin: 0 0 12px 0;
+    }
+
+    .message-content :global(p:last-child) {
+        margin-bottom: 0;
+    }
+
+    .message-content :global(pre) {
+        background: var(--bubble-pre-bg);
+        padding: 14px;
         border-radius: 12px;
-        color: #000000;
-        border: 1px solid #e5e7eb;
+        margin: 10px 0;
+        overflow-x: auto;
+        border: 1px solid var(--bubble-pre-border);
+        font-family: "Fira Code", "Courier New", monospace;
+        font-size: 14px;
+    }
+
+    .message-content :global(code) {
+        background: var(--bubble-code-bg);
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-family: inherit;
+        font-weight: 600;
+        color: var(--bubble-code-text);
+    }
+
+    .message-content :global(a) {
+        color: var(--brand);
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 1.5px solid transparent;
+        transition: all 0.2s;
+    }
+
+    .message-content :global(a:hover) {
+        border-bottom-color: var(--brand);
     }
 
     .input-area {
@@ -1206,7 +1301,7 @@
         margin: 0 0 8px;
         font-size: 17px;
         font-weight: 800;
-        color: #1a1a1a;
+        color: var(--text);
         line-height: 1.3;
         text-align: center;
     }
@@ -1253,7 +1348,7 @@
         font-size: 11px;
         font-weight: 800;
         letter-spacing: 1.5px;
-        color: #15803d;
+        color: var(--brand-dark);
         margin-bottom: 8px;
         text-transform: uppercase;
         text-align: center;
@@ -1270,13 +1365,13 @@
     .currency {
         font-size: 24px;
         font-weight: 800;
-        color: #15803d;
+        color: var(--brand-dark);
     }
 
     .amount {
         font-size: 42px;
         font-weight: 900;
-        color: #15803d;
+        color: var(--brand-dark);
         line-height: 1;
         letter-spacing: -2px;
     }
@@ -1284,7 +1379,7 @@
     .period {
         font-size: 15px;
         font-weight: 700;
-        color: #15803d;
+        color: var(--brand-dark);
     }
 
     /* Card-specific styling */
@@ -1370,7 +1465,7 @@
         border: none;
         outline: none;
         padding: 8px 10px;
-        color: #000;
+        color: var(--text);
         font-size: 16px;
         line-height: 1.4;
         resize: none;
