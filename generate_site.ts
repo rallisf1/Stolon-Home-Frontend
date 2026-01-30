@@ -96,7 +96,7 @@ const cleanJS = (js: string): string => {
     return siteJS.join("\n").trim();
 }
 
-const cleanHTML = (html: string): string => {
+const cleanHead = (html: string): string => {
     html = beautify.html(html, beautifyOptions);
     let siteHTML: string[] = html.split('\n');
     // remove common meta tags
@@ -278,8 +278,8 @@ for (const repo of repos) {
     } catch(e) { /* do nothing, directory just exists */ }
 
     let siteCSS = cleanCSS(site.code.css);
-    const siteHead = cleanHTML(site.code.html.head);
-    let siteFooter = cleanHTML(site.code.html.below);
+    const siteHead = cleanHead(site.code.html.head);
+    let siteFooter = site.code.html.below;
     let siteFields: string[] = site.fields.map(f => f.key);
     let siteValues = site.content;
     let siteJS = site.code.js;
@@ -294,7 +294,7 @@ for (const repo of repos) {
         const symbolName = symbol.name.replace(/[\s-.()]/g, '_');
         const symbolJS = cleanJS(symbol.code.js);
         const symbolCSS = cleanCSS(symbol.code.css);
-        const symbolHTML = cleanHTML(symbol.code.html);
+        const symbolHTML = symbol.code.html;
         await Bun.write(`./src/lib/symbols/${route}/${symbolName}.svelte`, generateRoute('Component', (symbol.fields as PrimoSymbol["fields"]).map(f => f.key), symbolJS, symbolCSS, '', '', symbolHTML));
     }
     // pages
@@ -305,8 +305,8 @@ for (const repo of repos) {
             await mkdir(fullPath, { recursive: true });
         } catch(e) { /* do nothing, directory just exists */ }
         let css = cleanCSS(page.code.css);
-        const head = cleanHTML(page.code.html.head);
-        const footer = cleanHTML(page.code.html.below);
+        const head = cleanHead(page.code.html.head);
+        const footer = page.code.html.below;
         let fields: string[] = page.fields.map(f => f.key);
         let values = page.content;
         let js = page.code.js;
