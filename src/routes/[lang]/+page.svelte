@@ -342,7 +342,7 @@
         <aside class="sidebar" class:active={activeMenu}>
             <ul class="menu">
                 <li>
-                    <a href="/${data.lang}/ai" class="menu-link">
+                    <a href="/{data.lang}/ai" class="menu-link">
                         <div class="menu-item">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -368,7 +368,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/${data.lang}/marketing" class="menu-link">
+                    <a href="/{data.lang}/marketing" class="menu-link">
                         <div class="menu-item">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -385,7 +385,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/${data.lang}/business" class="menu-link">
+                    <a href="/{data.lang}/business" class="menu-link">
                         <div class="menu-item">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -414,7 +414,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/${data.lang}/computerization" class="menu-link">
+                    <a href="/{data.lang}/computerization" class="menu-link">
                         <div class="menu-item">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -431,7 +431,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/${data.lang}/ai" class="menu-link">
+                    <a href="/{data.lang}/ai" class="menu-link">
                         <div class="menu-item">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
