@@ -8,7 +8,8 @@ export const load: PageServerLoad = async ({ params }) => {
         const slug = params.slug
         const record = await pb.collection('blog').getFirstListItem(`slug="${slug}"`)
         return {
-            record
+            record,
+            lang: params.lang
         }
     } catch (err) {
         error(500, `Failed to fetch data from Pocketbase: ${(err as ClientResponseError).message}`)
