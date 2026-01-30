@@ -87,40 +87,6 @@
 </div>
 
 <style>
-    :global(body) {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    :global(body)::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        background: linear-gradient(
-                90deg,
-                rgba(62, 155, 69, 0.05) 1px,
-                transparent 1px
-            ),
-            linear-gradient(rgba(62, 155, 69, 0.05) 1px, transparent 1px);
-        background-size: 50px 50px;
-        z-index: 0;
-        animation: gridScroll 20s linear infinite;
-    }
-
-    @keyframes gridScroll {
-        0% {
-            transform: translate(0, 0);
-        }
-        100% {
-            transform: translate(50px, 50px);
-        }
-    }
-
     .container {
         position: relative;
         z-index: 1;
