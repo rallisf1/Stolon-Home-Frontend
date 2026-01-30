@@ -246,7 +246,7 @@
                 </li>
                 <li>
                     <a
-                        href="/{data.lang}/ai"
+                        href="/{data.lang}/education"
                         class="menu-link"
                         onclick={() => (activeMenu = false)}
                     >
