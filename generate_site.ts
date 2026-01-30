@@ -291,7 +291,7 @@ for (const repo of repos) {
         await mkdir(`./src/lib/symbols/${route}`, { recursive: true });
     } catch(e) { /* do nothing, directory just exists */ }
     for (const symbol of json.symbols as PrimoSymbol[]) {
-        const symbolName = symbol.name.replace(/[\s-.]/g, '_');
+        const symbolName = symbol.name.replace(/[\s-.()]/g, '_');
         const symbolJS = cleanJS(symbol.code.js);
         const symbolCSS = cleanCSS(symbol.code.css);
         const symbolHTML = cleanHTML(symbol.code.html);
@@ -316,7 +316,7 @@ for (const repo of repos) {
         sections.sort((a,b) => a.index - b.index); // this should be the default, but just in case...
         for (const section of sections) {
             const symbol = json.symbols.find((s: PrimoSymbol) => s.id === section.symbol);
-            const symbolName = symbol.name.replace(/[\s-.]/g, '_');
+            const symbolName = symbol.name.replace(/[\s-.()]/g, '_');
             // we assume only the nav and the footer have ANY static fields
             if((symbol.fields as PrimoSymbol["fields"]).some(f => f.is_static === true)) {
                 if (!section.index) {
