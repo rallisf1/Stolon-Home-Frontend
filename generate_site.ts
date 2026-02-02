@@ -81,16 +81,26 @@ const cleanCSS = (css: string): string => {
 const cleanJS = (js: string): string => {
     js = beautify.js(js, beautifyOptions);
     let has_icons = false;
+    let has_three = false;
     let siteJS: string[] = js.split('\n');
     siteJS = siteJS.filter(l => !l.startsWith('#')); // remove comments
     if(siteJS.some(l => l.includes('import Icon'))) {
         siteJS = siteJS.filter(l => !l.includes('import Icon'));
         has_icons = true;
     }
+    if(siteJS.some(l => l.includes('unpkg.com/three'))) {
+        siteJS = siteJS.filter(l => !l.includes('unpkg.com/three'));
+        has_three = true;
+    }
     siteJS = siteJS.filter(Boolean); // remove empty lines
 
     if(has_icons) {
         siteJS.unshift(`  import Icon from '@iconify/svelte';`);
+    }
+
+    if(has_three) {
+        siteJS.unshift(`  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';`);
+        siteJS.unshift(`  import * as THREE from 'three';`);
     }
 
     return siteJS.join("\n").trim();
@@ -256,6 +266,10 @@ const generatePagePath = (current: PrimoPage, pages: PrimoPage[]): string => {
     return `${path.join('/')}`;
 }
 
+const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 for (const repo of repos) {
     console.log(`Fetching ${repo}`);
     const res = await fetch(`https://api.github.com/repos/${Bun.env.REPO_OWNER}/${repo}/contents/primo.json`, {
@@ -291,11 +305,13 @@ for (const repo of repos) {
         await mkdir(`./src/lib/symbols/${route}`, { recursive: true });
     } catch(e) { /* do nothing, directory just exists */ }
     for (const symbol of json.symbols as PrimoSymbol[]) {
-        const symbolName = symbol.name.replace(/[\s-.()]/g, '_');
+        const symbolName = capitalizeFirstLetter(symbol.name.replace(/[\s-.()]/g, '_'));
         const symbolJS = cleanJS(symbol.code.js);
         const symbolCSS = cleanCSS(symbol.code.css);
         const symbolHTML = symbol.code.html;
-        await Bun.write(`./src/lib/symbols/${route}/${symbolName}.svelte`, generateRoute('Component', (symbol.fields as PrimoSymbol["fields"]).map(f => f.key), symbolJS, symbolCSS, '', '', symbolHTML));
+        const symbolFields = (symbol.fields as PrimoSymbol["fields"]).map(f => f.key);
+        symbolFields.push('menu', 'lang');
+        await Bun.write(`./src/lib/symbols/${route}/${symbolName}.svelte`, generateRoute('Component', symbolFields, symbolJS, symbolCSS, '', '', symbolHTML));
     }
     // pages
     for (const page of json.pages as PrimoPage[]) {
@@ -316,17 +332,18 @@ for (const repo of repos) {
         sections.sort((a,b) => a.index - b.index); // this should be the default, but just in case...
         for (const section of sections) {
             const symbol = json.symbols.find((s: PrimoSymbol) => s.id === section.symbol);
-            const symbolName = symbol.name.replace(/[\s-.()]/g, '_');
+            const symbolName = capitalizeFirstLetter(symbol.name.replace(/[\s-.()]/g, '_'));
             // we assume only the nav and the footer have ANY static fields
             if((symbol.fields as PrimoSymbol["fields"]).some(f => f.is_static === true)) {
                 if (!section.index) {
                     if (!has_nav) {
                         siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + siteJS;
-                        siteHTML += `<${symbolName}`;
+                        siteHTML += `<${symbolName} menu={menu[lang]} {lang}`;
                         for (const field of symbol.fields) {
                             siteHTML += ` ${field.key}={${symbolName}_${section.index}_${field.key}}`;
                             siteFields.push(`${symbolName}_${section.index}_${field.key}`);
                         }
+                        siteFields.push('menu', 'lang');
                         siteHTML += ' />\n';
                         for (const lang of languages) {
                             for (const [oldKey, value] of Object.entries(symbol.content[lang])) {

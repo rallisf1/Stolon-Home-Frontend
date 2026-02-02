@@ -30,6 +30,7 @@
 		"kleur": "^4.1.5",
 		"marked": "^17.0.1",
 		"picomatch": "^4.0.3",
-		"pocketbase": "^0.26.6"
+		"pocketbase": "^0.26.6",
+		"three": "0.158.0"
 	}
 }
