@@ -2,6 +2,8 @@
     import type { PageProps } from "./$types";
 
     let { data }: PageProps = $props();
+
+    let lang = $derived(data.lang);
 </script>
 
 <div class="container">
@@ -14,7 +16,7 @@
                 <div class="card-content">
                     <h2 class="card-title">{post.title}</h2>
                     <p class="card-excerpt">{post.desc}</p>
-                    <a href={`/blog/${post.slug}`} class="read-more"
+                    <a href={`/${lang}/blog/${post.slug}`} class="read-more"
                         >Read More →</a
                     >
                 </div>
@@ -24,11 +26,6 @@
 </div>
 
 <style>
-    :global(body) {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
 
     :global(body)::before {
         content: "";

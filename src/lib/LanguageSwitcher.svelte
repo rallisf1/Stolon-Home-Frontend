@@ -1,6 +1,6 @@
 <script lang="ts">
     import Icon from '@iconify/svelte'
-    import languages from '$lib/constants'
+    import { languages } from '$lib/constants'
     let { lang, list }: { lang: string; list: string[] } = $props()
     // use circle-flags:${lang}
     // e.g. circle-flags:en

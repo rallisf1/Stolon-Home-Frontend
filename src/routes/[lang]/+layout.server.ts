@@ -5,7 +5,9 @@ import { asset } from '$app/paths'
 
 type Nav = {
     nav_logo: string;
-    nav_items: NavItem[]
+    nav_items: {
+        nav_link: NavItem
+    }[];
 }
 
 type NavItem = {
@@ -55,10 +57,12 @@ export const load: LayoutServerLoad = async ({ params }) => {
     }
     items.forEach((record) => {
         menu.nav_items.push({
-            id: record.id,
-            url: `/${lang}/${record.slug}`,
-            label: record.title
-        } as NavItem)
+            nav_link: {
+                id: record.id,
+                url: `/${lang}/${record.slug}`,
+                label: record.title
+            }
+        })
     })
     // Footer
     const footerItems = await pb.collection('footer').getFullList({
@@ -67,10 +71,15 @@ export const load: LayoutServerLoad = async ({ params }) => {
     })
     let footerColumns: Footer["footer_node"] = []
     for (const footerItem of footerItems) {
+        if(!footerColumns[footerItem.column]) {
+            footerColumns[footerItem.column] = {
+                title: '',
+                columns: []
+            }
+        }
         if(footerItem.column > 0 && footerItem.sort === 0) {
             footerColumns[footerItem.column].title = footerItem.title
         } else {
-            if(!footerColumns[footerItem.column].columns) footerColumns[footerItem.column].columns = []
             footerColumns[footerItem.column].columns.push({
                 link: {
                     label: footerItem.title,
@@ -79,8 +88,8 @@ export const load: LayoutServerLoad = async ({ params }) => {
             })
         }
     }
-    const copyrightItem = await pb.collection('page').getFirstListItem(`key="copyright" && language="${lang}"`)
-    const startYear = await pb.collection('page').getFirstListItem(`key="start_year"`)
+    const copyrightItem = await pb.collection('options').getFirstListItem(`key='copyright' && language='${lang}'`)
+    const startYear = await pb.collection('options').getFirstListItem(`key='start_year'`)
     const currentYear = new Date().getFullYear().toString()
     const years = (startYear.value === currentYear) ? currentYear : `${startYear.value} - ${currentYear}`
     const socialItems =  await pb.collection('social').getFullList({

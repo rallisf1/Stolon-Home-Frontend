@@ -634,7 +634,6 @@
     :global(body) {
         margin: 0;
         padding: 0;
-        overflow: hidden;
         font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         background-color: var(--bg);
         color: var(--text);

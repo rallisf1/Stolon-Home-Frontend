@@ -296,7 +296,7 @@
                 <div class="logo" style="margin-bottom: 1.5rem;">
                     <!-- Placeholder for Logo -->
                     <h1>Get in Touch</h1>
-                    <img src="/StolonLogo.png" alt="Logo" style="height: 150px;">
+                    <img src="/logo-light.png" alt="Logo" style="height: 150px;">
                 </div>
                 <p class="subtitle">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
 

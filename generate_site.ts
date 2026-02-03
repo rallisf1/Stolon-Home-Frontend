@@ -79,11 +79,13 @@ const cleanCSS = (css: string): string => {
 }
 
 const cleanJS = (js: string): string => {
-    js = beautify.js(js, beautifyOptions);
     let has_icons = false;
     let has_three = false;
+
+    js = beautify.js(js, { brace_style: "preserve-inline", ...beautifyOptions });
+    js = js.replace(/^(let \w+\s?=\s?)(.*);/g, '$1$state($2);'); // reactive variables
     let siteJS: string[] = js.split('\n');
-    siteJS = siteJS.filter(l => !l.startsWith('#')); // remove comments
+    siteJS = siteJS.filter(l => !l.startsWith('//')); // remove comments
     if(siteJS.some(l => l.includes('import Icon'))) {
         siteJS = siteJS.filter(l => !l.includes('import Icon'));
         has_icons = true;
@@ -175,19 +177,29 @@ const generateRoute = ( type: "Page" | "Layout" | "Component", fields: string[],
                     result += `  import type { ${type}Props } from './$types';
   let { data, children }: ${type}Props = $props();`
                     for (const field of fields) {
-                        result += `
+                        if(['menu', 'lang', 'footer'].includes(field)) {
+                            result += `
+  let ${field} = $derived(data.${field});`;
+                        } else {
+                            result += `
   let ${field} = $derived(data.content.${field});`;
+                        }
                     }
                     break;
                 case "Component":
-                    result += `  let { ${fields.join(', ')}, slot } = $props();`
+                    result += `  let { ${fields.join(', ')}, slot = null } = $props();`
                     break;
             }
-
         } else {
-            if(type === "Layout") {
-                result += `
+            switch(type) {
+                case "Layout":
+                    result += `
   let { children }: ${type}Props = $props();
+`
+                    break;
+                case "Component":
+                    result += `
+  let { slot = null } = $props();
 `
             }
         }
@@ -196,19 +208,22 @@ const generateRoute = ( type: "Page" | "Layout" | "Component", fields: string[],
   ${js}
 `;
         }
-        result += '</script>';
+        result += `</script>
+`;
     }
     if(css.length) {
         result += `
 <style>
 ${css}
-</style>`;
+</style>
+`;
     }
     if(head.length) {
         result += `
 <svelte:head>
 ${head}
-</svelte:head>`;
+</svelte:head>
+`;
     }
     switch(type) {
         case "Page":
@@ -249,7 +264,9 @@ ${footer}
 <div class="section">`;
             result += `
 ${header}
-{@render slot()}
+{#if slot}
+  {@render slot()}
+{/if}
 `;
             result += `</div>`;
             break;
@@ -309,11 +326,11 @@ for (const repo of repos) {
     let siteFooter = site.code.html.below;
     let siteFields: string[] = site.fields.map(f => f.key);
     let siteValues = site.content;
-    let siteJS = site.code.js;
+    let siteJS = cleanJS(site.code.js);
     let siteHTML = '';
     let has_nav = false;
     let has_footer = false;
-    // symbols -> components, because assume the data entry is bad
+    // symbols -> components
     try {
         await mkdir(`./src/lib/symbols/${route}`, { recursive: true });
     } catch(e) { /* do nothing, directory just exists */ }
@@ -321,9 +338,8 @@ for (const repo of repos) {
         const symbolName = capitalizeFirstLetter(symbol.name.replace(/[\s-.()]/g, '_'));
         const symbolJS = cleanJS(symbol.code.js);
         const symbolCSS = cleanCSS(symbol.code.css);
-        const symbolHTML = symbol.code.html;
-        const symbolFields = (symbol.fields as PrimoSymbol["fields"]).map(f => f.key);
-        symbolFields.push('menu', 'lang');
+        let symbolHTML: string = symbol.code.html.replaceAll('on:', 'on');
+        let symbolFields = (symbol.fields as PrimoSymbol["fields"]).map(f => f.key);
         await Bun.write(`./src/lib/symbols/${route}/${symbolName}.svelte`, generateRoute('Component', symbolFields, symbolJS, symbolCSS, '', '', symbolHTML));
     }
     // pages
@@ -351,19 +367,19 @@ for (const repo of repos) {
                 if (!section.index) {
                     if (!has_nav) {
                         siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n  import LanguageSwitcher from '$lib/LanguageSwitcher.svelte';` + siteJS;
-                        siteHTML += `<${symbolName} {menu}`;
+                        siteHTML += `<${symbolName} {...menu}`;
                         siteHTML += '>\n';
                         siteHTML += '  {#snippet slot()}\n';
                         siteHTML += `    <LanguageSwitcher {lang} list={["${languages.join('","')}"]} />\n`;
                         siteHTML += '  {/snippet}\n';
-                        siteHTML += '</${symbolName}>\n';
+                        siteHTML += `</${symbolName}>\n`;
                         siteFields.push('menu', 'lang');
                         has_nav = true;
                     }
                 } else {
                     if (!has_footer) {
                         siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + siteJS;
-                        siteFooter += `<${symbolName} {footer} />\n`;
+                        siteFooter += `<${symbolName} {...footer} />\n`;
                         siteFields.push('footer');
                         has_footer = true;
                     }

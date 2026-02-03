@@ -1,7 +1,7 @@
 import type { LayoutLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
-export const load: LayoutLoad = async ({ params }) => {
+export const load: LayoutLoad = async ({ params, data }) => {
 	const { lang } = params;
 
 	if (lang !== 'el' && lang !== 'en') {
@@ -9,6 +9,7 @@ export const load: LayoutLoad = async ({ params }) => {
 	}
 
 	return {
-		lang
+		lang,
+		...data
 	};
 };
