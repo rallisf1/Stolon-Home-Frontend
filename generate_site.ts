@@ -162,27 +162,26 @@ const generateRoute = ( type: "Page" | "Layout" | "Component", fields: string[],
     if(fields.length || js.length) {
         result += '<script lang="ts">';
         if(fields.length) {
-            if(type !== "Component") {
-                result += `
-  import type { ${type}Props } from './$types';
-`;
-            }
             switch(type) {
                 case "Page":
-                    result += `  let { data }: ${type}Props = $props();`
+                    result += `  import type { ${type}Props } from './$types';
+  let { data }: ${type}Props = $props();`
+                    for (const field of fields) {
+                        result += `
+  let ${field} = $derived(data.content.${field});`;
+                    }
                     break;
                 case "Layout":
-                    result += `  let { data, children }: ${type}Props = $props();`
+                    result += `  import type { ${type}Props } from './$types';
+  let { data, children }: ${type}Props = $props();`
+                    for (const field of fields) {
+                        result += `
+  let ${field} = $derived(data.content.${field});`;
+                    }
                     break;
                 case "Component":
-                    result += `  let { ${fields.join(', ')} } = $props();`
+                    result += `  let { ${fields.join(', ')}, slot } = $props();`
                     break;
-            }
-            if(type !== "Component") {
-                for (const field of fields) {
-                    result += `
-  let ${field} = $derived(data.content.${field});`;
-                }
             }
 
         } else {
@@ -194,7 +193,7 @@ const generateRoute = ( type: "Page" | "Layout" | "Component", fields: string[],
         }
         if(js.length) {
             result += `
-    ${js}
+  ${js}
 `;
         }
         result += '</script>';
@@ -211,35 +210,49 @@ ${css}
 ${head}
 </svelte:head>`;
     }
-    if(type === "Layout") {
-        result += `
-<div id="page">`;
-
-        if(header.length) {
+    switch(type) {
+        case "Page":
             result += `
+<div id="inner">`;
+            if(header.length) {
+                result += `
 ${header}
 `;
-        }
-        result += `
+            }
+            if(footer.length) {
+                result += `
+${footer}
+`;
+            }
+            result += `</div>`;
+            break;
+        case "Layout":
+            result += `
+<div id="page">`;
+            if(header.length) {
+                result += `
+${header}
+`;
+            }
+            result += `
 {@render children()}
 `;
-        if(footer.length) {
-            result += `
+            if(footer.length) {
+                result += `
 ${footer}
 `;
-        }
-        result += `</div>`;
-    } else {
-        if(header.length) {
+            }
+            result += `</div>`;
+            break;
+        case "Component":
+            result += `
+<div class="section">`;
             result += `
 ${header}
+{@render slot()}
 `;
-        }
-        if(footer.length) {
-            result += `
-${footer}
-`;
-        }
+            result += `</div>`;
+            break;
     }
     return result;
 }
@@ -337,14 +350,18 @@ for (const repo of repos) {
             if((symbol.fields as PrimoSymbol["fields"]).some(f => f.is_static === true)) {
                 if (!section.index) {
                     if (!has_nav) {
-                        siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + siteJS;
-                        siteHTML += `<${symbolName} menu={menu[lang]} {lang}`;
+                        siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n  import LanguageSwitcher from '$lib/LanguageSwitcher.svelte';` + siteJS;
+                        siteHTML += `<${symbolName} menu={menu}`;
                         for (const field of symbol.fields) {
                             siteHTML += ` ${field.key}={${symbolName}_${section.index}_${field.key}}`;
                             siteFields.push(`${symbolName}_${section.index}_${field.key}`);
                         }
+                        siteHTML += '>\n';
+                        siteHTML += '  {#snippet slot()}\n';
+                        siteHTML += `    <LanguageSwitcher {lang} list={["${languages.join('","')}"]} />\n`;
+                        siteHTML += '  {/snippet}\n';
+                        siteHTML += '</${symbolName}>\n';
                         siteFields.push('menu', 'lang');
-                        siteHTML += ' />\n';
                         for (const lang of languages) {
                             for (const [oldKey, value] of Object.entries(symbol.content[lang])) {
                                 symbol.content[lang][`${symbolName}_${section.index}_${oldKey}`] = value;

@@ -474,13 +474,13 @@
     <div class="logo-wrapper" class:active={activeMenu}>
         {#if theme === "light"}
             <img
-                src="/StolonLogo.png"
+                src="/logo-light.png"
                 alt={translations[language].chat.logo_alt}
                 style="width: 150px; height: 150px;"
             />
         {:else}
             <img
-                src="/StolonDark.png"
+                src="/logo-dark.png"
                 alt={translations[language].chat.logo_dark_alt}
                 style="width: 150px; height: 150px;"
             />
