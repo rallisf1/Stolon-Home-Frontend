@@ -351,42 +351,20 @@ for (const repo of repos) {
                 if (!section.index) {
                     if (!has_nav) {
                         siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n  import LanguageSwitcher from '$lib/LanguageSwitcher.svelte';` + siteJS;
-                        siteHTML += `<${symbolName} menu={menu}`;
-                        for (const field of symbol.fields) {
-                            siteHTML += ` ${field.key}={${symbolName}_${section.index}_${field.key}}`;
-                            siteFields.push(`${symbolName}_${section.index}_${field.key}`);
-                        }
+                        siteHTML += `<${symbolName} {menu}`;
                         siteHTML += '>\n';
                         siteHTML += '  {#snippet slot()}\n';
                         siteHTML += `    <LanguageSwitcher {lang} list={["${languages.join('","')}"]} />\n`;
                         siteHTML += '  {/snippet}\n';
                         siteHTML += '</${symbolName}>\n';
                         siteFields.push('menu', 'lang');
-                        for (const lang of languages) {
-                            for (const [oldKey, value] of Object.entries(symbol.content[lang])) {
-                                symbol.content[lang][`${symbolName}_${section.index}_${oldKey}`] = value;
-                                delete symbol.content[lang][oldKey];
-                            }
-                        }
-                        siteValues = deepmerge(siteValues, symbol.content);
                         has_nav = true;
                     }
                 } else {
                     if (!has_footer) {
                         siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + siteJS;
-                        siteFooter += `<${symbolName}`;
-                        for (const field of symbol.fields) {
-                            siteFooter += ` ${field.key}={${symbolName}_${section.index}_${field.key}}`;
-                            siteFields.push(`${symbolName}_${section.index}_${field.key}`);
-                        }
-                        siteFooter += ' />\n';
-                        for (const lang of languages) {
-                            for (const [oldKey, value] of Object.entries(symbol.content[lang])) {
-                                symbol.content[lang][`${symbolName}_${section.index}_${oldKey}`] = value;
-                                delete symbol.content[lang][oldKey];
-                            }
-                        }
-                        siteValues = deepmerge(siteValues, symbol.content);
+                        siteFooter += `<${symbolName} {footer} />\n`;
+                        siteFields.push('footer');
                         has_footer = true;
                     }
                 }
