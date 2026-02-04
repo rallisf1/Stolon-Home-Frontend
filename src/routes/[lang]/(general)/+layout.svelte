@@ -421,6 +421,8 @@
         width: 100%;
         box-sizing: border-box;
         padding-top: 0; /* No top bar */
+        overflow-y: auto; /* Enable scroll for standard pages */
+        overflow-x: hidden;
     }
 
     /* Footer */
