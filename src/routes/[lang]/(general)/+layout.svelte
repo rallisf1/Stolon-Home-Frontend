@@ -2,7 +2,7 @@
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { translations } from "$lib/translations";
-    import Icon from '@iconify/svelte';
+    import Icon from "@iconify/svelte";
 
     let { data, children } = $props();
 
@@ -116,7 +116,12 @@
                         >
                             <div class="menu-item">
                                 {#if item.nav_link.icon}
-                                    <Icon icon={item.nav_link.icon} width="24" height="24" class="menu-icon" />
+                                    <Icon
+                                        icon={item.nav_link.icon}
+                                        width="24"
+                                        height="24"
+                                        class="menu-icon"
+                                    />
                                 {/if}
                                 {item.nav_link.label}
                             </div>
@@ -259,10 +264,12 @@
     <main class="page-content">
         {@render children()}
 
-        <!-- Simplified Footer -->
-        <footer class="simple-footer">
-            <p>{footerCopyright}</p>
-        </footer>
+        <!-- Simplified Footer (Hide on Home Page which has its own footer) -->
+        {#if $page.route.id !== "/[lang]/(general)"}
+            <footer class="simple-footer">
+                <p>{footerCopyright}</p>
+            </footer>
+        {/if}
     </main>
 </div>
 

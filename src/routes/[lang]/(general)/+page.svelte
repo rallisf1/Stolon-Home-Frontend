@@ -393,9 +393,7 @@
     }
 
     /* Hide the global footer on this chat page */
-    :global(.simple-footer) {
-        display: none !important;
-    }
+    /* Global footer is hidden conditionally in layout now */
 
     /* Left Panel (Logo area) */
     .left-panel {
