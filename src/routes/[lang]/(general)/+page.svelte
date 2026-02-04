@@ -16,6 +16,7 @@
 
     // Theme state for logo toggling
     let theme = $state("light");
+    let showCardsMobile = $state(false);
 
     // Derive language from the URL parameter
     /** @type {"english" | "greek"} */
@@ -197,6 +198,47 @@
 
     <!-- Center Column / Chat -->
     <div class="chat-area" class:startup={messages.length === 0}>
+        <!-- Mobile Header (Logo + Cards Toggle) -->
+        <div class="mobile-header">
+            <div class="mobile-logo">
+                {#if theme === "light"}
+                    <img src="/logo-light.png" alt="Logo" />
+                {:else}
+                    <img src="/logo-dark.png" alt="Logo" />
+                {/if}
+            </div>
+            <button
+                class="mobile-cards-toggle"
+                onclick={() => (showCardsMobile = true)}
+                aria-label="Show Templates"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><rect
+                        x="3"
+                        y="3"
+                        width="18"
+                        height="18"
+                        rx="2"
+                        ry="2"
+                    /><line x1="3" y1="9" x2="21" y2="9" /><line
+                        x1="9"
+                        y1="21"
+                        x2="9"
+                        y2="9"
+                    /></svg
+                >
+            </button>
+        </div>
+
         <h1>{translations[language].chat.headline}</h1>
         <div class="messages-container" bind:this={chatContainer}>
             {#each messages as msg}
@@ -326,7 +368,16 @@
     </div>
 
     <!-- Right Column / Cards -->
-    <div class="right-panel desktop-only">
+    <div
+        class="right-panel {showCardsMobile ? 'mobile-active' : 'desktop-only'}"
+    >
+        <div class="mobile-cards-header">
+            <h3>Templates</h3>
+            <button
+                class="close-cards-btn"
+                onclick={() => (showCardsMobile = false)}>✕</button
+            >
+        </div>
         {@render cardsContent()}
     </div>
 </div>
@@ -783,12 +834,118 @@
     }
 
     /* Mobile */
+    /* Mobile */
+    .mobile-header {
+        display: none;
+    }
+    .mobile-cards-header {
+        display: none;
+    }
+
     @media (max-width: 900px) {
         .layout-container {
             grid-template-columns: 1fr;
         }
-        .left-panel,
-        .right-panel,
+
+        /* Hide Left Panel on Mobile */
+        .left-panel {
+            display: none;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 60px;
+            padding: 0 16px 0 60px; /* Left padding space for Burger from layout */
+            box-sizing: border-box;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 50;
+        }
+        .mobile-logo img {
+            height: 24px;
+            width: auto;
+        }
+        .mobile-cards-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Adjust Chat Area for Mobile Header */
+        .messages-container {
+            padding-top: 70px; /* Clear header */
+        }
+        .chat-area h1 {
+            margin-top: 80px;
+            font-size: 1.8rem;
+        }
+
+        /* Input Area Spacing */
+        .input-area {
+            padding: 12px;
+        }
+
+        /* Right Panel (Cards) -> Mobile Overlay */
+        .right-panel {
+            display: none; /* Hidden by default on mobile */
+        }
+        .right-panel.mobile-active {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: var(--bg);
+            padding: 0;
+            opacity: 1;
+            /* Reset desktop styles if needed */
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+
+        /* Mobile Cards Header inside Overlay */
+        .mobile-cards-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+        }
+        .mobile-cards-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        .close-cards-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 4px 12px;
+        }
+
+        /* Cards Area in Overlay needs to scroll */
+        .right-panel.mobile-active .cards-area {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            flex: 1;
+        }
+
         .desktop-only {
             display: none;
         }
