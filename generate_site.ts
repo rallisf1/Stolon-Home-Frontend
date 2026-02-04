@@ -52,15 +52,15 @@ type PrimoSymbol = Omit<PrimoPage, 'url' | 'content'> & {
 
 const repos: string[] = Bun.env.SITE_REPOS ? Bun.env.SITE_REPOS.split(',') : [];
 
-if(!repos.length) {
+if (!repos.length) {
     throw new Error('SITE_REPOS is empty!');
 }
 
-if(!Bun.env.REPO_OWNER) {
+if (!Bun.env.REPO_OWNER) {
     throw new Error('REPO_OWNER is empty!');
 }
 
-if(!Bun.env.GH_TOKEN) {
+if (!Bun.env.GH_TOKEN) {
     throw new Error('GH_TOKEN is empty!');
 }
 
@@ -86,21 +86,21 @@ const cleanJS = (js: string): string => {
     js = js.replace(/^(let \w+\s?=\s?)(.*);/g, '$1$state($2);'); // reactive variables
     let siteJS: string[] = js.split('\n');
     siteJS = siteJS.filter(l => !l.startsWith('//')); // remove comments
-    if(siteJS.some(l => l.includes('import Icon'))) {
+    if (siteJS.some(l => l.includes('import Icon'))) {
         siteJS = siteJS.filter(l => !l.includes('import Icon'));
         has_icons = true;
     }
-    if(siteJS.some(l => l.includes('unpkg.com/three'))) {
+    if (siteJS.some(l => l.includes('unpkg.com/three'))) {
         siteJS = siteJS.filter(l => !l.includes('unpkg.com/three'));
         has_three = true;
     }
     siteJS = siteJS.filter(Boolean); // remove empty lines
 
-    if(has_icons) {
+    if (has_icons) {
         siteJS.unshift(`  import Icon from '@iconify/svelte';`);
     }
 
-    if(has_three) {
+    if (has_three) {
         siteJS.unshift(`  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';`);
         siteJS.unshift(`  import * as THREE from 'three';`);
     }
@@ -120,7 +120,7 @@ const cleanHead = (html: string): string => {
     return siteHTML.join("\n").trim();
 }
 
-const generateDataLoader = ( type: "Page" | "Layout", content: object): string => {
+const generateDataLoader = (type: "Page" | "Layout", content: object): string => {
     return `import type { ${type}ServerLoad } from './$types';
 
 export const load: ${type}ServerLoad = async ({ params }) => {
@@ -131,29 +131,29 @@ export const load: ${type}ServerLoad = async ({ params }) => {
 };`
 }
 
-const generateRoute = ( type: "Page" | "Layout" | "Component", fields: string[], js: string, css: string, head: string, footer: string, header: string = ''): string => {
+const generateRoute = (type: "Page" | "Layout" | "Component", fields: string[], js: string, css: string, head: string, footer: string, header: string = ''): string => {
 
     function countIdentation(str: string): number {
         return str.length - str.trimStart().length;
     }
     let result = "";
-    if(type !== "Component" && css.length) {
+    if (type !== "Component" && css.length) {
         // add :global() to all non-nested selectors except #page and :root
         let cssLines = css.split("\n");
         let identation = -1;
         const regex = /((?<!&).+)\s{/;
         const subst = `#page :global { $1 {`;
-        for(let i=0;i<cssLines.length;i++) {
-            if(cssLines[i].startsWith('#page') || cssLines[i].startsWith(':root')) continue;
-            if(cssLines[i].includes('{')) { // string.includes is faster even if we will eventually run the regex
-                if(regex.exec(cssLines[i]) !== null && identation === -1) {
+        for (let i = 0; i < cssLines.length; i++) {
+            if (cssLines[i].startsWith('#page') || cssLines[i].startsWith(':root')) continue;
+            if (cssLines[i].includes('{')) { // string.includes is faster even if we will eventually run the regex
+                if (regex.exec(cssLines[i]) !== null && identation === -1) {
                     identation = countIdentation(cssLines[i]);
                     cssLines[i] = cssLines[i].replace(regex, subst);
                 }
                 continue;
             }
-            if(cssLines[i].includes('}')) {
-                if(countIdentation(cssLines[i]) === identation) {
+            if (cssLines[i].includes('}')) {
+                if (countIdentation(cssLines[i]) === identation) {
                     cssLines[i] = cssLines[i].replace('}', '}}');
                     identation = -1;
                 }
@@ -161,80 +161,79 @@ const generateRoute = ( type: "Page" | "Layout" | "Component", fields: string[],
         }
         css = cssLines.join("\n");
     }
-    if(fields.length || js.length) {
-        result += '<script lang="ts">';
-        if(fields.length) {
-            switch(type) {
-                case "Page":
-                    result += `  import type { ${type}Props } from './$types';
+
+    result += '<script lang="ts">';
+    if (fields.length) {
+        switch (type) {
+            case "Page":
+                result += `  import type { ${type}Props } from './$types';
   let { data }: ${type}Props = $props();`
-                    for (const field of fields) {
+                for (const field of fields) {
+                    result += `
+  let ${field} = $derived(data.content.${field});`;
+                }
+                break;
+            case "Layout":
+                result += `  import type { ${type}Props } from './$types';
+  let { data, children }: ${type}Props = $props();`
+                for (const field of fields) {
+                    if (['menu', 'lang', 'footer'].includes(field)) {
+                        result += `
+  let ${field} = $derived(data.${field});`;
+                    } else {
                         result += `
   let ${field} = $derived(data.content.${field});`;
                     }
-                    break;
-                case "Layout":
-                    result += `  import type { ${type}Props } from './$types';
-  let { data, children }: ${type}Props = $props();`
-                    for (const field of fields) {
-                        if(['menu', 'lang', 'footer'].includes(field)) {
-                            result += `
-  let ${field} = $derived(data.${field});`;
-                        } else {
-                            result += `
-  let ${field} = $derived(data.content.${field});`;
-                        }
-                    }
-                    break;
-                case "Component":
-                    result += `  let { ${fields.join(', ')}, slot = null } = $props();`
-                    break;
-            }
-        } else {
-            switch(type) {
-                case "Layout":
-                    result += `
+                }
+                break;
+            case "Component":
+                result += `  let { ${fields.join(', ')}, slot = null } = $props();`
+                break;
+        }
+    } else {
+        switch (type) {
+            case "Layout":
+                result += `
   let { children }: ${type}Props = $props();
 `
-                    break;
-                case "Component":
-                    result += `
+                break;
+            case "Component":
+                result += `
   let { slot = null } = $props();
 `
-            }
         }
-        if(js.length) {
-            result += `
+    }
+    if (js.length) {
+        result += `
   ${js}
 `;
-        }
-        result += `</script>
-`;
     }
-    if(css.length) {
+    result += `</script>
+`;
+    if (css.length) {
         result += `
 <style>
 ${css}
 </style>
 `;
     }
-    if(head.length) {
+    if (head.length) {
         result += `
 <svelte:head>
 ${head}
 </svelte:head>
 `;
     }
-    switch(type) {
+    switch (type) {
         case "Page":
             result += `
 <div id="inner">`;
-            if(header.length) {
+            if (header.length) {
                 result += `
 ${header}
 `;
             }
-            if(footer.length) {
+            if (footer.length) {
                 result += `
 ${footer}
 `;
@@ -244,7 +243,7 @@ ${footer}
         case "Layout":
             result += `
 <div id="page">`;
-            if(header.length) {
+            if (header.length) {
                 result += `
 ${header}
 `;
@@ -252,7 +251,7 @@ ${header}
             result += `
 {@render children()}
 `;
-            if(footer.length) {
+            if (footer.length) {
                 result += `
 ${footer}
 `;
@@ -275,8 +274,8 @@ ${header}
 }
 
 const generatePagePath = (current: PrimoPage, pages: PrimoPage[]): string => {
-    if(current.parent === null) {
-        if(current.url === "index") {
+    if (current.parent === null) {
+        if (current.url === "index") {
             return '';
         } else {
             return current.url;
@@ -297,7 +296,7 @@ const generatePagePath = (current: PrimoPage, pages: PrimoPage[]): string => {
 }
 
 const capitalizeFirstLetter = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 for (const repo of repos) {
@@ -319,7 +318,7 @@ for (const repo of repos) {
 
     try {
         await mkdir(`./src/routes/[lang]/${route}`, { recursive: true });
-    } catch(e) { /* do nothing, directory just exists */ }
+    } catch (e) { /* do nothing, directory just exists */ }
 
     let siteCSS = cleanCSS(site.code.css);
     const siteHead = cleanHead(site.code.html.head);
@@ -333,7 +332,7 @@ for (const repo of repos) {
     // symbols -> components
     try {
         await mkdir(`./src/lib/symbols/${route}`, { recursive: true });
-    } catch(e) { /* do nothing, directory just exists */ }
+    } catch (e) { /* do nothing, directory just exists */ }
     for (const symbol of json.symbols as PrimoSymbol[]) {
         const symbolName = capitalizeFirstLetter(symbol.name.replace(/[\s-.()]/g, '_'));
         const symbolJS = cleanJS(symbol.code.js);
@@ -348,7 +347,7 @@ for (const repo of repos) {
         const fullPath = path === '' ? `./src/routes/[lang]/${route}` : `./src/routes/[lang]/${route}/${path}`;
         try {
             await mkdir(fullPath, { recursive: true });
-        } catch(e) { /* do nothing, directory just exists */ }
+        } catch (e) { /* do nothing, directory just exists */ }
         let css = cleanCSS(page.code.css);
         const head = cleanHead(page.code.html.head);
         const footer = page.code.html.below;
@@ -358,12 +357,12 @@ for (const repo of repos) {
         const sections: PrimoSection[] = json.sections.filter((s: PrimoSection) => s.page === page.id);
         const symbolsImported: string[] = [];
         let html = '';
-        sections.sort((a,b) => a.index - b.index); // this should be the default, but just in case...
+        sections.sort((a, b) => a.index - b.index); // this should be the default, but just in case...
         for (const section of sections) {
             const symbol = json.symbols.find((s: PrimoSymbol) => s.id === section.symbol);
             const symbolName = capitalizeFirstLetter(symbol.name.replace(/[\s-.()]/g, '_'));
             // we assume only the nav and the footer have ANY static fields
-            if((symbol.fields as PrimoSymbol["fields"]).some(f => f.is_static === true)) {
+            if ((symbol.fields as PrimoSymbol["fields"]).some(f => f.is_static === true)) {
                 if (!section.index) {
                     if (!has_nav) {
                         siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n  import LanguageSwitcher from '$lib/LanguageSwitcher.svelte';` + siteJS;
@@ -386,7 +385,7 @@ for (const repo of repos) {
                 }
                 continue;
             }
-            if(symbolsImported.indexOf(symbolName) === -1) {
+            if (symbolsImported.indexOf(symbolName) === -1) {
                 js = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + js;
                 symbolsImported.push(symbolName);
             }
@@ -397,14 +396,14 @@ for (const repo of repos) {
             }
             html += ' />';
             for (const lang of languages) {
-                if(Object.keys(section.content).length){
+                if (Object.keys(section.content).length) {
                     for (const [oldKey, value] of Object.entries(section.content[lang])) {
                         section.content[lang][`${symbolName}_${section.index}_${oldKey}`] = value;
                         delete section.content[lang][oldKey];
                     }
                 }
             }
-            if(Object.keys(section.content).length) values = deepmerge(values, section.content);
+            if (Object.keys(section.content).length) values = deepmerge(values, section.content);
         }
         console.log(`Generating ${path}`);
         js = cleanJS(js);

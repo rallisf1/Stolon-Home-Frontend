@@ -10,8 +10,8 @@ export const entries: EntryGenerator = async () => {
   })
   return pages.map(p => {
     return {
-        lang: p.language,
-        page: p.slug
+      lang: p.language,
+      page: p.slug
     }
   })
 };
@@ -19,13 +19,13 @@ export const entries: EntryGenerator = async () => {
 export const prerender = true;
 
 export const load: PageServerLoad = async ({ params }) => {
-    try {
-        const { lang, page } = params
-        const record = await pb.collection('page').getFirstListItem(`slug="${page}" && language="${lang}"`)
-        return {
-            record
-        }
-    } catch (err) {
-        error(500, `Failed to fetch data from Pocketbase: ${(err as ClientResponseError).message}`)
+  try {
+    const { lang, page } = params
+    const record = await pb.collection('pages').getFirstListItem(`slug="${page}" && language="${lang}"`)
+    return {
+      record
     }
+  } catch (err) {
+    error(500, `Failed to fetch data from Pocketbase: ${(err as ClientResponseError).message}`)
+  }
 }

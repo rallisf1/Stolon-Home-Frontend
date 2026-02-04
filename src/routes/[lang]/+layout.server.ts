@@ -1,7 +1,6 @@
 import type { LayoutServerLoad } from './$types'
 import { error } from '@sveltejs/kit'
 import pb from '$lib/server/pb'
-import { asset } from '$app/paths'
 
 type Nav = {
     nav_logo: string;
@@ -52,7 +51,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
         filter: `parent=null && language='${lang}'`
     })
     const menu: Nav = {
-        nav_logo: asset('logo-light.png'), // do all navbars look ok with this?
+        nav_logo: '/logo-light.png', // do all navbars look ok with this?
         nav_items: []
     }
     items.forEach((record) => {
@@ -97,7 +96,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
         sort: 'sort'
     })
     const footer: Footer = {
-        footer_logo: asset('logo-dark.png'), // do all footers look ok with this?
+        footer_logo: '/logo-dark.png', // do all footers look ok with this?
         footer_node: footerColumns,
         copyright: `${years} ${copyrightItem.value}`,
         socials: socialItems.map(s => {

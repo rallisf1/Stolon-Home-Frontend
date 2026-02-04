@@ -29,6 +29,7 @@
 
 <style>
     .post-container {
+        text-align: justify;
         position: relative;
         z-index: 1;
         max-width: 900px;
