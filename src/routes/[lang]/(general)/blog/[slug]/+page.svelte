@@ -39,14 +39,20 @@
 
     .back-link {
         display: inline-block;
-        margin-bottom: 40px;
-        font-weight: 600;
+        padding: 10px 25px;
+        background-color: #ed2024;
+        color: #ffffff;
         text-decoration: none;
-        color: #ed2024;
+        font-weight: 600;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        border: 2px solid #ed2024;
+        margin-bottom: 40px;
     }
 
     .back-link:hover {
-        text-decoration: underline;
+        background-color: #ffffff;
+        color: #ed2024;
     }
 
     .post-header {
