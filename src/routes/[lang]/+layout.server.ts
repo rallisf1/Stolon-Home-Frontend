@@ -39,9 +39,9 @@ type Social = {
 
 export const load: LayoutServerLoad = async ({ params }) => {
     const { lang } = params;
-    if(!pb.authStore.isValid) error(500, {
-		message: 'Database Auth Failed'
-	})
+    if (!pb.authStore.isValid) error(500, {
+        message: 'Database Auth Failed'
+    })
     // NavBar
     const items = await pb.collection('menu').getFullList({
         /* for multilevel
@@ -60,7 +60,8 @@ export const load: LayoutServerLoad = async ({ params }) => {
             nav_link: {
                 id: record.id,
                 url: `/${lang}/${record.slug}`,
-                label: record.title
+                label: record.title,
+                icon: record.icon
             }
         })
     })
@@ -71,13 +72,13 @@ export const load: LayoutServerLoad = async ({ params }) => {
     })
     let footerColumns: Footer["footer_node"] = []
     for (const footerItem of footerItems) {
-        if(!footerColumns[footerItem.column]) {
+        if (!footerColumns[footerItem.column]) {
             footerColumns[footerItem.column] = {
                 title: '',
                 columns: []
             }
         }
-        if(footerItem.column > 0 && footerItem.sort === 0) {
+        if (footerItem.column > 0 && footerItem.sort === 0) {
             footerColumns[footerItem.column].title = footerItem.title
         } else {
             footerColumns[footerItem.column].columns.push({
@@ -92,7 +93,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
     const startYear = await pb.collection('options').getFirstListItem(`key='start_year'`)
     const currentYear = new Date().getFullYear().toString()
     const years = (startYear.value === currentYear) ? currentYear : `${startYear.value} - ${currentYear}`
-    const socialItems =  await pb.collection('social').getFullList({
+    const socialItems = await pb.collection('social').getFullList({
         sort: 'sort'
     })
     const footer: Footer = {

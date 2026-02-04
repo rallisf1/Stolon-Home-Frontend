@@ -1,0 +1,798 @@
+<script>
+    import { marked } from "marked";
+    import { translations } from "$lib/translations";
+    import { goto } from "$app/navigation";
+    let { data } = $props();
+
+    let leftIconActive = $state(false);
+    /** @type {Array<{role: string, content: string}>} */
+    let messages = $state([]);
+    let userInput = $state("");
+    let isGenerating = $state(false);
+    /** @type {HTMLElement} */
+    let chatContainer;
+
+    let messageInputel;
+
+    // Theme state for logo toggling
+    let theme = $state("light");
+
+    // Derive language from the URL parameter
+    /** @type {"english" | "greek"} */
+    let language = $derived(data.lang === "el" ? "greek" : "english");
+
+    // Sync theme
+    $effect(() => {
+        if (typeof window !== "undefined") {
+            const updateTheme = () => {
+                theme = localStorage.getItem("theme") || "light";
+            };
+            updateTheme();
+            // Observer for data-theme attribute changes
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (
+                        mutation.type === "attributes" &&
+                        mutation.attributeName === "data-theme"
+                    ) {
+                        theme =
+                            document.documentElement.getAttribute(
+                                "data-theme",
+                            ) || "light";
+                    }
+                });
+            });
+            observer.observe(document.documentElement, { attributes: true });
+
+            return () => observer.disconnect();
+        }
+    });
+
+    /** @param {any} e */
+    function autoResize(e) {
+        const el = e.target;
+        el.style.height = "auto";
+        el.style.height = Math.min(el.scrollHeight, 240) + "px"; // cap height
+    }
+
+    function loadMessages() {
+        if (typeof localStorage === "undefined") return;
+        const saved = localStorage.getItem("chat_history");
+        if (saved) {
+            messages = JSON.parse(saved);
+        }
+    }
+
+    $effect(() => {
+        if (typeof localStorage !== "undefined") {
+            loadMessages();
+        }
+    });
+
+    $effect(() => {
+        if (messages.length > 0 && typeof localStorage !== "undefined") {
+            localStorage.setItem("chat_history", JSON.stringify(messages));
+            scrollToBottom();
+        }
+    });
+
+    function scrollToBottom() {
+        if (chatContainer) {
+            setTimeout(() => {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 0);
+        }
+    }
+
+    async function sendMessage() {
+        if (!userInput.trim() || isGenerating) return;
+
+        const currentInput = userInput;
+        userInput = "";
+        isGenerating = true;
+
+        // Add user message
+        const userMsg = { role: "user", content: currentInput };
+        messages = [...messages, userMsg];
+
+        // placeholder for AI response
+        const aiMsg = { role: "assistant", content: "" };
+        messages = [...messages, aiMsg];
+        let responseContent = "";
+
+        // Start streaming
+        await data.chatService.sendMessage(currentInput, (chunk) => {
+            responseContent += chunk;
+            // Update the last message (AI) with new content
+            messages[messages.length - 1].content = responseContent;
+            scrollToBottom();
+        });
+
+        isGenerating = false;
+    }
+
+    /** @param {KeyboardEvent} e */
+    function handleKeydown(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    }
+</script>
+
+{#snippet cardsContent()}
+    <div class="cards-area">
+        <div class="card card-website">
+            <div class="card-glow"></div>
+            <div class="card-image-wrapper">
+                <img
+                    src="https://cdn.pixabay.com/photo/2020/02/24/04/25/web-design-4875183_1280.jpg"
+                    alt="Website"
+                    class="card-image"
+                />
+                <div class="card-image-overlay"></div>
+            </div>
+            <div class="card-content">
+                <h4>{translations[language].cards.website_title}</h4>
+                <div class="price-container">
+                    <span class="price-label"
+                        >{translations[language].cards
+                            .website_price_label}</span
+                    >
+                    <div class="price-value">
+                        <span class="currency">€</span>
+                        <span class="amount">250</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-nextcloud">
+            <div class="card-glow"></div>
+            <div class="card-image-wrapper">
+                <img
+                    src="https://cdn.thenewstack.io/media/2023/09/94b1d1e3-nextcloud.jpg"
+                    alt="Nextcloud"
+                    class="card-image"
+                />
+                <div class="card-image-overlay"></div>
+            </div>
+            <div class="card-content">
+                <h4>{translations[language].cards.nextcloud_title}</h4>
+                <div class="price-container">
+                    <span class="price-label"
+                        >{translations[language].cards
+                            .nextcloud_price_label}</span
+                    >
+                    <div class="price-value">
+                        <span class="currency">€</span>
+                        <span class="amount">1</span>
+                        <span class="period"
+                            >{translations[language].cards.per_month}</span
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/snippet}
+
+<div class="layout-container">
+    <!-- Left Column / Logo Area -->
+    <div class="left-panel">
+        <div class="logo-wrapper">
+            {#if theme === "light"}
+                <img
+                    src="/logo-light.png"
+                    alt={translations[language].chat.logo_alt}
+                />
+            {:else}
+                <img
+                    src="/logo-dark.png"
+                    alt={translations[language].chat.logo_dark_alt}
+                />
+            {/if}
+        </div>
+    </div>
+
+    <!-- Center Column / Chat -->
+    <div class="chat-area" class:startup={messages.length === 0}>
+        <h1>{translations[language].chat.headline}</h1>
+        <div class="messages-container" bind:this={chatContainer}>
+            {#each messages as msg}
+                <div class="message {msg.role}">
+                    <div class="message-wrapper">
+                        {#if msg.role === "assistant"}
+                            <div class="avatar ai">
+                                <img src="/stolonas1.png" alt="AI Agent" />
+                            </div>
+                            <div class="bubble ai-bubble">
+                                <div class="message-info">
+                                    {translations[language].chat.ai_name}
+                                </div>
+                                <div class="message-content">
+                                    {@html marked(msg.content)}
+                                </div>
+                            </div>
+                        {:else}
+                            <div class="bubble user-bubble">
+                                <div class="message-content">{msg.content}</div>
+                            </div>
+                            <div class="avatar user">
+                                <span>U</span>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+            {/each}
+        </div>
+
+        <div class="input-area">
+            <div class="input-wrapper messageBox">
+                <!-- LEFT ICON BUTTON -->
+                <button
+                    class="icon-button left-icon-btn"
+                    onclick={() => (leftIconActive = !leftIconActive)}
+                    title={leftIconActive
+                        ? translations[language].chat.history_disable
+                        : translations[language].chat.history_enable}
+                    aria-label="Toggle left icon"
+                >
+                    {#if !leftIconActive}
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            ><path d="M12 8v4l2 2" /><path
+                                d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"
+                            /></svg
+                        >
+                    {:else}
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            ><path
+                                d="M3.05 11a8.98 8.98 0 0 1 2.54-5.403M7.904 3.9a9 9 0 0 1 12.113 12.112m-1.695 2.312A9 9 0 0 1 3.55 15m-.5 5v-5h5M3 3l18 18"
+                            /></svg
+                        >
+                    {/if}
+                </button>
+                <textarea
+                    id="messageInput"
+                    rows="1"
+                    placeholder={translations[language].chat.placeholder}
+                    bind:value={userInput}
+                    bind:this={messageInputel}
+                    onkeydown={(e) => handleKeydown(e)}
+                    oninput={(e) => autoResize(e)}
+                ></textarea>
+
+                <!-- RIGHT ICONS -->
+                <div class="right-icons-container">
+                    <button class="icon-button" aria-label="Microphone">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            ><path
+                                fill="currentColor"
+                                d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3m7 9c0 3.53-2.61 6.44-6 6.93V21h-2v-3.07c-3.39-.49-6-3.4-6-6.93h2a5 5 0 0 0 5 5a5 5 0 0 0 5-5z"
+                            /></svg
+                        >
+                    </button>
+                    <button class="icon-button" aria-label="Voice over">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            ><path
+                                d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"
+                            /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><line
+                                x1="12"
+                                y1="19"
+                                x2="12"
+                                y2="23"
+                            /><line x1="8" y1="23" x2="16" y2="23" /></svg
+                        >
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Local Footer for Chat Page -->
+        <footer class="local-footer">
+            <p>{data.footer?.copyright || "© Stolon 2025"}</p>
+        </footer>
+    </div>
+
+    <!-- Right Column / Cards -->
+    <div class="right-panel desktop-only">
+        {@render cardsContent()}
+    </div>
+</div>
+
+<style>
+    .layout-container {
+        display: grid;
+        grid-template-columns: 260px 1fr 340px; /* Use 340px for cards to fit 327px + gap */
+        height: 100%; /* Fill available space (excluding hidden footer) */
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Hide the global footer on this chat page */
+    :global(.simple-footer) {
+        display: none !important;
+    }
+
+    /* Left Panel (Logo area) */
+    .left-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+    }
+
+    .logo-wrapper {
+        position: relative;
+        /* Aligned visually roughly where sidebar header would be */
+        padding-left: 20px;
+    }
+    .logo-wrapper img {
+        width: 120px;
+        height: auto;
+    }
+
+    /* Chat Area */
+    .chat-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        color: var(--text);
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    .chat-area h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        opacity: 0.9;
+        margin-top: 100px;
+        margin-bottom: 40px;
+        color: var(--text);
+        text-align: center;
+        display: none;
+    }
+    .chat-area.startup h1 {
+        display: block;
+    }
+
+    /* Messages Container style from snippet */
+    .messages-container {
+        flex-grow: 1;
+        width: 100%;
+        max-width: 800px;
+        overflow-y: auto;
+        padding-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 20px;
+        transition:
+            flex-grow 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+            padding 0.8s ease;
+        min-height: 0;
+        /* Hide scrollbar */
+        scrollbar-width: none;
+    }
+    .messages-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .chat-area.startup .messages-container {
+        flex-grow: 0.0001;
+        padding-top: 35px;
+        padding-bottom: 1;
+        overflow: hidden;
+    }
+
+    /* Message Styles */
+    .message {
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 4px 0;
+        animation: messageFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes messageFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .message.user {
+        justify-content: flex-end;
+    }
+
+    .message-wrapper {
+        display: flex;
+        gap: 12px;
+        max-width: 85%;
+        align-items: flex-end;
+    }
+    .message.user .message-wrapper {
+        flex-direction: row;
+    }
+
+    /* Avatars */
+    .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+        flex-shrink: 0;
+        overflow: hidden;
+        border: 2px solid var(--border);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .avatar.ai {
+        background: var(--card-bg);
+        border-color: var(--brand);
+    }
+    .avatar.ai img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .avatar.user {
+        background: linear-gradient(135deg, #ec2025, #991b1b);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    .avatar.user span {
+        color: white;
+    }
+
+    /* Bubbles */
+    .bubble {
+        padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 16px;
+        line-height: 1.5;
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .ai-bubble {
+        background: var(--bubble-ai-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--bubble-ai-border);
+        color: var(--bubble-ai-text);
+        border-bottom-left-radius: 4px;
+    }
+    .user-bubble {
+        background: var(--brand);
+        color: white;
+        border-bottom-right-radius: 4px;
+        box-shadow: 0 4px 15px var(--brand-glow);
+    }
+
+    .message-info {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+        opacity: 0.7;
+    }
+
+    /* Content Styling */
+    .message-content :global(pre) {
+        background: var(--bubble-pre-bg);
+        padding: 14px;
+        border-radius: 12px;
+        margin: 10px 0;
+        overflow-x: auto;
+        border: 1px solid var(--bubble-pre-border);
+        font-family: "Fira Code", "Courier New", monospace;
+        font-size: 14px;
+    }
+    .message-content :global(code) {
+        background: var(--bubble-code-bg);
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-family: inherit;
+        font-weight: 600;
+        color: var(--bubble-code-text);
+    }
+    .message-content :global(a) {
+        color: var(--brand);
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 1.5px solid transparent;
+        transition: all 0.2s;
+    }
+    .message-content :global(a:hover) {
+        border-bottom-color: var(--brand);
+    }
+
+    /* Input Area */
+    .input-area {
+        width: 100%;
+        max-width: 100%;
+        padding: 24px;
+        background: transparent;
+        display: flex;
+        justify-content: center;
+        flex-shrink: 0;
+        z-index: 10;
+        box-sizing: border-box;
+    }
+
+    .input-wrapper.messageBox {
+        width: 100%;
+        max-width: 768px;
+        position: relative;
+        background: var(--input-bg);
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: flex-end;
+        pointer-events: auto;
+        min-height: 48px;
+        padding: 6px 12px;
+        gap: 8px;
+    }
+    .input-wrapper:focus-within {
+        border-color: #3e9b45;
+    }
+
+    #messageInput {
+        flex: 1;
+        width: 100%;
+        min-height: 40px;
+        max-height: 240px;
+        box-sizing: border-box;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 8px 10px;
+        color: var(--text);
+        font-size: 16px;
+        line-height: 1.4;
+        resize: none;
+    }
+    #messageInput::placeholder {
+        color: #9ca3af;
+    }
+
+    /* Right & Left Icon Buttons */
+    .icon-button {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border-radius: 50%;
+        transition: background 0.2s;
+        color: var(--text-muted);
+    }
+    .icon-button:hover {
+        background: var(--btn-hover);
+        color: #3e9b45;
+    }
+    .right-icons-container {
+        display: flex;
+        align-items: center;
+        gap: 1px;
+        flex-shrink: 0;
+    }
+
+    /* Cards */
+    .right-panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px 20px 0;
+    }
+
+    .cards-area {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 327px;
+        max-height: 100vh;
+        overflow-y: auto;
+        justify-content: center;
+        padding-top: 40px;
+        /* Hide scrollbar for cards */
+        scrollbar-width: none;
+    }
+    .cards-area::-webkit-scrollbar {
+        display: none;
+    }
+
+    .card {
+        position: relative;
+        background: var(--card-bg);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid var(--border);
+    }
+    .card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.2),
+            0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+            circle,
+            var(--brand-glow) 0%,
+            transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    .card:hover .card-glow {
+        opacity: 1;
+    }
+
+    .card-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        border-radius: 20px 20px 0 0;
+        height: 161px;
+    }
+    .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    .card:hover .card-image {
+        transform: scale(1.08);
+    }
+
+    .card-image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            180deg,
+            transparent 0%,
+            rgba(0, 0, 0, 0.3) 100%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .card:hover .card-image-overlay {
+        opacity: 1;
+    }
+
+    .card-content {
+        padding: 0 20px 20px;
+    }
+    .card h4 {
+        margin: 10px 0 8px;
+        font-size: 17px;
+        font-weight: 800;
+        color: var(--text);
+        line-height: 1.3;
+        text-align: center;
+    }
+
+    .price-container {
+        background: var(--brand-soft);
+        border: 2px solid var(--border-strong);
+        border-radius: 14px;
+        padding: 16px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .price-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        color: var(--brand-dark);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+    .price-value {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 2px;
+    }
+    .currency {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--brand-dark);
+    }
+    .amount {
+        font-size: 42px;
+        font-weight: 900;
+        color: var(--brand-dark);
+        line-height: 1;
+        letter-spacing: -2px;
+    }
+    .period {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--brand-dark);
+    }
+
+    /* Local Footer */
+    .local-footer {
+        padding: 5px 0 10px; /* Small padding */
+        text-align: center;
+        opacity: 0.5;
+        font-size: 0.8rem;
+        width: 100%;
+        color: var(--text-muted);
+        flex-shrink: 0;
+    }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+        .layout-container {
+            grid-template-columns: 1fr;
+        }
+        .left-panel,
+        .right-panel,
+        .desktop-only {
+            display: none;
+        }
+    }
+</style>
