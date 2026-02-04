@@ -339,7 +339,6 @@
         width: 100%;
         box-sizing: border-box;
         position: relative;
-        overflow: hidden;
     }
 
     /* Hide the global footer on this chat page */
@@ -418,7 +417,6 @@
         flex-grow: 0.0001;
         padding-top: 35px;
         padding-bottom: 1;
-        overflow: hidden;
     }
 
     /* Message Styles */

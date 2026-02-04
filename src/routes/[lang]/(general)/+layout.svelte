@@ -281,7 +281,6 @@
     :global(body) {
         margin: 0;
         padding: 0;
-        overflow: hidden; /* Prevent body scroll, handle internally */
         font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         background-color: var(--bg);
         color: var(--text);
@@ -290,10 +289,9 @@
 
     .layout-wrapper {
         position: relative;
-        height: 100vh; /* Fixed full height */
+        height: 100vh;
         display: flex;
         flex-direction: column;
-        overflow: hidden; /* No scroll on wrapper */
     }
 
     /* Main Content */
@@ -302,7 +300,6 @@
         width: 100%;
         box-sizing: border-box;
         padding-top: 0;
-        overflow: hidden; /* Let child pages handle their own scrolling if needed */
         display: flex;
         flex-direction: column;
     }

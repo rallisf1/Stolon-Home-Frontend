@@ -244,7 +244,6 @@
         background: var(--card-bg);
         border: 2px solid var(--border);
         border-radius: 8px;
-        overflow: hidden;
         transition: all 0.3s ease;
         cursor: pointer;
         box-shadow: 4px 4px 0 var(--border);
