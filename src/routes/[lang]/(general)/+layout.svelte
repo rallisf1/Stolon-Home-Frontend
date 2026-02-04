@@ -2,6 +2,7 @@
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { translations } from "$lib/translations";
+    import Icon from '@iconify/svelte';
 
     let { data, children } = $props();
 
@@ -114,21 +115,9 @@
                             onclick={() => (activeMenu = false)}
                         >
                             <div class="menu-item">
-                                <!-- Ideally, we would render icons dynamically here if available in data -->
-                                <!-- For now, using a generic icon or circle if none provided -->
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    ><circle
-                                        cx="12"
-                                        cy="12"
-                                        r="10"
-                                        fill="currentColor"
-                                        opacity="0.2"
-                                    /></svg
-                                >
+                                {#if item.nav_link.icon}
+                                    <Icon icon={item.nav_link.icon} width="24" height="24" class="menu-icon" />
+                                {/if}
                                 {item.nav_link.label}
                             </div>
                         </a>
@@ -377,6 +366,14 @@
         transition: all 0.2s;
         font-weight: 500;
         border: 1px solid transparent;
+    }
+
+    .menu-icon {
+        display: inline-flex;
+        width: 24px;
+        height: 24px;
+        color: currentColor;
+        flex-shrink: 0;
     }
 
     .menu-item:hover {
