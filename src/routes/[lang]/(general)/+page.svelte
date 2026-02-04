@@ -4,7 +4,6 @@
     import { goto } from "$app/navigation";
     let { data } = $props();
 
-    let leftIconActive = $state(false);
     /** @type {Array<{role: string, content: string}>} */
     let messages = $state([]);
     let userInput = $state("");
@@ -117,6 +116,17 @@
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             sendMessage();
+        }
+    }
+
+    function clearChat() {
+        if (typeof window !== "undefined") {
+            // Clear specific keys as requested (chat_history + session from chat.ts)
+            localStorage.removeItem("chat_history");
+            localStorage.removeItem("chat_session_id");
+            messages = [];
+            // Ideally we also reset the chatService session, but a reload might be needed for full effect
+            // For now, clearing messages matches user intent "clear local storage"
         }
     }
 </script>
@@ -272,45 +282,28 @@
         <div class="input-area">
             <div class="input-wrapper messageBox">
                 <!-- LEFT ICON BUTTON -->
+                <!-- LEFT ICON BUTTON (Clear History) -->
                 <button
                     class="icon-button left-icon-btn"
-                    onclick={() => (leftIconActive = !leftIconActive)}
-                    title={leftIconActive
-                        ? translations[language].chat.history_disable
-                        : translations[language].chat.history_enable}
-                    aria-label="Toggle left icon"
+                    onclick={clearChat}
+                    title={translations[language].chat.new_chat ||
+                        "New Chat / Clear History"}
+                    aria-label="Clear History"
                 >
-                    {#if !leftIconActive}
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            ><path d="M12 8v4l2 2" /><path
-                                d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"
-                            /></svg
-                        >
-                    {:else}
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            ><path
-                                d="M3.05 11a8.98 8.98 0 0 1 2.54-5.403M7.904 3.9a9 9 0 0 1 12.113 12.112m-1.695 2.312A9 9 0 0 1 3.55 15m-.5 5v-5h5M3 3l18 18"
-                            /></svg
-                        >
-                    {/if}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><path d="M3 6h18" /><path
+                            d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+                        /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg
+                    >
                 </button>
                 <textarea
                     id="messageInput"
