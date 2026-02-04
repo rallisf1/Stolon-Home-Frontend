@@ -39,6 +39,7 @@
             </div>
 
             <button type="submit">Send Message</button>
+            <a href="/{data.lang}" class="back-link">← Back</a>
         </form>
     </div>
 </div>
@@ -142,6 +143,20 @@
 
     button:active {
         transform: scale(0.98);
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 1rem;
+        text-align: center;
+        color: var(--brand-dark);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+    }
+    .back-link:hover {
+        color: rgb(62, 155, 69);
+        text-decoration: underline;
     }
 
     @media (max-width: 480px) {
