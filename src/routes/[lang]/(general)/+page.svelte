@@ -332,22 +332,18 @@
                     <button class="icon-button" aria-label="Voice over">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
+                            width="32"
+                            height="32"
                             viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            ><path
-                                d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"
-                            /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><line
-                                x1="12"
-                                y1="19"
-                                x2="12"
-                                y2="23"
-                            /><line x1="8" y1="23" x2="16" y2="23" /></svg
+                            ><!-- Icon from MingCute Icon by MingCute Design - https://github.com/Richard9394/MingCute/blob/main/LICENSE --><g
+                                fill="none"
+                                ><path
+                                    d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"
+                                /><path
+                                    fill="currentColor"
+                                    d="M12 3a1 1 0 0 1 .993.883L13 4v16a1 1 0 0 1-1.993.117L11 20V4a1 1 0 0 1 1-1M8 6a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1m8 0a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1M4 9a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0v-4a1 1 0 0 1 1-1m16 0a1 1 0 0 1 .993.883L21 10v4a1 1 0 0 1-1.993.117L19 14v-4a1 1 0 0 1 1-1"
+                                /></g
+                            ></svg
                         >
                     </button>
                 </div>
@@ -378,7 +374,7 @@
 <style>
     .layout-container {
         display: grid;
-        grid-template-columns: 260px 1fr 340px; /* Use 340px for cards to fit 327px + gap */
+        grid-template-columns: 260px 1fr 300px; /* narrowed for smaller cards */
         height: 100%; /* Fill available space (excluding hidden footer) */
         width: 100%;
         box-sizing: border-box;
@@ -679,11 +675,11 @@
     .cards-area {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        width: 327px;
+        gap: 15px;
+        width: 290px;
         max-height: 100vh;
         overflow-y: auto;
-        justify-content: center;
+        justify-content: flex-start;
         padding-top: 40px;
         /* Hide scrollbar for cards */
         scrollbar-width: none;
@@ -732,7 +728,7 @@
         overflow: hidden;
         margin: 0;
         border-radius: 20px 20px 0 0;
-        height: 161px;
+        height: 140px;
     }
     .card-image {
         width: 100%;
