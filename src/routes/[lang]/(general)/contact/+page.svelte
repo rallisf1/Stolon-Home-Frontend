@@ -10,35 +10,34 @@
 <div class="contact-page-container">
     <div class="contact-form-wrapper">
         <div class="logo-area">
-            <h1>Get in Touch</h1>
+            <h1>{translations[language].contact.logo_area}</h1>
         </div>
         <p class="subtitle">
-            We'd love to hear from you. Send us a message and we'll respond as
-            soon as possible.
+            {translations[language].contact.subtitle}
         </p>
 
         <form method="POST" action="/submit-contact">
             <div class="form-group">
-                <label for="name">Name *</label>
+                <label for="name">{translations[language].contact.name}</label>
                 <input type="text" id="name" name="name" required />
             </div>
 
             <div class="form-group">
-                <label for="email">Email *</label>
+                <label for="email">{translations[language].contact.email}</label>
                 <input type="email" id="email" name="email" required />
             </div>
 
             <div class="form-group">
-                <label for="subject">Subject</label>
+                <label for="subject">{translations[language].contact.subject}</label>
                 <input type="text" id="subject" name="subject" />
             </div>
 
             <div class="form-group">
-                <label for="message">Message *</label>
+                <label for="message">{translations[language].contact.message}</label>
                 <textarea id="message" name="message" required></textarea>
             </div>
 
-            <button type="submit">Send Message</button>
+            <button type="submit">{translations[language].contact.submit}</button>
         </form>
     </div>
 </div>
