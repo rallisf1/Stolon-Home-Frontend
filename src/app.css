@@ -102,6 +102,10 @@
     --bubble-code-text: var(--brand);
 }
 
+#page #inner > .section {
+    position: relative;
+}
+
 @keyframes gridScroll {
     to {
         transform: translate(50px, 50px);
