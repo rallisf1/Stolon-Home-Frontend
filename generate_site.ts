@@ -365,8 +365,9 @@ for (const repo of repos) {
             if ((symbol.fields as PrimoSymbol["fields"]).some(f => f.is_static === true)) {
                 if (!section.index) {
                     if (!has_nav) {
+                        const logo = symbol.content.en.logo_dark ? 'data.logos.dark' : 'data.logos.light';
                         siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n  import LanguageSwitcher from '$lib/LanguageSwitcher.svelte';` + siteJS;
-                        siteHTML += `<${symbolName} {...menu}`;
+                        siteHTML += `<${symbolName} {...menu} nav_logo={${logo}}`;
                         siteHTML += '>\n';
                         siteHTML += '  {#snippet slot()}\n';
                         siteHTML += `    <LanguageSwitcher {lang} list={["${languages.join('","')}"]} />\n`;
@@ -377,8 +378,9 @@ for (const repo of repos) {
                     }
                 } else {
                     if (!has_footer) {
+                        const logo = symbol.content.en.logo_dark ? 'data.logos.dark' : 'data.logos.light';
                         siteJS = `  import ${symbolName} from '$lib/symbols/${route}/${symbolName}.svelte';\n` + siteJS;
-                        siteFooter += `<${symbolName} {...footer} />\n`;
+                        siteFooter += `<${symbolName} {...footer} footer_logo={${logo}} />\n`;
                         siteFields.push('footer');
                         has_footer = true;
                     }
