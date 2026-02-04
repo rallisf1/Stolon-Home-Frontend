@@ -54,8 +54,8 @@
     }
 
     .contact-form-wrapper {
-        background: rgba(255, 255, 255, 0.95);
-        border: 2px solid rgba(236, 32, 37, 0.2);
+        background: var(--bg-soft);
+        border: 2px solid var(--brand-dark);
         border-radius: 12px;
         padding: 3rem;
         max-width: 500px;
@@ -71,13 +71,13 @@
     h1 {
         margin: 0 0 0.5rem 0;
         font-size: 2rem;
-        color: #1a1a1a;
+        color: var(--text);
         text-align: center;
     }
 
     .subtitle {
         margin: 0 0 2rem 0;
-        color: #666;
+        color: var(--text-muted);
         font-size: 0.95rem;
         text-align: center;
     }
@@ -90,7 +90,7 @@
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
-        color: #333;
+        color: var(--text);
         font-size: 0.9rem;
     }
 
@@ -106,7 +106,7 @@
             border-color 0.3s,
             box-shadow 0.3s;
         box-sizing: border-box;
-        background-color: #ffffff;
+        background-color:var(--input-border);
     }
 
     input:focus,
