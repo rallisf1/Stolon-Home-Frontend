@@ -1,19 +1,38 @@
 <script lang="ts">
     import type { PageProps } from "./$types";
+    import { previousUrl } from "$lib/stores";
+    import { goto } from "$app/navigation";
+    import { translations } from "$lib/constants";
 
     let { data }: PageProps = $props();
 
     let post = $derived(data.record);
+    let language = $derived(data.lang);
+    let date = $derived.by(() => {
+        const postDate = new Date(data.record.created.replace(' ', 'T'));
+        const locale = data.lang === "el" ? 'el-GR' : 'en-GB';
+        return postDate.toLocaleDateString(locale, {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    });
+
+    const goBack = () => {
+        if($previousUrl === '') {
+            goto(`/${language}/blog`);
+        } else {
+            goto($previousUrl);
+        }
+    }
 </script>
 
 <article class="post-container">
-    <a href="/{data.lang}/blog" class="back-link">← Back to Blog</a>
 
     <header class="post-header">
         <h1 class="post-title">{post.title}</h1>
-        {#if post.date}
-            <div class="post-meta">{post.date}</div>
-        {/if}
+        <div class="post-meta">🗓 {date}</div>
     </header>
 
     {#if post.image}
@@ -25,6 +44,8 @@
     <div class="post-content">
         {@html post.content}
     </div>
+
+    <button onclick={goBack} class="back-link">{translations[language].general.back}</button>
 </article>
 
 <style>
@@ -92,28 +113,28 @@
     }
 
     /* Content typography */
-    :global(.post-content h2) {
+    .post-content :global(h2) {
         font-size: 2em;
         margin: 60px 0 20px;
         font-weight: 800;
     }
 
-    :global(.post-content h3) {
+    .post-content :global(h3) {
         font-size: 1.4em;
         margin: 40px 0 15px;
         font-weight: 700;
     }
 
-    :global(.post-content p) {
+    .post-content :global(p) {
         margin-bottom: 24px;
     }
 
-    :global(.post-content a) {
+    .post-content :global(a) {
         color: var(--brand);
         font-weight: 600;
     }
 
-    :global(.post-content blockquote) {
+    .post-content :global(blockquote) {
         margin: 40px 0;
         padding: 25px 30px;
         border-left: 6px solid var(--brand);
@@ -121,13 +142,29 @@
         font-style: italic;
     }
 
-    :global(.post-content pre) {
+    .post-content :global(pre) {
         background: #000;
         color: #fff;
         padding: 20px;
         overflow-x: auto;
         border-radius: 6px;
         margin: 40px 0;
+    }
+
+    .post-content :global(ol), .post-content :global(ul) {
+        margin: 0 0 1rem 1rem;
+    }
+
+    .post-content :global(ol) {
+        list-style: decimal;
+    }
+
+    .post-content :global(ul) {
+        list-style: disc;
+    }
+
+    .post-content :global(li > p) {
+        margin: 0;
     }
 
     /* Mobile */

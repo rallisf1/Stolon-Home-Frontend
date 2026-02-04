@@ -1,10 +1,19 @@
 <script lang="ts">
-    import { translations } from "$lib/translations";
+    import { goto } from "$app/navigation";
+    import { previousUrl } from "$lib/stores";
+    import { translations } from "$lib/constants";
 
     let { data } = $props();
 
-    // Derive language from the URL parameter (data.lang will be 'el' or 'en' from parent layout)
-    let language = $derived(data.lang === "el" ? "greek" : "english");
+    let language = $derived(data.lang);
+
+    const goBack = () => {
+        if($previousUrl === '') {
+            goto(`/${language}`);
+        } else {
+            goto($previousUrl);
+        }
+    }
 </script>
 
 <div class="contact-page-container">
@@ -38,10 +47,8 @@
             </div>
 
             <button type="submit">Send Message</button>
-            <a href="/{data.lang}" class="back-link">← Back</a>
-
-            <button type="submit">{translations[language].contact.submit}</button>
         </form>
+            <button onclick={goBack}>{$previousUrl === '' ? translations[language].general.go_home : translations[language].general.back}</button>
     </div>
 </div>
 
@@ -126,7 +133,7 @@
     button {
         width: 100%;
         padding: 0.875rem;
-        background-color: rgb(62, 155, 69);
+        background-color: var(--avatar-user);
         color: white;
         border: none;
         border-radius: 6px;
@@ -134,30 +141,24 @@
         font-weight: 600;
         cursor: pointer;
         transition:
-            background-color 0.3s,
+            opacity 0.3s,
             transform 0.1s;
     }
 
+    form + button {
+        margin-top: 2rem;
+    }
+
+    button[type="submit"] {
+        background-color: var(--brand-dark);
+    }
+
     button:hover {
-        background-color: rgb(52, 135, 59);
+        opacity: 0.8;
     }
 
     button:active {
         transform: scale(0.98);
-    }
-
-    .back-link {
-        display: inline-block;
-        margin-top: 1rem;
-        text-align: center;
-        color: var(--brand-dark);
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s;
-    }
-    .back-link:hover {
-        color: rgb(62, 155, 69);
-        text-decoration: underline;
     }
 
     @media (max-width: 480px) {

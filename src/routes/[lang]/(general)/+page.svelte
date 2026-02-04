@@ -1,55 +1,20 @@
-<script>
+<script lang="ts">
     import { marked } from "marked";
-    import { translations } from "$lib/translations";
-    import { goto } from "$app/navigation";
+    import { translations } from "$lib/constants";
+    import { onMount } from "svelte";
+    import Icon from "@iconify/svelte";
     let { data } = $props();
 
-    /** @type {Array<{role: string, content: string}>} */
-    let messages = $state([]);
+    let language = $derived(data.lang);
+    let messages: {role: string, content: string}[] = $state([]);
     let userInput = $state("");
     let isGenerating = $state(false);
-    /** @type {HTMLElement} */
-    let chatContainer;
-
-    let messageInputel;
-
-    // Theme state for logo toggling
     let theme = $state("light");
+    let chatContainer: HTMLElement;
+    let messageInputel;
     let showCardsMobile = $state(false);
 
-    // Derive language from the URL parameter
-    /** @type {"english" | "greek"} */
-    let language = $derived(data.lang === "el" ? "greek" : "english");
-
-    // Sync theme
-    $effect(() => {
-        if (typeof window !== "undefined") {
-            const updateTheme = () => {
-                theme = localStorage.getItem("theme") || "light";
-            };
-            updateTheme();
-            // Observer for data-theme attribute changes
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (
-                        mutation.type === "attributes" &&
-                        mutation.attributeName === "data-theme"
-                    ) {
-                        theme =
-                            document.documentElement.getAttribute(
-                                "data-theme",
-                            ) || "light";
-                    }
-                });
-            });
-            observer.observe(document.documentElement, { attributes: true });
-
-            return () => observer.disconnect();
-        }
-    });
-
-    /** @param {any} e */
-    function autoResize(e) {
+    function autoResize(e: any) {
         const el = e.target;
         el.style.height = "auto";
         el.style.height = Math.min(el.scrollHeight, 240) + "px"; // cap height
@@ -60,19 +25,24 @@
         const saved = localStorage.getItem("chat_history");
         if (saved) {
             messages = JSON.parse(saved);
+        } else {
+            messages = [{ role: "assistant", content: translations[language].chat.greeting }];
         }
     }
 
-    $effect(() => {
+    onMount(() => {
         if (typeof localStorage !== "undefined") {
             loadMessages();
         }
-    });
+    })
 
     $effect(() => {
-        if (messages.length > 0 && typeof localStorage !== "undefined") {
-            localStorage.setItem("chat_history", JSON.stringify(messages));
-            scrollToBottom();
+        if (typeof localStorage !== "undefined") {
+            theme = localStorage.getItem("theme") || "light";
+            if (messages.length > 1) {
+                localStorage.setItem("chat_history", JSON.stringify(messages));
+                scrollToBottom();
+            }
         }
     });
 
@@ -111,8 +81,7 @@
         isGenerating = false;
     }
 
-    /** @param {KeyboardEvent} e */
-    function handleKeydown(e) {
+    function handleKeydown(e: KeyboardEvent) {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             sendMessage();
@@ -189,81 +158,41 @@
 {/snippet}
 
 <div class="layout-container">
-    <!-- Left Column / Logo Area -->
     <div class="left-panel">
-        <div class="logo-wrapper">
-            {#if theme === "light"}
-                <img
-                    src="/logo-light.png"
-                    alt={translations[language].chat.logo_alt}
-                />
-            {:else}
-                <img
-                    src="/logo-dark.png"
-                    alt={translations[language].chat.logo_dark_alt}
-                />
-            {/if}
-        </div>
+        <!-- TODO animated Stolonas -->
     </div>
 
-    <!-- Center Column / Chat -->
     <div class="chat-area" class:startup={messages.length === 0}>
         <!-- Mobile Header (Logo + Cards Toggle) -->
         <div class="mobile-header">
-            <div class="mobile-logo">
-                {#if theme === "light"}
-                    <img src="/logo-light.png" alt="Logo" />
-                {:else}
-                    <img src="/logo-dark.png" alt="Logo" />
-                {/if}
-            </div>
             <button
                 class="mobile-cards-toggle"
                 onclick={() => (showCardsMobile = true)}
-                aria-label="Show Templates"
+                aria-label={translations[language].cards.title}
+                title={translations[language].cards.title}
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    ><rect
-                        x="3"
-                        y="3"
-                        width="18"
-                        height="18"
-                        rx="2"
-                        ry="2"
-                    /><line x1="3" y1="9" x2="21" y2="9" /><line
-                        x1="9"
-                        y1="21"
-                        x2="9"
-                        y2="9"
-                    /></svg
-                >
+                <Icon icon="material-symbols:percent-discount-outline" width="24" height="24" />
             </button>
         </div>
 
-        <h1>{translations[language].chat.headline}</h1>
         <div class="messages-container" bind:this={chatContainer}>
             {#each messages as msg}
                 <div class="message {msg.role}">
                     <div class="message-wrapper">
                         {#if msg.role === "assistant"}
                             <div class="avatar ai">
-                                <img src="/stolonas1.png" alt="AI Agent" />
+                                <img src="/stolonas-thumb.png" alt="AI Agent" />
                             </div>
                             <div class="bubble ai-bubble">
                                 <div class="message-info">
                                     {translations[language].chat.ai_name}
                                 </div>
                                 <div class="message-content">
+                                    {#if msg.content && msg.content.length}
                                     {@html marked(msg.content)}
+                                    {:else}
+                                    <Icon icon="svg-spinners:3-dots-bounce" />
+                                    {/if}
                                 </div>
                             </div>
                         {:else}
@@ -281,14 +210,12 @@
 
         <div class="input-area">
             <div class="input-wrapper messageBox">
-                <!-- LEFT ICON BUTTON -->
                 <!-- LEFT ICON BUTTON (Clear History) -->
                 <button
                     class="icon-button left-icon-btn"
                     onclick={clearChat}
-                    title={translations[language].chat.new_chat ||
-                        "New Chat / Clear History"}
-                    aria-label="Clear History"
+                    title={translations[language].chat.new_chat}
+                    aria-label={translations[language].chat.new_chat}
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -308,7 +235,7 @@
                 <textarea
                     id="messageInput"
                     rows="1"
-                    placeholder={translations[language].chat.placeholder}
+                    placeholder={messages.length > 1 ? translations[language].chat.placeholder2 : translations[language].chat.placeholder}
                     bind:value={userInput}
                     bind:this={messageInputel}
                     onkeydown={(e) => handleKeydown(e)}
@@ -361,7 +288,7 @@
         class="right-panel {showCardsMobile ? 'mobile-active' : 'desktop-only'}"
     >
         <div class="mobile-cards-header">
-            <h3>Templates</h3>
+            <h3>{translations[language].cards.title}</h3>
             <button
                 class="close-cards-btn"
                 onclick={() => (showCardsMobile = false)}>✕</button
@@ -413,20 +340,6 @@
         color: var(--text);
         box-sizing: border-box;
         position: relative;
-    }
-
-    .chat-area h1 {
-        font-size: 2.5rem;
-        font-weight: 600;
-        opacity: 0.9;
-        margin-top: 100px;
-        margin-bottom: 40px;
-        color: var(--text);
-        text-align: center;
-        display: none;
-    }
-    .chat-area.startup h1 {
-        display: block;
     }
 
     /* Messages Container style from snippet */
@@ -492,8 +405,8 @@
 
     /* Avatars */
     .avatar {
-        width: 36px;
-        height: 36px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -873,10 +786,6 @@
         /* Adjust Chat Area for Mobile Header */
         .messages-container {
             padding-top: 70px; /* Clear header */
-        }
-        .chat-area h1 {
-            margin-top: 80px;
-            font-size: 1.8rem;
         }
 
         /* Input Area Spacing */
