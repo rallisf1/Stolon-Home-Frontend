@@ -342,7 +342,7 @@
         <aside class="sidebar" class:active={activeMenu}>
             <ul class="menu">
                 <li>
-                    <a href="/{data.lang}/ai" class="menu-link">
+                    <a href="/{data.lang}/education" class="menu-link">
                         <div class="menu-item">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -448,7 +448,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/blog" class="menu-link">
+                    <a href="/{data.lang}/blog" class="menu-link">
                         <div class="menu-item">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -634,28 +634,15 @@
     :global(body) {
         margin: 0;
         padding: 0;
-        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        overflow-x: hidden;
+        overflow-y: auto;
         background-color: var(--bg);
         color: var(--text);
+        box-sizing: border-box;
     }
 
-    :global(body)::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        background: linear-gradient(
-                90deg,
-                rgba(62, 155, 69, 0.05) 1px,
-                transparent 1px
-            ),
-            linear-gradient(rgba(62, 155, 69, 0.05) 1px, transparent 1px);
-        background-size: 50px 50px;
-        z-index: 0;
-        animation: gridScroll 20s linear infinite;
+    :global(*) {
+        box-sizing: border-box !important;
     }
 
     @keyframes gridScroll {
@@ -670,8 +657,8 @@
     .layout-container {
         display: grid;
         grid-template-columns: 260px 1fr 327px;
-        height: 100vh;
-        width: 100vw;
+        height: 100dvh;
+        width: 100%;
         box-sizing: border-box;
         position: relative;
         z-index: 1; /* Ensure content is above the grid */
@@ -1333,7 +1320,10 @@
         color: #3e9b45;
     }
 
-    /* SEND BUTTON */
+    /* Mobile Sidebar Cards - Hidden by default on desktop */
+    .mobile-cards-wrapper {
+        display: none;
+    }
 
     @media (max-width: 768px) {
         .top-nav {
@@ -1358,21 +1348,6 @@
             height: 24px;
         }
 
-        /* Show mobile cards inside sidebar */
-        .mobile-cards-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 12px;
-            padding-bottom: 20px;
-        }
-
-        /* Scale down cards for mobile */
-        .mobile-cards-wrapper :global(.card) {
-            transform: scale(0.9);
-            transform-origin: top center;
-        }
-
         /* Hide desktop cards area */
         .cards-area.desktop-only {
             display: none;
@@ -1392,25 +1367,98 @@
         .layout-container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .logo-wrapper {
+            margin-top: 70px; /* Offset for top-nav */
+            position: relative;
+            top: auto;
+            left: auto;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .logo-wrapper img {
+            width: 100px !important;
+            height: 100px !important;
         }
 
         .chat-area {
             flex: 1;
-            padding-top: 60px; /* Offset for top-nav */
+            display: flex;
+            flex-direction: column;
+            padding-top: 0;
+            margin: 0;
+            height: 0; /* Allow flex to constrain height */
+            min-height: 0;
+            width: 100%;
+            overflow: hidden;
         }
 
-        .logo-wrapper {
+        .chat-area h1 {
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+
+        .messages-container {
+            padding-left: 15px;
+            padding-right: 15px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .input-area {
+            padding: 15px;
+        }
+
+        .input-wrapper {
+            max-width: 100%;
+        }
+
+        #messageInput {
+            font-size: 15px;
+            padding: 8px 5px;
+        }
+
+        .bubble {
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .message-wrapper {
+            max-width: 95%;
+            gap: 8px;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            font-size: 12px;
+        }
+
+        .mobile-cards-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
             margin-top: 20px;
-            position: relative;
-            top: auto;
-            left: auto;
+            padding: 0 15px 40px;
         }
-    }
 
-    /* Desktop Sidebar Cards - Hidden by default */
-    .mobile-cards-wrapper {
-        display: none;
+        .mobile-cards-wrapper :global(.card) {
+            transform: none !important;
+            width: 100%;
+        }
+
+        .mobile-cards-wrapper :global(.section-container) {
+            padding: 0;
+        }
     }
 
     .icon-button:hover svg {

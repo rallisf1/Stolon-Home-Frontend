@@ -1,12 +1,85 @@
 <script lang="ts">
     import type { PageProps } from "./$types";
+    import { goto } from "$app/navigation";
 
     let { data }: PageProps = $props();
 
-    let lang = $derived(data.lang);
+    function goToPage(page: number) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("page", page.toString());
+        goto(url.pathname + url.search);
+    }
+
+    function toggleTag(tag: string) {
+        const currentTags = new Set(data.selectedTags);
+
+        if (currentTags.has(tag)) {
+            // Deselect the tag
+            currentTags.delete(tag);
+        } else if (currentTags.size < 2) {
+            // Select the tag (max 2)
+            currentTags.add(tag);
+        } else {
+            // Already at max, do nothing
+            return;
+        }
+
+        // Build new URL with updated tags
+        const newTags = Array.from(currentTags);
+        const url = new URL(window.location.href);
+
+        // Reset to page 1 when changing filters
+        url.searchParams.delete("page");
+
+        if (newTags.length > 0) {
+            url.searchParams.set("tags", newTags.join(","));
+        } else {
+            url.searchParams.delete("tags");
+        }
+
+        goto(url.pathname + url.search);
+    }
 </script>
 
 <div class="container">
+    <!-- Tag Filter Pills -->
+    {#if data.availableTags && data.availableTags.length > 0}
+        <div class="tags-filter">
+            <h3 class="filter-title">Filter by Tags:</h3>
+            <div class="tags-container">
+                {#each data.availableTags as tag}
+                    <button
+                        class="tag-pill"
+                        class:active={data.selectedTags.includes(tag)}
+                        class:disabled={!data.selectedTags.includes(tag) &&
+                            data.selectedTags.length >= 2}
+                        onclick={() => toggleTag(tag)}
+                    >
+                        {tag}
+                    </button>
+                    {#each Array.from({ length: 0 })}
+                        <!-- dummy to break sequence -->
+                    {/each}
+                {/each}
+            </div>
+            {#if data.selectedTags.length > 0}
+                <button
+                    class="clear-filters"
+                    onclick={() => goto(`/${data.lang}/blog`)}
+                >
+                    Clear Filters
+                </button>
+            {/if}
+        </div>
+    {:else}
+        <div class="no-tags-message">
+            <p>
+                💡 No tags available yet. Add tags to your blog posts in
+                PocketBase to enable filtering.
+            </p>
+        </div>
+    {/if}
+
     <div class="blog-grid" id="blogGrid">
         {#each data.records as post}
             <div class="blog-card">
@@ -16,45 +89,49 @@
                 <div class="card-content">
                     <h2 class="card-title">{post.title}</h2>
                     <p class="card-excerpt">{post.desc}</p>
-                    <a href={`/${lang}/blog/${post.slug}`} class="read-more"
+                    <a href="/{data.lang}/blog/{post.slug}" class="read-more"
                         >Read More →</a
                     >
                 </div>
             </div>
         {/each}
     </div>
+
+    <!-- Pagination Controls -->
+    {#if data.pagination && data.pagination.totalPages > 1}
+        <nav class="pagination" aria-label="Blog pagination">
+            <button
+                class="pagination-btn nav-btn"
+                disabled={data.pagination.page === 1}
+                onclick={() => goToPage(data.pagination.page - 1)}
+            >
+                ← Previous
+            </button>
+
+            <div class="page-numbers">
+                {#each Array.from({ length: data.pagination.totalPages }, (_, i) => i + 1) as pageNum}
+                    <button
+                        class="pagination-btn num-btn"
+                        class:active={pageNum === data.pagination.page}
+                        onclick={() => goToPage(pageNum)}
+                    >
+                        {pageNum}
+                    </button>
+                {/each}
+            </div>
+
+            <button
+                class="pagination-btn nav-btn"
+                disabled={data.pagination.page === data.pagination.totalPages}
+                onclick={() => goToPage(data.pagination.page + 1)}
+            >
+                Next →
+            </button>
+        </nav>
+    {/if}
 </div>
 
 <style>
-
-    :global(body)::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        background: linear-gradient(
-                90deg,
-                rgba(62, 155, 69, 0.05) 1px,
-                transparent 1px
-            ),
-            linear-gradient(rgba(62, 155, 69, 0.05) 1px, transparent 1px);
-        background-size: 50px 50px;
-        z-index: 0;
-        animation: gridScroll 20s linear infinite;
-    }
-
-    @keyframes gridScroll {
-        0% {
-            transform: translate(0, 0);
-        }
-        100% {
-            transform: translate(50px, 50px);
-        }
-    }
-
     .container {
         position: relative;
         z-index: 1;
@@ -63,11 +140,104 @@
         padding: 40px 20px;
     }
 
+    .tags-filter {
+        margin-bottom: 40px;
+        padding: 25px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid var(--border, #3e9b45);
+        border-radius: 8px;
+        box-shadow: 4px 4px 0 var(--border, #3e9b45);
+    }
+
+    .filter-title {
+        font-size: 1.2em;
+        font-weight: 700;
+        margin: 0 0 15px 0;
+        color: var(--text, #333);
+    }
+
+    .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .tag-pill {
+        padding: 8px 18px;
+        background: #ffffff;
+        color: #3e9b45;
+        border: 2px solid #3e9b45;
+        border-radius: 20px;
+        font-size: 0.95em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        outline: none;
+        box-shadow: 2px 2px 0 #3e9b45;
+    }
+
+    .tag-pill:hover:not(.disabled) {
+        background: #3e9b45;
+        color: #ffffff;
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 #3e9b45;
+    }
+
+    .tag-pill.active {
+        background: #ed2024;
+        color: #ffffff;
+        border-color: #ed2024;
+        box-shadow: 2px 2px 0 #ed2024;
+    }
+
+    .tag-pill.active:hover {
+        background: #c41c1f;
+        border-color: #c41c1f;
+        box-shadow: 3px 3px 0 #c41c1f;
+    }
+
+    .tag-pill.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .clear-filters {
+        padding: 8px 20px;
+        background: transparent;
+        color: #ed2024;
+        border: 2px solid #ed2024;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .clear-filters:hover {
+        background: #ed2024;
+        color: #ffffff;
+    }
+
+    .no-tags-message {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(62, 155, 69, 0.1);
+        border: 2px dashed #3e9b45;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .no-tags-message p {
+        margin: 0;
+        color: var(--text, #333);
+        font-size: 1em;
+    }
+
     .blog-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
         gap: 30px;
-        margin-bottom: 40px;
+        margin-bottom: 60px;
     }
 
     .blog-card {
@@ -94,6 +264,12 @@
         justify-content: center;
         font-size: 3em;
         color: #ffffff;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .card-content {
@@ -131,9 +307,72 @@
         color: #ed2024;
     }
 
+    /* Pagination Styles */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 40px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        backdrop-filter: blur(8px);
+    }
+
+    .page-numbers {
+        display: flex;
+        gap: 10px;
+    }
+
+    .pagination-btn {
+        padding: 10px 18px;
+        background: var(--btn-bg, #ffffff);
+        color: var(--text, #333);
+        border: 2px solid var(--border, #3e9b45);
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 2px 2px 0 var(--border);
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--border);
+        background: var(--btn-hover, #f0f0f0);
+    }
+
+    .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    .pagination-btn.active {
+        background: #ed2024;
+        color: #ffffff;
+        border-color: #ed2024;
+        box-shadow: 2px 2px 0 rgba(237, 32, 36, 0.4);
+    }
+
+    .nav-btn {
+        min-width: 120px;
+    }
+
     @media (max-width: 768px) {
         .blog-grid {
             grid-template-columns: 1fr;
+        }
+
+        .pagination {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            width: 100%;
         }
     }
 </style>

@@ -4,11 +4,10 @@
     let { data }: PageProps = $props();
 
     let post = $derived(data.record);
-    let lang = $derived(data.lang);
 </script>
 
 <article class="post-container">
-    <a href={`/${lang}/blog`} class="back-link">← Back to Blog</a>
+    <a href="/{data.lang}/blog" class="back-link">← Back to Blog</a>
 
     <header class="post-header">
         <h1 class="post-title">{post.title}</h1>
