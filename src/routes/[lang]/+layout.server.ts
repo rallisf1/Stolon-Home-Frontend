@@ -3,7 +3,6 @@ import { error } from '@sveltejs/kit'
 import pb from '$lib/server/pb'
 
 type Nav = {
-    nav_logo: string;
     nav_items: {
         nav_link: NavItem
     }[];
@@ -18,7 +17,6 @@ type NavItem = {
 }
 
 type Footer = {
-    footer_logo: string;
     footer_node: {
         title: string;
         columns: {
@@ -51,7 +49,6 @@ export const load: LayoutServerLoad = async ({ params }) => {
         filter: `parent=null && language='${lang}'`
     })
     const menu: Nav = {
-        nav_logo: '/logo-light.png', // do all navbars look ok with this?
         nav_items: []
     }
     items.forEach((record) => {
@@ -96,7 +93,6 @@ export const load: LayoutServerLoad = async ({ params }) => {
         sort: 'sort'
     })
     const footer: Footer = {
-        footer_logo: '/logo-dark.png', // do all footers look ok with this?
         footer_node: footerColumns,
         copyright: `${years} ${copyrightItem.value}`,
         socials: socialItems.map(s => {
@@ -114,6 +110,10 @@ export const load: LayoutServerLoad = async ({ params }) => {
 
     return {
         menu,
-        footer
+        footer,
+        logos: {
+            light: '/logo-light.png',
+            dark: '/logo-dark.png',
+        }
     }
 }
