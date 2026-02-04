@@ -6,7 +6,8 @@ export const translations = {
             business: "Stolon Business",
             computerization: "Stolon Computerization",
             ai: "Stolon AI",
-            blog: "Blog"
+            blog: "Blog",
+            contact: "Contact"
         },
         cards: {
             website_title: "Build your own site",
@@ -25,6 +26,15 @@ export const translations = {
             ai_name: "Stolon AI",
             logo_alt: "Stolon Logo",
             logo_dark_alt: "Stolon Logo Dark"
+        },
+        contact:{
+            logo_area: "Get in Touch",
+            subtitle: "We'd love to hear from you. Send us a message and we'll respond assoon as possible.",
+            name: "Name *",
+            email: "Email *",
+            subject:"Subject",
+            message: "Message *",
+            submit: "Send Message"   
         }
     },
     greek: {
@@ -34,7 +44,8 @@ export const translations = {
             business: "Stolon Business",
             computerization: "Μηχανογράφηση",
             ai: "Stolon AI",
-            blog: "Blog"
+            blog: "Blog",
+            contact: "Επικοινωνία"
         },
         cards: {
             website_title: "Φτιάξε το δικό σου site",
@@ -53,6 +64,15 @@ export const translations = {
             ai_name: "Stolon AI",
             logo_alt: "Λογότυπο Stolon",
             logo_dark_alt: "Λογότυπο Stolon Dark"
+        },
+        contact:{
+            logo_area: "Επικοινωνήστε μαζί μας",
+            subtitle: "Θα χαρούμε να σας ακούσουμε. Στείλτε μας ένα μήνυμα και θα σας απαντήσουμε το συντομότερο δυνατό.",
+            name: "Όνομα *",
+            email: "Email *",
+            subject:"Θέμα",
+            message: "Μήνυμα *",
+            submit: "Αποστολή Μηνύματος"   
         }
     }
 };
