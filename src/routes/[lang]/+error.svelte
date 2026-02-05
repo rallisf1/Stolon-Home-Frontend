@@ -3,7 +3,7 @@
     import { previousUrl } from '$lib/stores';
     import { goto } from '$app/navigation';
 
-    let status = $derived($page.status);
+
     let message = $derived($page.error?.message || 'Page not found');
     
     async function goBack() {
@@ -18,7 +18,7 @@
 <div class="error-container">
     <div class="content">
         <div class="glitch-wrapper">
-            <h1 class="glitch" data-glitch={status}>{status}</h1>
+            <h1 class="glitch" data-glitch="404">404</h1>
         </div>
         <p class="message">{message}</p>
         <p class="sub-message">
