@@ -113,58 +113,30 @@
 
 {#snippet cardsContent()}
     <div class="cards-area">
-        <div class="card card-website">
-            <div class="card-glow"></div>
-            <div class="card-image-wrapper">
-                <img
-                    src="https://cdn.pixabay.com/photo/2020/02/24/04/25/web-design-4875183_1280.jpg"
-                    alt="Website"
-                    class="card-image"
-                />
-                <div class="card-image-overlay"></div>
-            </div>
-            <div class="card-content">
-                <h4>{translations[language].cards.website_title}</h4>
-                <div class="price-container">
-                    <span class="price-label"
-                        >{translations[language].cards
-                            .website_price_label}</span
-                    >
-                    <div class="price-value">
-                        <span class="currency">€</span>
-                        <span class="amount">250</span>
+        {#each data.records as card}
+        <a href={card.link} target="_blank">
+            <div class="card">
+                <div class="card-glow"></div>
+                <div class="card-image-wrapper">
+                    <img
+                        src={card.image}
+                        alt={card.title}
+                        class="card-image"
+                    />
+                    <div class="card-image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h4>{card.title}</h4>
+                    <div class="price-container">
+                        <span class="price-label">{card.label}</span>
+                        <div class="price-value">
+                            <span class="currency">{card.price}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="card card-nextcloud">
-            <div class="card-glow"></div>
-            <div class="card-image-wrapper">
-                <img
-                    src="https://cdn.thenewstack.io/media/2023/09/94b1d1e3-nextcloud.jpg"
-                    alt="Nextcloud"
-                    class="card-image"
-                />
-                <div class="card-image-overlay"></div>
-            </div>
-            <div class="card-content">
-                <h4>{translations[language].cards.nextcloud_title}</h4>
-                <div class="price-container">
-                    <span class="price-label"
-                        >{translations[language].cards
-                            .nextcloud_price_label}</span
-                    >
-                    <div class="price-value">
-                        <span class="currency">€</span>
-                        <span class="amount">1</span>
-                        <span class="period"
-                            >{translations[language].cards.per_month}</span
-                        >
-                    </div>
-                </div>
-            </div>
-        </div>
+            </a>
+        {/each}
     </div>
 {/snippet}
 
@@ -592,7 +564,7 @@
     .right-panel {
         display: flex;
         justify-content: center;
-        align-items: center;
+        /* align-items: center; */
         padding: 0 20px 20px 0;
     }
 
@@ -602,7 +574,6 @@
         gap: 15px;
         width: 290px;
         max-height: 100vh;
-        overflow-y: auto;
         justify-content: flex-start;
         padding-top: 40px;
         /* Hide scrollbar for cards */
