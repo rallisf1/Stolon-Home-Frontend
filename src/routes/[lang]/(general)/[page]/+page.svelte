@@ -1,6 +1,5 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import { translations } from "$lib/constants";
     import { previousUrl } from "$lib/stores";
     import type { PageProps } from "./$types";
     import { marked } from "marked";
@@ -8,8 +7,8 @@
     let { data }: PageProps = $props();
 
     let page = $derived(data.record);
-
     let language = $derived(data.lang);
+    let translations = $derived((data as any).translations);
 
     const goBack = () => {
         if($previousUrl === '') {
