@@ -211,7 +211,7 @@
                                 <div class="message-content">{msg.content}</div>
                             </div>
                             <div class="avatar user">
-                                <span>U</span>
+                                <span><Icon icon="material-symbols:person-rounded" width="24" height="24" /></span>
                             </div>
                         {/if}
                     </div>
