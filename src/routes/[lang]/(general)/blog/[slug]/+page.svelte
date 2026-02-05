@@ -2,12 +2,12 @@
     import type { PageProps } from "./$types";
     import { previousUrl } from "$lib/stores";
     import { goto } from "$app/navigation";
-    import { translations } from "$lib/constants";
 
     let { data }: PageProps = $props();
 
     let post = $derived(data.record);
     let language = $derived(data.lang);
+    let translations = $derived((data as any).translations);
     let date = $derived.by(() => {
         const postDate = new Date(data.record.created.replace(' ', 'T'));
         const locale = data.lang === "el" ? 'el-GR' : 'en-GB';

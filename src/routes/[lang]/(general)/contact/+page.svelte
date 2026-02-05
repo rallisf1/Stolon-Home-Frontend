@@ -1,11 +1,10 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { previousUrl } from "$lib/stores";
-    import { translations } from "$lib/constants";
-
     let { data } = $props();
 
     let language = $derived(data.lang);
+    let translations = $derived((data as any).translations);
 
     const goBack = () => {
         if($previousUrl === '') {

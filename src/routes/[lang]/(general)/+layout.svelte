@@ -1,11 +1,9 @@
 <script lang="ts">
     import { page } from "$app/state";
-    import { translations, languages } from "$lib/constants";
+    import { languages } from "$lib/constants";
     import Icon from "@iconify/svelte";
 
     let { data, children } = $props();
-
-    const activeLanguages = languages.filter(l => Object.keys(translations).includes(l.key));
 
     // State
     let activeMenu = $state(false);
@@ -13,12 +11,16 @@
 
     // Derived
     let language = $derived(data.lang);
+    let translations = $derived((data as any).translations);
+    const activeLanguages = languages.filter(l => Object.keys(translations).includes(l.key));
+    
     let nextLanguage = $derived(activeLanguages.find(l => l.key != data.lang));
     let nextLanguageUrl = $derived.by(() => {
+        if (!nextLanguage) return "#";
         const parts = page.url.pathname.split('/').filter(Boolean);
         parts.shift();
-        parts.unshift(nextLanguage!.key);
-        return parts.join('/');
+        parts.unshift(nextLanguage.key);
+        return "/" + parts.join('/');
     });
     let menuItems = $derived(data.menu?.nav_items || []);
     let footerCopyright = $derived(data.footer?.copyright || "");

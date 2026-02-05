@@ -1,11 +1,11 @@
 <script lang="ts">
     import { marked } from "marked";
-    import { translations } from "$lib/constants";
     import { onMount } from "svelte";
     import Icon from "@iconify/svelte";
     let { data } = $props();
 
     let language = $derived(data.lang);
+    let translations = $derived((data as any).translations);
     let messages: {role: string, content: string}[] = $state([]);
     let userInput = $state("");
     let isGenerating = $state(false);

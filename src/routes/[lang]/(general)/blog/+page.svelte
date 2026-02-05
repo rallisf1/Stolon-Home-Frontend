@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { PageProps } from "./$types";
     import { goto } from "$app/navigation";
-    import { translations } from "$lib/constants";
 
     let { data }: PageProps = $props();
 
     let language = $derived(data.lang);
+    let translations = $derived((data as any).translations);
 
     function goToPage(page: number) {
         const url = new URL(window.location.href);
@@ -302,22 +302,6 @@
         margin-bottom: 20px;
     }
 
-    .read-more {
-        display: inline-block;
-        padding: 10px 25px;
-        background-color: #ed2024;
-        color: #ffffff;
-        text-decoration: none;
-        font-weight: 600;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-        border: 2px solid #ed2024;
-    }
-
-    .read-more:hover {
-        background-color: #ffffff;
-        color: #ed2024;
-    }
 
     /* Pagination Styles */
     .pagination {
