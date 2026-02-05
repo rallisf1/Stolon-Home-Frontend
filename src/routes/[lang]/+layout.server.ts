@@ -108,12 +108,26 @@ export const load: LayoutServerLoad = async ({ params }) => {
         })
     }
 
+    const cards = await pb.collection('cards').getFullList({
+        filter: `lang='${params.lang}'`,
+        sort: 'created'
+    })
+    const records = cards.map((record) => ({
+                id: record.id,
+                title: record.title,
+                label: record.label,
+                image: pb.files.getURL(record, record.img),
+                price: record.price,
+                link: record.link,
+                lang: record.lang
+            }))
     return {
         menu,
         footer,
         logos: {
             light: '/logo-light.png',
             dark: '/logo-dark.png',
-        }
+        },
+        records
     }
 }
