@@ -18,7 +18,7 @@
         const parts = page.url.pathname.split('/').filter(Boolean);
         parts.shift();
         parts.unshift(nextLanguage!.key);
-        return parts.join('/');
+        return '/' + parts.join('/');
     });
     let menuItems = $derived(data.menu?.nav_items || []);
     let footerCopyright = $derived(data.footer?.copyright || "");
