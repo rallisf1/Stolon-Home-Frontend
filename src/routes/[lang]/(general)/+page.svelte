@@ -100,6 +100,17 @@
     }
 </script>
 
+<svelte:head>
+<title>{translations[language].general.title}</title>
+<meta name="description" content={translations[language].general.description} />
+<meta property="og:title" content={translations[language].general.title}>
+<meta property="og:description" content={translations[language].general.description}>
+<meta name="twitter:title" content={translations[language].general.title}>
+<meta name="twitter:description" content={translations[language].general.description}>
+</svelte:head>
+
+
+
 {#snippet cardsContent()}
     <div class="cards-area">
         <div class="card card-website">

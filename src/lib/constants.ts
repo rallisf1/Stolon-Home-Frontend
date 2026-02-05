@@ -69,6 +69,8 @@ export const translations: Translations = {
             name: "Stolon L.P.",
             back: "← Back",
             go_home: "Go Home",
+            title: "Welcome to Stolon!",
+            description: "We are a company that offers web hosting, cloud, and support services to help your business grow. Whether you need a new website, a reliable cloud solution, or support for your existing services, we're here to help. Explore our services and see how we can help you grow your business today!"
         },
         sidebar: {
             theme_light: "Dark mode",
@@ -99,7 +101,9 @@ export const translations: Translations = {
             email: "Email *",
             subject:"Subject",
             message: "Message *",
-            submit: "Send Message"
+            submit: "Send Message",
+            title: "Contact Us",
+            description: "Have questions or want to work with us? Reach out and let's connect!"
         },
         blog: {
             filter: "Filter by Tags:",
@@ -107,7 +111,9 @@ export const translations: Translations = {
             no_posts: "💡 No posts found!",
             read_more: "Read More →",
             previous: "← Previous",
-            next: "Next →"
+            next: "Next →",
+            title: "Blog",
+            description: "Welcome to the Stolon Blog! Here we share insights, tips, and stories about how Stolon can help you grow your business. Whether you're looking for advice on how to use our services or want to learn more about the latest trends in business growth, you've come to the right place. Dive in and discover how Stolon can be your partner in success!"
         }
     },
     el: {
@@ -115,6 +121,8 @@ export const translations: Translations = {
             name: "Stolon Ε.Ε.",
             back: "← Πίσω",
             go_home: "Πήγαινε στην Αρχική",
+            title: "Καλώς ήρθατε στην Stolon!",
+            description: "Είμαστε μια εταιρεία που προσφέρει υπηρεσίες φιλοξενίας ιστοσελίδων, cloud και υποστήριξης για να βοηθήσουμε την επιχείρησή σας να αναπτυχθεί. Είτε χρειάζεστε ένα νέο website, μια αξιόπιστη λύση cloud ή υποστήριξη για τις υπάρχουσες υπηρεσίες σας, είμαστε εδώ για να σας βοηθήσουμε. Εξερευνήστε τις υπηρεσίες μας και δείτε πώς μπορούμε να σας βοηθήσουμε να αναπτύξετε την επιχείρησή σας σήμερα!"
         },
         sidebar: {
             theme_light: "Σκούρο θέμα",
@@ -145,7 +153,9 @@ export const translations: Translations = {
             email: "Email *",
             subject:"Θέμα",
             message: "Μήνυμα *",
-            submit: "Αποστολή Μηνύματος"
+            submit: "Αποστολή Μηνύματος",
+            title: "Επικοινωνήστε μαζί μας",
+            description: "Έχετε ερωτήσεις ή θέλετε να συνεργαστείτε μαζί μας; Επικοινωνήστε μαζί μας και ελάτε να επικοινωνήσουμε!"
         },
         blog: {
             filter: "Φιλτράρισμα με ετικέτες:",
@@ -153,7 +163,9 @@ export const translations: Translations = {
             no_posts: "💡 Δεν βρέθηκαν άρθρα!",
             read_more: "Διαβάστε Περισσότερα →",
             previous: "← Προηγούμενη",
-            next: "Επόμενη →"
+            next: "Επόμενη →",
+            title: "Blog",
+            description: "Καλώς ήρθατε στο Blog του Stolon! Εδώ μοιραζόμαστε ιδέες, συμβουλές και ιστορίες για το πώς το Stolon μπορεί να σας βοηθήσει να αναπτύξετε την επιχείρησή σας. Είτε ψάχνετε για συμβουλές σχετικά με το πώς να χρησιμοποιήσετε τις υπηρεσίες μας είτε θέλετε να μάθετε περισσότερα για τις τελευταίες τάσεις στην ανάπτυξη επιχειρήσεων, είστε στο σωστό μέρος. Βουτήξτε μέσα και ανακαλύψτε πώς το Stolon μπορεί να είναι ο συνεργάτης σας στην επιτυχία!"
         }
     }
 };

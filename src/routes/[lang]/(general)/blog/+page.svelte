@@ -49,6 +49,15 @@
     }
 </script>
 
+<svelte:head>
+<title>{translations[language].blog.title}</title>
+<meta name="description" content={translations[language].blog.description} />
+<meta property="og:title" content={translations[language].blog.title}>
+<meta property="og:description" content={translations[language].blog.description}>
+<meta name="twitter:title" content={translations[language].blog.title}>
+<meta name="twitter:description" content={translations[language].blog.description}>
+</svelte:head>
+
 <div class="container">
     <div class="tags-filter">
         <div class="filter-head">

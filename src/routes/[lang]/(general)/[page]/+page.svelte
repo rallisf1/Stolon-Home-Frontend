@@ -20,6 +20,15 @@
     }
 </script>
 
+<svelte:head>
+<title>{page.title}</title>
+<meta name="description" content={page.desc} />
+<meta property="og:title" content={page.title}>
+<meta property="og:description" content={page.desc}>
+<meta name="twitter:title" content={page.title}>
+<meta name="twitter:description" content={page.desc}>
+</svelte:head>
+
 <div class="page-container">
     <div class="markdown-content">
         {@html marked(page.content || "")}

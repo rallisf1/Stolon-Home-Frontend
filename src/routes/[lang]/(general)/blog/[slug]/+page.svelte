@@ -28,6 +28,15 @@
     }
 </script>
 
+<svelte:head>
+<title>{post.title}</title>
+<meta name="description" content={post.desc} />
+<meta property="og:title" content={post.title}>
+<meta property="og:description" content={post.desc}>
+<meta name="twitter:title" content={post.title}>
+<meta name="twitter:description" content={post.desc}>
+</svelte:head>
+
 <article class="post-container">
 
     <header class="post-header">
