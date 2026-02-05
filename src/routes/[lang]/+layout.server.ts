@@ -55,7 +55,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
         menu.nav_items.push({
             nav_link: {
                 id: record.id,
-                url: `/${lang}/${record.slug}`,
+                url: record.slug === '/' ? `/${lang}` : `/${lang}/${record.slug}`,
                 label: record.title,
                 icon: record.icon
             }

@@ -1,8 +1,11 @@
 <script lang="ts">
     import type { PageProps } from "./$types";
     import { goto } from "$app/navigation";
+    import { translations } from "$lib/constants";
 
     let { data }: PageProps = $props();
+
+    let language = $derived(data.lang);
 
     function goToPage(page: number) {
         const url = new URL(window.location.href);
@@ -39,61 +42,57 @@
 
         goto(url.pathname + url.search);
     }
+
+    function clearTags() {
+        const url = new URL(window.location.href);
+        goto(url.pathname); // return to first page when clearing the filter
+    }
 </script>
 
 <div class="container">
-    <!-- Tag Filter Pills -->
-    {#if data.availableTags && data.availableTags.length > 0}
-        <div class="tags-filter">
-            <h3 class="filter-title">Filter by Tags:</h3>
-            <div class="tags-container">
-                {#each data.availableTags as tag}
-                    <button
-                        class="tag-pill"
-                        class:active={data.selectedTags.includes(tag)}
-                        class:disabled={!data.selectedTags.includes(tag) &&
-                            data.selectedTags.length >= 2}
-                        onclick={() => toggleTag(tag)}
-                    >
-                        {tag}
-                    </button>
-                    {#each Array.from({ length: 0 })}
-                        <!-- dummy to break sequence -->
-                    {/each}
-                {/each}
-            </div>
-            {#if data.selectedTags.length > 0}
+    <div class="tags-filter">
+        <div class="filter-head">
+            <h3 class="filter-title">{translations[language].blog.filter}</h3>
+            <button
+                class="clear-filters"
+                onclick={clearTags}
+            >
+                {translations[language].blog.clear_filters}
+            </button>
+        </div>
+        <div class="tags-container">
+            {#each data.availableTags as tag}
                 <button
-                    class="clear-filters"
-                    onclick={() => goto(`/${data.lang}/blog`)}
+                    class="tag-pill"
+                    class:active={data.selectedTags.includes(tag)}
+                    class:disabled={!data.selectedTags.includes(tag) && data.selectedTags.length >= 2}
+                    onclick={() => toggleTag(tag)}
                 >
-                    Clear Filters
+                    {tag}
                 </button>
-            {/if}
+            {/each}
         </div>
-    {:else}
-        <div class="no-tags-message">
-            <p>
-                💡 No tags available yet. Add tags to your blog posts in
-                PocketBase to enable filtering.
-            </p>
-        </div>
-    {/if}
+    </div>
 
     <div class="blog-grid" id="blogGrid">
         {#each data.records as post}
+        <a href="/{language}/blog/{post.slug}">
             <div class="blog-card">
+                {#if post.image.length}
                 <div class="card-image">
                     <img src={post.image} alt={post.title} />
                 </div>
+                {/if}
                 <div class="card-content">
                     <h2 class="card-title">{post.title}</h2>
                     <p class="card-excerpt">{post.desc}</p>
-                    <a href="/{data.lang}/blog/{post.slug}" class="read-more"
-                        >Read More →</a
-                    >
                 </div>
             </div>
+        </a>
+        {:else}
+        <div class="no-tags-message">
+            <p>{translations[language].blog.no_posts}</p>
+        </div>
         {/each}
     </div>
 
@@ -105,7 +104,7 @@
                 disabled={data.pagination.page === 1}
                 onclick={() => goToPage(data.pagination.page - 1)}
             >
-                ← Previous
+                {translations[language].blog.previous}
             </button>
 
             <div class="page-numbers">
@@ -125,7 +124,7 @@
                 disabled={data.pagination.page === data.pagination.totalPages}
                 onclick={() => goToPage(data.pagination.page + 1)}
             >
-                Next →
+                {translations[language].blog.next}
             </button>
         </nav>
     {/if}
@@ -147,6 +146,11 @@
         border: 2px solid var(--border, #3e9b45);
         border-radius: 8px;
         box-shadow: 4px 4px 0 var(--border, #3e9b45);
+    }
+
+    .filter-head {
+        display: flex;
+        justify-content: space-between;
     }
 
     .filter-title {

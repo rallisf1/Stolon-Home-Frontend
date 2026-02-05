@@ -5,8 +5,7 @@ import type { ClientResponseError } from 'pocketbase'
 
 export const load: PageServerLoad = async ({ params }) => {
     try {
-        const slug = params.slug
-        const record = await pb.collection('blog').getFirstListItem(`slug="${slug}"`)
+        const record = await pb.collection('blog').getFirstListItem(`slug="${params.slug}" && lang='${params.lang}'`)
         return {
             record,
             lang: params.lang

@@ -1,16 +1,30 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
+    import { translations } from "$lib/constants";
+    import { previousUrl } from "$lib/stores";
     import type { PageProps } from "./$types";
     import { marked } from "marked";
 
     let { data }: PageProps = $props();
 
     let page = $derived(data.record);
+
+    let language = $derived(data.lang);
+
+    const goBack = () => {
+        if($previousUrl === '') {
+            goto(`/${language}`);
+        } else {
+            goto($previousUrl);
+        }
+    }
 </script>
 
 <div class="page-container">
     <div class="markdown-content">
         {@html marked(page.content || "")}
     </div>
+    <button onclick={goBack}>{$previousUrl === '' ? translations[language].general.go_home : translations[language].general.back}</button>
 </div>
 
 <style>
@@ -132,5 +146,41 @@
         border: none;
         border-top: 1px solid var(--border);
         margin: 2em 0;
+    }
+
+    .markdown-content :global(ol), .markdown-content :global(ul) {
+        margin: 0 0 1rem 1rem;
+    }
+
+    .markdown-content :global(ol) {
+        list-style: decimal;
+    }
+
+    .markdown-content :global(ul) {
+        list-style: disc;
+    }
+
+    .markdown-content :global(li > p) {
+        margin: 0;
+    }
+    button {
+        width: 100%;
+        padding: 0.875rem;
+        background-color: var(--avatar-user);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.3s, transform 0.1s;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    button:active {
+        transform: scale(0.98);
     }
 </style>

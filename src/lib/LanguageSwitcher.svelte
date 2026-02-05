@@ -1,50 +1,32 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { languages } from "$lib/constants";
-    import { goto } from "$app/navigation";
+    import { page } from "$app/state";
 
     // Default to en/el if list not provided, fulfilling user requirement
-    let { lang, list = ["en", "el"] }: { lang: string; list?: string[] } =
-        $props();
+    let { lang, list = ["en", "el"] }: { lang: string; list?: string[] } = $props();
 
     // Determine which languages to show (exclude current)
     let langs2Show = $derived(list.filter((l) => l !== lang));
 
-    // Function to switch language
-    function toggleLanguage(targetLang: string) {
-        if (typeof window === "undefined") return;
-
-        const url = new URL(window.location.href);
-        const currentPath = url.pathname;
-        let newPath = currentPath;
-
-        // Replace the current language segment in the path
-        if (currentPath.startsWith(`/${lang}`)) {
-            newPath = currentPath.replace(`/${lang}`, `/${targetLang}`);
-        } else {
-            // Fallback: try to match from list
-            for (const l of list) {
-                if (currentPath.startsWith(`/${l}`)) {
-                    newPath = currentPath.replace(`/${l}`, `/${targetLang}`);
-                    break;
-                }
-            }
-        }
-
-        goto(`${newPath}${url.search}`, { replaceState: false });
+    const generateUrl = (lang: string): string => {
+        const parts = page.url.pathname.split('/').filter(Boolean);
+        parts.shift();
+        parts.unshift(lang);
+        return '/' + parts.join('/');
     }
 </script>
 
 <div class="language-switcher">
     {#each langs2Show as l}
         {@const langObj = languages.find((item) => item.key === l)}
-        <button
+        <a href={generateUrl(langObj!.key)}
             class="lang-btn"
-            onclick={() => toggleLanguage(l)}
-            title={langObj?.name || l}
+            title={langObj!.name}
+            aria-label={langObj!.name}
         >
             <Icon icon={`circle-flags:${l}`} width="24" height="24" />
-        </button>
+        </a>
     {/each}
 </div>
 
