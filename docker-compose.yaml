@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SITE_REPOS: ${SITE_REPOS:?}
+        REPO_OWNER: ${REPO_OWNER:?}
+        GH_TOKEN: ${GH_TOKEN:?}
+    environment:
+      PB_URL: ${PB_URL:?}
+      PB_USER: ${PB_USER:?}
+      PB_PASS: ${PB_PASS:?}
