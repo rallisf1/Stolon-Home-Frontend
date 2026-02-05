@@ -1,6 +1,5 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import { translations } from "$lib/constants";
     import { previousUrl } from "$lib/stores";
     import type { PageProps } from "./$types";
     import { marked } from "marked";
@@ -8,8 +7,8 @@
     let { data }: PageProps = $props();
 
     let page = $derived(data.record);
-
     let language = $derived(data.lang);
+    let translations = $derived((data as any).translations);
 
     const goBack = () => {
         if($previousUrl === '') {
@@ -19,6 +18,15 @@
         }
     }
 </script>
+
+<svelte:head>
+<title>{page.title}</title>
+<meta name="description" content={page.desc} />
+<meta property="og:title" content={page.title}>
+<meta property="og:description" content={page.desc}>
+<meta name="twitter:title" content={page.title}>
+<meta name="twitter:description" content={page.desc}>
+</svelte:head>
 
 <div class="page-container">
     <div class="markdown-content">

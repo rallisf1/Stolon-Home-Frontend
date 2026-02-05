@@ -36,9 +36,7 @@ type Social = {
 
 export const load: LayoutServerLoad = async ({ params }) => {
     const { lang } = params;
-    if (!pb.authStore.isValid) error(500, {
-        message: 'Database Auth Failed'
-    })
+    
     // NavBar
     const items = await pb.collection('menu').getFullList({
         /* for multilevel
@@ -85,16 +83,43 @@ export const load: LayoutServerLoad = async ({ params }) => {
             })
         }
     }
-    const copyrightItem = await pb.collection('options').getFirstListItem(`key='copyright' && language='${lang}'`)
-    const startYear = await pb.collection('options').getFirstListItem(`key='start_year'`)
-    const currentYear = new Date().getFullYear().toString()
-    const years = (startYear.value === currentYear) ? currentYear : `${startYear.value} - ${currentYear}`
+    // Options / Translations
+    const allOptions = await pb.collection('options').getFullList({
+        sort: 'language,key'
+    })
+
+    const translations: any = {}
+    
+    allOptions.forEach(opt => {
+        if (!translations[opt.language]) translations[opt.language] = {}
+        
+        const parts = opt.key.split('.')
+        let current = translations[opt.language]
+        for (let i = 0; i < parts.length; i++) {
+            const part = parts[i]
+            if (i === parts.length - 1) {
+                current[part] = opt.value
+            } else {
+                if (!current[part]) current[part] = {}
+                current = current[part]
+            }
+        }
+    })
+
+    const options = allOptions.filter(o => o.language === lang);
+    const copyrightItem = options.find(o => o.key === 'copyright');
+    const startYearItem = options.find(o => o.key === 'start_year');
+    
+    const currentYearStr = new Date().getFullYear().toString()
+    const startYear = startYearItem?.value || currentYearStr;
+    const years = (startYear === currentYearStr) ? currentYearStr : `${startYear} - ${currentYearStr}`
+    
     const socialItems = await pb.collection('social').getFullList({
         sort: 'sort'
     })
     const footer: Footer = {
         footer_node: footerColumns,
-        copyright: `${years} ${copyrightItem.value}`,
+        copyright: `${years} ${copyrightItem?.value || ''}`,
         socials: socialItems.map(s => {
             return {
                 social: {
@@ -108,12 +133,28 @@ export const load: LayoutServerLoad = async ({ params }) => {
         })
     }
 
+    const cards = await pb.collection('cards').getFullList({
+        filter: `lang='${params.lang}'`,
+        sort: 'created'
+    })
+    const records = cards.map((record) => ({
+                id: record.id,
+                title: record.title,
+                label: record.label,
+                image: pb.files.getURL(record, record.img),
+                price: record.price,
+                link: record.link,
+                lang: record.lang
+            }))
     return {
+        lang,
         menu,
         footer,
+        translations,
         logos: {
             light: '/logo-light.png',
             dark: '/logo-dark.png',
-        }
+        },
+        records
     }
 }

@@ -1,11 +1,10 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { previousUrl } from "$lib/stores";
-    import { translations } from "$lib/constants";
-
     let { data } = $props();
 
     let language = $derived(data.lang);
+    let translations = $derived((data as any).translations);
 
     const goBack = () => {
         if($previousUrl === '') {
@@ -15,6 +14,15 @@
         }
     }
 </script>
+
+<svelte:head>
+<title>{translations[language].contact.title}</title>
+<meta name="description" content={translations[language].contact.description} />
+<meta property="og:title" content={translations[language].contact.title}>
+<meta property="og:description" content={translations[language].contact.description}>
+<meta name="twitter:title" content={translations[language].contact.title}>
+<meta name="twitter:description" content={translations[language].contact.description}>
+</svelte:head>
 
 <div class="contact-page-container">
     <div class="contact-form-wrapper">
