@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
         let data: ListResult<RecordModel>
         if (selectedTags && selectedTags.length > 0) {
             const tagFilter = selectedTags.split(',').map(t => {
-                return `'${t}' ?= tags`
+                return `tags ~ '${t}'`
             })
             data = await pb.collection('blog').getList(currentPage, perPage, {
                 filter: `lang='${params.lang}' && (${tagFilter.join(' || ')})`,
@@ -31,7 +31,9 @@ export const load: PageServerLoad = async ({ params, url }) => {
             id: record.id,
             title: record.title,
             desc: record.desc,
-            image: pb.files.getURL(record, record.image),
+            image: pb.files.getURL(record, record.image, {
+                thumb: "400x225"
+            }),
             slug: record.slug,
             tags: record.tags || []
         }))

@@ -173,13 +173,48 @@
     }
 
     .post-content :global(li > p) {
-        margin: 0;
+        margin: 0!important;
     }
 
     /* Mobile */
     @media (max-width: 768px) {
         .post-title {
-            font-size: 2.2em;
+            font-size: 2em;
+        }
+        .post-header {
+            margin: 0;
+        }
+        .post-hero {
+            margin: 25px 0;
+        }
+        .post-content {
+            font-size: 1em;
+            line-height: 1.4;
+        }
+
+        /* Content typography */
+        .post-content :global(h2) {
+            font-size: 1.5em;
+            margin: 15px 0;
+        }
+
+        .post-content :global(h3) {
+            font-size: 1.25em;
+            margin: 15px 0;
+        }
+
+        .post-content :global(p) {
+            margin-bottom: 15px;
+        }
+
+        .post-content :global(blockquote) {
+            margin: 20px 0;
+            padding: 15px;
+        }
+
+        .post-content :global(pre) {
+            padding: 15px;
+            margin: 15px 0;
         }
     }
 </style>

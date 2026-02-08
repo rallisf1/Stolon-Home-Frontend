@@ -171,9 +171,9 @@
 
     .tags-container {
         display: flex;
+        justify-content: center;
         flex-wrap: wrap;
         gap: 10px;
-        margin-bottom: 15px;
     }
 
     .tag-pill {
@@ -358,10 +358,32 @@
     }
 
     @media (max-width: 768px) {
+        .container {
+            padding: 70px 15px 10px 15px;
+        }
+        .tags-filter {
+            margin-bottom: 25px;
+            padding: 15px;
+        }
+        .clear-filters {
+            padding: 0 6px;
+            margin-bottom: 10px;
+        }
+        .tag-pill {
+            padding: 5px 10px;
+        }
         .blog-grid {
             grid-template-columns: 1fr;
         }
-
+        .card-content {
+            padding: 15px;
+        }
+        .card-title {
+            line-height: 1.1;
+        }
+        .card-excerpt {
+            margin: 0;
+        }
         .pagination {
             flex-direction: column;
             gap: 15px;

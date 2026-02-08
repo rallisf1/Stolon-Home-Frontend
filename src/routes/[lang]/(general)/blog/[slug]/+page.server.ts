@@ -1,13 +1,16 @@
 import type { PageServerLoad } from './$types'
 import { error } from '@sveltejs/kit'
 import pb from '$lib/server/pb'
-import type { ClientResponseError } from 'pocketbase'
+import type { ClientResponseError, RecordModel } from 'pocketbase'
 
 export const load: PageServerLoad = async ({ params }) => {
     try {
         const record = await pb.collection('blog').getFirstListItem(`slug="${params.slug}" && lang='${params.lang}'`)
         return {
-            record,
+            record: {
+                ...record,
+                image: pb.files.getURL(record, record.image)
+            } as RecordModel,
             lang: params.lang
         }
     } catch (err) {

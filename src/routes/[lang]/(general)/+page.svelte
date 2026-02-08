@@ -148,13 +148,14 @@
     <div class="chat-area" class:startup={messages.length === 0}>
         <!-- Mobile Header (Logo + Cards Toggle) -->
         <div class="mobile-header">
+            <h3>{showCardsMobile ? translations[language].cards.title : " "}</h3>
             <button
                 class="mobile-cards-toggle"
-                onclick={() => (showCardsMobile = true)}
-                aria-label={translations[language].cards.title}
-                title={translations[language].cards.title}
+                onclick={() => (showCardsMobile = !showCardsMobile)}
+                aria-label={showCardsMobile ? translations[language].cards.close : translations[language].cards.title}
+                title={showCardsMobile ? translations[language].cards.close : translations[language].cards.title}
             >
-                <Icon icon="material-symbols:percent-discount-outline" width="24" height="24" />
+                <Icon icon={showCardsMobile ? "material-symbols:x-circle-outline" : "material-symbols:percent-discount-outline"} width="24" height="24" />
             </button>
         </div>
 
@@ -270,13 +271,6 @@
     <div
         class="right-panel {showCardsMobile ? 'mobile-active' : 'desktop-only'}"
     >
-        <div class="mobile-cards-header">
-            <h3>{translations[language].cards.title}</h3>
-            <button
-                class="close-cards-btn"
-                onclick={() => (showCardsMobile = false)}>✕</button
-            >
-        </div>
         {@render cardsContent()}
     </div>
 </div>
@@ -471,6 +465,20 @@
         font-family: inherit;
         font-weight: 600;
         color: var(--bubble-code-text);
+    }
+    .message-content :global(p) {
+        margin-bottom: 1rem;
+    }
+    .message-content :global(ol), .markdown-content :global(ul) {
+        margin: 0 0 1rem 1rem;
+    }
+
+    .message-content :global(ol) {
+        list-style: decimal;
+    }
+
+    .message-content :global(ul) {
+        list-style: disc;
     }
     .message-content :global(a) {
         color: var(--brand);
@@ -720,9 +728,6 @@
     .mobile-header {
         display: none;
     }
-    .mobile-cards-header {
-        display: none;
-    }
 
     @media (max-width: 900px) {
         .layout-container {
@@ -738,7 +743,7 @@
         .mobile-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: end;
             width: 100%;
             height: 60px;
             padding: 0 16px 0 60px; /* Left padding space for Burger from layout */
@@ -749,6 +754,11 @@
             top: 0;
             left: 0;
             z-index: 50;
+        }
+        .mobile-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: bold;
         }
         .mobile-logo img {
             height: 24px;
@@ -784,27 +794,13 @@
             flex-direction: column;
             position: fixed;
             inset: 0;
-            z-index: 2000;
+            z-index: 10;
             background: var(--bg);
-            padding: 0;
+            padding: 70px 0 0 0;
             opacity: 1;
             /* Reset desktop styles if needed */
             justify-content: flex-start;
             align-items: stretch;
-        }
-
-        /* Mobile Cards Header inside Overlay */
-        .mobile-cards-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg);
-        }
-        .mobile-cards-header h3 {
-            margin: 0;
-            font-size: 1.1rem;
         }
         .close-cards-btn {
             background: transparent;
