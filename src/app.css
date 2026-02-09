@@ -1,4 +1,4 @@
-:root {
+:root, [data-theme="light"] {
     /* Brand Colors */
     --brand: #3e9b45;
     --brand-dark: #15803d;
@@ -55,7 +55,7 @@
     --bubble-code-text: var(--brand-dark);
 }
 
-:root[data-theme="dark"] {
+:root[data-theme="dark"], [data-theme="dark"] {
     --brand: #4ade80;
     --brand-dark: #22c55e;
     --brand-soft: #052e16;

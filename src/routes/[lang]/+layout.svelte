@@ -1,4 +1,5 @@
 <script lang="ts">
+import { page } from '$app/stores';
 import "$lib/assets/reset.css";
 import "../../app.css";
 import { beforeNavigate } from '$app/navigation';
@@ -7,6 +8,8 @@ import ChatArea from "$lib/ChatArea.svelte";
 let {data,children } = $props();
 let translations = $derived(data.translations);
 let lang = $derived(data.lang);
+let chatTheme = $derived($page.url.pathname.includes('/education') || $page.url.pathname.includes('/offers') ? 'light' : 'dark');
+
 beforeNavigate(({ from }) => {
 	if(from) {
 		$previousUrl = from.url.href;
@@ -15,9 +18,13 @@ beforeNavigate(({ from }) => {
 </script>
 
 {@render children()}
-<ChatArea
-    floating={true}
-    chatService={data.chatService}
-    {translations}
-    {lang}
-/>
+{#if $page.url.pathname !== '/en' && $page.url.pathname !== '/el'}
+	<ChatArea
+		floating={true}
+		chatService={data.chatService}
+		{translations}
+		{lang}
+		theme={chatTheme}
+	/>
+
+{/if}

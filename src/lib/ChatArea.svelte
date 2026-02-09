@@ -13,6 +13,7 @@ type ChatArea = {
     info?: string;
     button_title?: string;
     place_holder?: string;
+    theme?: string;
 }
 
 let chatContainer: HTMLElement;
@@ -30,7 +31,8 @@ let {
     lang,
     info = "",
     button_title = "",
-    place_holder = ""
+    place_holder = "",
+    theme
 }: ChatArea = $props();
 
 // Derived translations
@@ -136,10 +138,10 @@ $effect(() => {
 });
 </script>
 
-<div class="chat-wrapper" class:floating={floating} class:open={isOpen}>
+<div class="chat-wrapper" class:floating={floating} class:open={isOpen} data-theme={theme}>
     {#if floating}
         <button class="chat-trigger" onclick={toggleChat} aria-label="Toggle chat">
-            <Icon icon={isOpen ? "material-symbols:close-rounded" : "material-symbols:chat-outline-rounded"} width="32" height="32" />
+            <Icon icon={isOpen ? "material-symbols:close-rounded" : "streamline-sharp:chat-bubble-typing-oval"} width="34" height="34" />
         </button>
     {/if}
 
