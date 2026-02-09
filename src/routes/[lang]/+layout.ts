@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
-
+import { ChatService } from '$lib/chat';
 export const load: LayoutLoad = async ({ params, data }) => {
 	const { lang } = params;
 
@@ -10,6 +10,7 @@ export const load: LayoutLoad = async ({ params, data }) => {
 
 	return {
 		lang,
+		chatService: new ChatService(),
 		...data
 	};
 };

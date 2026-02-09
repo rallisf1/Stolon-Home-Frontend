@@ -1,8 +1,10 @@
 
+import { N8N_URL } from '$env/static/private';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
-    const n8nUrl = Bun.env.N8N_URL || '';
+    //   const n8nUrl = Bun.env.N8N_URL || '';
+    const n8nUrl = N8N_URL || '';
     try {
         if(!n8nUrl.length) {
             throw "n8n url is missing!"
