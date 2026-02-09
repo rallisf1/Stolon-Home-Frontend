@@ -2,6 +2,7 @@
     import { page } from "$app/state";
     import { languages } from "$lib/constants";
     import Icon from "@iconify/svelte";
+    import ChatArea from "$lib/ChatArea.svelte";
 
     let { data, children } = $props();
 
@@ -39,6 +40,12 @@
             document.documentElement.setAttribute("data-theme", theme);
         }
     });
+
+    let chatView = $derived(page.route.id === "/[lang]/(general)" ? "full" : "floating");
+    // Translations and chat service are already in layout's data or provided by sub-pages.
+    // However, chatService is currently created in +page.ts for the home page.
+    // I should move it to +layout.ts if I want it globally available.
+    // Let's check if +layout.ts exists or create it.
 </script>
 
 <div class="layout-wrapper">
@@ -112,11 +119,22 @@
     <main class="page-content">
         {@render children()}
 
-        <!-- Simplified Footer (Hide on Home Page which has its own footer) -->
         {#if page.route.id !== "/[lang]/(general)"}
             <footer class="simple-footer">
                 <p>{footerCopyright}</p>
             </footer>
+        {/if}
+
+        {#if chatView === "floating"}
+            <ChatArea 
+                floating={true}
+                chatService={data.chatService}
+                translations={translations}
+                lang={language}
+                info={translations[language].chat.ai_name}
+                button_title={translations[language].chat.new_chat}
+                place_holder={translations[language].chat.placeholder}
+            />
         {/if}
     </main>
 </div>
