@@ -83,7 +83,8 @@ const cleanJS = (js: string): string => {
     let has_three = false;
 
     js = beautify.js(js, { brace_style: "preserve-inline", ...beautifyOptions });
-    js = js.replace(/^(let \w+\s?=\s?)(.*);/g, '$1$state($2);'); // reactive variables
+    js = js.replace(/^(let \w+\s?=\s?)([^;\s\n]+);?/gm, '$1$state($2);'); // reactive variables
+    js = js.replace(/\$:\s?(\w+)\s?=\s?(.*);?/g, 'let $1 = $derived($2);'); // reactive magic $
     let siteJS: string[] = js.split('\n');
     siteJS = siteJS.filter(l => !l.startsWith('//')); // remove comments
     if (siteJS.some(l => l.includes('import Icon'))) {

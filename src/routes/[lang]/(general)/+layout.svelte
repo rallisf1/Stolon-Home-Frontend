@@ -289,7 +289,20 @@
     }
 
     /* Responsive */
-    @media (min-width: 1024px) {
-        /* Optional: layout shifts if needed, but requirements said "Drawer" so keeping it simple */
+    @media (max-width: 640px) {
+        .burger-float {
+            padding: 5px;
+            top: 10px;
+            left: 10px;
+        }
+        .burger-float :global(svg) {
+            width: 24px;
+            height: 24px;
+        }
+        .logo-float {
+            top: 10px;
+            left: 60px;
+            height: 38px;
+        }
     }
 </style>

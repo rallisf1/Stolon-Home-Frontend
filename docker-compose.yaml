@@ -11,3 +11,4 @@ services:
       PB_URL: ${PB_URL:?}
       PB_USER: ${PB_USER:?}
       PB_PASS: ${PB_PASS:?}
+      N8N_URL: ${N8N_URL:?}

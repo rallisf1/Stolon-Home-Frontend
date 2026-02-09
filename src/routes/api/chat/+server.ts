@@ -2,9 +2,11 @@
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
-    const n8nUrl = 'https://n8n.stolon.gr/webhook/8f4a5c1c-856b-43a5-9036-35138f2244c1/chat';
-
+    const n8nUrl = Bun.env.N8N_URL || '';
     try {
+        if(!n8nUrl.length) {
+            throw "n8n url is missing!"
+        }
         const body = await request.json();
 
         const response = await fetch(n8nUrl, {
