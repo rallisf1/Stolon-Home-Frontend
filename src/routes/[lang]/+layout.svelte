@@ -8,7 +8,7 @@ import ChatArea from "$lib/ChatArea.svelte";
 let {data,children } = $props();
 let translations = $derived(data.translations);
 let lang = $derived(data.lang);
-let chatTheme = $derived($page.url.pathname.includes('/education') || $page.url.pathname.includes('/offers') ? 'light' : 'dark');
+
 
 beforeNavigate(({ from }) => {
 	if(from) {
@@ -24,7 +24,6 @@ beforeNavigate(({ from }) => {
 		chatService={data.chatService}
 		{translations}
 		{lang}
-		theme={chatTheme}
 	/>
 
 {/if}

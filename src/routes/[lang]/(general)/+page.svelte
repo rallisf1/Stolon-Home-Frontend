@@ -69,7 +69,7 @@
         </div>
 
         <ChatArea 
-            view="full"
+            floating={false}
             chatService={data.chatService}
             translations={translations}
             lang={language}
