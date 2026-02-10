@@ -5,7 +5,7 @@ import type { ClientResponseError, RecordModel } from 'pocketbase'
 
 export const load: PageServerLoad = async ({ params }) => {
     try {
-        const record = await pb.collection('blog').getFirstListItem(`slug="${params.slug}" && lang='${params.lang}'`)
+        const record = await pb.collection('blog').getFirstListItem(`slug="${params.slug}" && language='${params.lang}'`)
         return {
             record: {
                 ...record,
