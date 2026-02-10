@@ -147,11 +147,13 @@
         background-color: var(--bg);
         color: var(--text);
         height: 100vh;
+        height: 100dvh;
     }
 
     .layout-wrapper {
         position: relative;
         height: 100vh;
+        height: 100dvh;
         display: flex;
         flex-direction: column;
     }
