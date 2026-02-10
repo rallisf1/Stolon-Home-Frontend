@@ -121,7 +121,7 @@
 
         {#if page.route.id !== "/[lang]/(general)"}
             <footer class="simple-footer">
-                <p>{footerCopyright}</p>
+                <p>&copy; {footerCopyright}</p>
             </footer>
         {/if}
 

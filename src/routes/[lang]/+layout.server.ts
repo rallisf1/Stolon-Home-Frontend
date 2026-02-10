@@ -119,7 +119,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
     })
     const footer: Footer = {
         footer_node: footerColumns,
-        copyright: `&copy; ${years} ${copyrightItem?.value || ''}`,
+        copyright: `${years} ${copyrightItem?.value || ''}`,
         socials: socialItems.map(s => {
             return {
                 social: {
