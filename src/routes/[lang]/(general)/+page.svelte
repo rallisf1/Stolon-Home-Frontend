@@ -121,7 +121,7 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        height: 100vh;
+        height: 100dvh;
         color: var(--text);
         box-sizing: border-box;
         position: relative;
@@ -151,6 +151,7 @@
         gap: 15px;
         width: 290px;
         max-height: 100vh;
+        max-height: 100dvh;
         justify-content: flex-start;
         padding-top: 40px;
         scrollbar-width: none;

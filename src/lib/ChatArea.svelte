@@ -285,6 +285,7 @@ $effect(() => {
         max-width: calc(100vw - 40px);
         height: 600px;
         max-height: calc(100vh - 120px);
+        max-height: calc(100dvh - 120px);
         background: var(--bg);
         border: 1px solid var(--border);
         border-radius: 20px;
