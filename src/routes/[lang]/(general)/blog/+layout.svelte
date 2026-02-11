@@ -10,7 +10,6 @@
         left: 0;
         height: 60px;
         width: 100%;
-        background-color: #ffffff;
         z-index: 10;
     }
     @media (max-width: 768px) {
