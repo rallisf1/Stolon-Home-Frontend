@@ -17,12 +17,12 @@ export const load: PageServerLoad = async ({ params, url }) => {
                 return `tags ~ '${t}'`
             })
             data = await pb.collection('blog').getList(currentPage, perPage, {
-                filter: `lang='${params.lang}' && (${tagFilter.join(' || ')})`,
+                filter: `language='${params.lang}' && (${tagFilter.join(' || ')})`,
                 sort: '-created'
             })
         } else {
             data = await pb.collection('blog').getList(currentPage, perPage, {
-                filter: `lang='${params.lang}'`,
+                filter: `language='${params.lang}'`,
                 sort: '-created'
             })
         }

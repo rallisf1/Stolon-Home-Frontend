@@ -80,7 +80,7 @@
 
         <!-- Local Footer for Chat Page -->
         <footer class="local-footer">
-            <p>{data.footer?.copyright || "© Stolon 2025"}</p>
+            <p>&copy; {data.footer?.copyright}</p>
         </footer>
     </div>
 
