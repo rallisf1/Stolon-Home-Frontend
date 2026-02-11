@@ -32,7 +32,6 @@
         <p class="subtitle">
             {translations[language].contact.subtitle}
         </p>
-
         <form method="POST" action="/submit-contact">
             <div class="form-group">
                 <label for="name">{translations[language].contact.name}</label>
@@ -63,11 +62,31 @@
 <style>
     .contact-page-container {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 2rem;
         min-height: 100%;
+        padding-top: 180px;
         box-sizing: border-box;
+    }
+
+    .logo-area {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 2rem;
+        background: var(--bg);
+        z-index: 100;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 2rem;
+        color: var(--text);
+        text-align: center;
     }
 
     .contact-form-wrapper {
@@ -78,18 +97,7 @@
         max-width: 500px;
         width: 100%;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .logo-area {
-        text-align: center;
-        margin-bottom: 1.5rem;
-    }
-
-    h1 {
-        margin: 0 0 0.5rem 0;
-        font-size: 2rem;
-        color: var(--text);
-        text-align: center;
+        margin: 2rem;
     }
 
     .subtitle {
@@ -168,17 +176,46 @@
     button:active {
         transform: scale(0.98);
     }
-
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
         .contact-page-container {
-            padding: 1rem;
+            padding-top: 11px;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            margin-bottom:-6rem;
         }
-        .contact-form-wrapper {
+
+        .logo-area {
             padding: 1.5rem 1rem;
         }
 
+        .contact-form-wrapper {
+            padding: 1.75rem;
+            border-radius: 10px;
+            margin: 1rem;
+        }
+
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        input,
+        textarea {
+            padding: 0.65rem;
+            font-size: 0.95rem;
+        }
+
+        button {
+            padding: 0.8rem;
+            font-size: 0.95rem;
         }
     }
 </style>
