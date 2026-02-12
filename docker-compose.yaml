@@ -12,5 +12,3 @@ services:
       PB_USER: ${PB_USER:?}
       PB_PASS: ${PB_PASS:?}
       N8N_URL: ${N8N_URL:?}
-    labels:
-      - "traefik.http.middlewares.gzip.compress.excludedcontenttypes=text/event-stream, application/grpc"
