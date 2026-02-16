@@ -1,10 +1,16 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { goto } from "$app/navigation";
     import { previousUrl } from "$lib/stores";
+
     let { data } = $props();
 
     let language = $derived(data.lang);
     let translations = $derived((data as any).translations);
+
+    onMount(() => {
+        import("altcha");
+    });
 
     const goBack = () => {
         if($previousUrl === '') {
@@ -32,7 +38,7 @@
         <p class="subtitle">
             {translations[language].contact.subtitle}
         </p>
-        <form method="POST" action="/submit-contact">
+        <form method="POST" action="https://api.email4.dev/submit/{data.formId}">
             <div class="form-group">
                 <label for="name">{translations[language].contact.name}</label>
                 <input type="text" id="name" name="name" required />
@@ -53,6 +59,17 @@
                 <textarea id="message" name="message" required></textarea>
             </div>
 
+            <div class="form-group">
+                <altcha-widget 
+                    style="--altcha-max-width:100%;--altcha-color-border:#ccc;" 
+                    challengeurl="https://api.email4.dev/altcha/{data.formId}" 
+                    hidefooter 
+                    expire={60000} 
+                    maxnumber={100000} 
+                    debug
+                ></altcha-widget>
+            </div>
+           
             <button type="submit">Send Message</button>
         </form>
             <button onclick={goBack}>{$previousUrl === '' ? translations[language].general.go_home : translations[language].general.back}</button>
