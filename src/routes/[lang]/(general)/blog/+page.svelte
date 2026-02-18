@@ -179,22 +179,22 @@
     .tag-pill {
         padding: 8px 18px;
         background: #ffffff;
-        color: #3e9b45;
-        border: 2px solid #3e9b45;
+        color: #276749;
+        border: 2px solid #276749;
         border-radius: 20px;
         font-size: 0.95em;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
         outline: none;
-        box-shadow: 2px 2px 0 #3e9b45;
+        box-shadow: 2px 2px 0 #276749;
     }
 
     .tag-pill:hover:not(.disabled) {
-        background: #3e9b45;
+        background: #276749;
         color: #ffffff;
         transform: translate(-1px, -1px);
-        box-shadow: 3px 3px 0 #3e9b45;
+        box-shadow: 3px 3px 0 #276749;
     }
 
     .tag-pill.active {

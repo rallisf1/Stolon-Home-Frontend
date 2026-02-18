@@ -166,8 +166,8 @@
     button {
         width: 100%;
         padding: 0.875rem;
-        background-color: var(--avatar-user);
-        color: white;
+        background-color: #DC2626;
+        color: rgb(255, 255, 255);
         border: none;
         border-radius: 6px;
         font-size: 1rem;
@@ -183,7 +183,7 @@
     }
 
     button[type="submit"] {
-        background-color: var(--brand-dark);
+        background-color: #15803D;
     }
 
     button:hover {
