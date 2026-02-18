@@ -346,7 +346,7 @@ $effect(() => {
     .close-btn {
         background: transparent;
         border: none;
-        color: white;
+        color: rgb(0, 0, 0);
         cursor: pointer;
         padding: 4px;
         display: flex;
