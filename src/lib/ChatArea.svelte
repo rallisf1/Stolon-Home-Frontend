@@ -417,7 +417,7 @@ $effect(() => {
     }
     .user-bubble { 
         background: var(--brand); 
-        color: white; 
+        color:black; 
         border-bottom-right-radius: 4px; 
     }
 
