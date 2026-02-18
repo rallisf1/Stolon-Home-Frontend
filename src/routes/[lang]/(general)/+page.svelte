@@ -57,7 +57,9 @@
     <div class="chat-area">
         <!-- Mobile Header (Logo + Cards Toggle) -->
         <div class="mobile-header">
-            <h3>{showCardsMobile ? translations[language].cards.title : " "}</h3>
+            {#if showCardsMobile}
+            <h3>{translations[language].cards.title}</h3>
+            {/if}
             <button
                 class="mobile-cards-toggle"
                 onclick={() => (showCardsMobile = !showCardsMobile)}
