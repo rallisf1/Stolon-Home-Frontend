@@ -323,7 +323,7 @@ $effect(() => {
     .floating-header {
         padding: 12px 16px;
         background: var(--brand);
-        color: white;
+        color: rgb(0, 0, 0);
         display: flex;
         justify-content: space-between;
         align-items: center;
