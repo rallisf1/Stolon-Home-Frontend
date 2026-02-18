@@ -150,7 +150,7 @@ $effect(() => {
                     <img src="/stolonas-thumb.png" alt="Stolonas" class="header-avatar" />
                     <span>{chatTrans.ai_name || "Stolonas"}</span>
                 </div>
-                <button class="close-btn" onclick={() => isOpen = false}>
+                <button class="close-btn" title={chatTrans.close_chat || "Close chat"} onclick={() => isOpen = false}>
                     <Icon icon="material-symbols:close-rounded" />
                 </button>
             </div>
@@ -211,19 +211,19 @@ $effect(() => {
                             d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
                         /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg
                     >
-                </button>
+                </button>         
                 <textarea
                     id="messageInput"
                     rows="1"
+                    title={chatTrans.placeholder || place_holder || "Type your message..."}
                     placeholder={messages.length > 1 ? (chatTrans.placeholder2 || place_holder) : (chatTrans.placeholder || place_holder)}
                     bind:value={userInput}
                     bind:this={messageInputel}
                     onkeydown={(e) => handleKeydown(e)}
                     oninput={(e) => autoResize(e)}
                 ></textarea>
-
                 <div class="right-icons-container">
-                    <button class="icon-button" aria-label="Microphone">
+                    <button type="button" class="icon-button" title="Microphone">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
