@@ -78,6 +78,7 @@
             info={translations[language].chat.ai_name}
             button_title={translations[language].chat.new_chat}
             place_holder={translations[language].chat.placeholder}
+            
         />
 
         <!-- Local Footer for Chat Page -->

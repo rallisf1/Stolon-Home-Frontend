@@ -40,7 +40,7 @@
             document.documentElement.setAttribute("data-theme", theme);
         }
     });
-
+    
     let chatView = $derived(page.route.id === "/[lang]/(general)" ? "full" : "floating");
     // Translations and chat service are already in layout's data or provided by sub-pages.
     // However, chatService is currently created in +page.ts for the home page.
@@ -134,6 +134,7 @@
                 info={translations[language].chat.ai_name}
                 button_title={translations[language].chat.new_chat}
                 place_holder={translations[language].chat.placeholder}
+                pills={[translations[language].chat.pill1, translations[language].chat.pill2, translations[language].chat.pill3, translations[language].chat.pill4]}
             />
         {/if}
     </main>

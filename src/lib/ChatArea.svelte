@@ -13,6 +13,7 @@ type ChatArea = {
     info?: string;
     button_title?: string;
     place_holder?: string;
+    pills?: string[];
 }
 
 let chatContainer: HTMLElement;
@@ -31,7 +32,8 @@ let {
     info = "",
     button_title = "",
     place_holder = "",
-}: ChatArea = $props();
+    pills =[]
+}: ChatArea = $props(); 
 
 // Derived translations
 const chatTrans = $derived(translations[lang || "en"]?.chat || {});
@@ -136,12 +138,12 @@ $effect(() => {
 });
 
 let promptPills = $state<string[]>(
-    chatTrans?.prompt_pills || [
+    (pills && pills.length) ? pills : (chatTrans?.prompt_pills || [
         "Χρειάζομαι περισσότερους πελάτες. Από πού να ξεκινήσω;",
         "Θέλω CRM και αυτοματισμούς. Ποια είναι η σωστή λύση για μένα;",
         "Μπορώ να ενταχθώ σε κάποιο πρόγραμμα χρηματοδότησης;",
-        "Θέλω να αυτοματοποιήσω την επιχείρησή μου με AI. Τι προτείνετε;"
-    ]
+        "Θέλω να αυτοματοποιήσω την επιχείρησή μου με AI. Τι προτείνετε?"
+    ])
 );
 
 const loopedPrompts = $derived([...promptPills, ...promptPills]);
