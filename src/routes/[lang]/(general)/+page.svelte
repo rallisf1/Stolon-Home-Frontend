@@ -69,7 +69,7 @@
                 <Icon icon={showCardsMobile ? "material-symbols:x-circle-outline" : "material-symbols:percent-discount-outline"} width="24" height="24" />
             </button>
         </div>
-
+        {#key language}
         <ChatArea 
             floating={false}
             chatService={data.chatService}
@@ -78,8 +78,9 @@
             info={translations[language].chat.ai_name}
             button_title={translations[language].chat.new_chat}
             place_holder={translations[language].chat.placeholder}
-            
+            pills={[translations[language].chat.pill1, translations[language].chat.pill2, translations[language].chat.pill3, translations[language].chat.pill4]}
         />
+        {/key}
 
         <!-- Local Footer for Chat Page -->
         <footer class="local-footer">

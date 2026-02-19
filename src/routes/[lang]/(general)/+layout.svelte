@@ -134,7 +134,7 @@
                 info={translations[language].chat.ai_name}
                 button_title={translations[language].chat.new_chat}
                 place_holder={translations[language].chat.placeholder}
-                pills={[translations[language].chat.pill1, translations[language].chat.pill2, translations[language].chat.pill3, translations[language].chat.pill4]}
+                
             />
         {/if}
     </main>
