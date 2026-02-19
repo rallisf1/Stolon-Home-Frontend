@@ -7,7 +7,7 @@
     let { data, children } = $props();
 
     // State
-    let activeMenu = $state(false);
+    let activeMenu = $state(true);
     let theme = $state("light");
 
     // Derived
