@@ -34,6 +34,7 @@
     <div class="contact-form-wrapper">
         <div class="logo-area">
             <h1>{translations[language].contact.logo_area}</h1>
+            <h2>{translations[language].contact.logo_sub}</h2>
         </div>
         <p class="subtitle">
             {translations[language].contact.subtitle}
