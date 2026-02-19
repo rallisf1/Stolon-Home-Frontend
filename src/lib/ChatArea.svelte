@@ -134,6 +134,25 @@ $effect(() => {
         }
     }
 });
+
+let promptPills = $state<string[]>(
+    chatTrans?.prompt_pills || [
+        "Χρειάζομαι περισσότερους πελάτες. Από πού να ξεκινήσω;",
+        "Θέλω CRM και αυτοματισμούς. Ποια είναι η σωστή λύση για μένα;",
+        "Μπορώ να ενταχθώ σε κάποιο πρόγραμμα χρηματοδότησης;",
+        "Θέλω να αυτοματοποιήσω την επιχείρησή μου με AI. Τι προτείνετε;"
+    ]
+);
+
+const loopedPrompts = $derived([...promptPills, ...promptPills]);
+
+function usePrompt(prompt: string) {
+    userInput = prompt;
+    tick().then(() => {
+        sendMessage();
+    });
+}
+
 </script>
 
 <div class="chat-wrapper" class:floating={floating} class:open={isOpen}>
@@ -187,6 +206,21 @@ $effect(() => {
                     </div>
                 </div>
             {/each}
+
+            {#if messages.length <= 1 && promptPills?.length}
+            <div class="prompt-carousel">
+                <div class="prompt-track">
+                    {#each loopedPrompts as pill}
+                        <button
+                            class="prompt-pill"
+                            onclick={() => usePrompt(pill)}
+                        >
+                            {pill}
+                        </button>
+                    {/each}
+                </div>
+            </div>
+            {/if}
         </div>
 
         <div class="input-area">
@@ -425,6 +459,79 @@ $effect(() => {
     .message-content :global(p) { margin-bottom: 0.5rem; }
     .message-content :global(p:last-child) { margin-bottom: 0; }
 
+    /* ===== Infinite Horizontal Prompt Carousel ===== */
+
+    .prompt-carousel {
+        width: 100%;
+        max-width: 768px;
+        margin: 0 auto 10px auto;
+        overflow: hidden;
+        padding: 0 16px;
+        position: relative;
+
+        /* soft edge fade (premium look) */
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 10%,
+            black 90%,
+            transparent
+        );
+    }
+
+    .prompt-track {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
+        width: max-content;
+        will-change: transform;
+
+        animation: promptScroll 30s linear infinite;
+    }
+
+    .prompt-carousel:hover .prompt-track {
+        animation-play-state: paused;
+    }
+
+    @keyframes promptScroll {
+        0% {
+            transform: translate3d(0, 0, 0);
+        }
+        100% {
+            transform: translate3d(-50%, 0, 0);
+        }
+    }
+
+    .prompt-pill {
+        flex: 0 0 auto; 
+        white-space: nowrap;
+
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .prompt-pill:hover {
+        border-color: var(--brand);
+        color: var(--brand);
+        background: var(--btn-hover);
+    }
+
+
+    .prompt-pill:hover {
+        border-color: var(--brand);
+        color: var(--brand);
+        background: var(--btn-hover);
+    }
+    
+    
     .input-area {
         width: 100%;
         padding: 16px;
