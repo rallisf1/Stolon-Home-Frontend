@@ -71,7 +71,7 @@
                 ></altcha-widget>
             </div>
            
-            <button type="submit">Send Message</button>
+            <button type="submit">{translations[language].contact.submit}</button>
         </form>
             <button onclick={goBack}>{$previousUrl === '' ? translations[language].general.go_home : translations[language].general.back}</button>
     </div>
