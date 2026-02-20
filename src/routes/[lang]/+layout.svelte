@@ -5,6 +5,7 @@ import "../../app.css";
 import { beforeNavigate } from '$app/navigation';
 import { previousUrl } from "$lib/stores";
 import ChatArea from "$lib/ChatArea.svelte";
+import EspaBanner from "$lib/EspaBanner.svelte";
 let {data,children } = $props();
 let translations = $derived(data.translations);
 let lang = $derived(data.lang);
@@ -25,5 +26,7 @@ beforeNavigate(({ from }) => {
 		{translations}
 		{lang}
 	/>
-
+<EspaBanner />
 {/if}
+
+
