@@ -35,16 +35,16 @@
 		class="espa-banner" 
 		transition:fade={{ duration: 300 }}
 	>
-		<button 
+		<a href={pdfUrl} target="_blank" rel="noopener noreferrer" class="img-link">
+			<img src={imageUrl} alt="ESPA Banner" />
+		</a>
+			<button 
 			class="close-btn" 
 			onclick={closeBanner} 
 			aria-label="Close banner"
 		>
 			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
 		</button>
-		<a href={pdfUrl} target="_blank" rel="noopener noreferrer" class="img-link">
-			<img src={imageUrl} alt="ESPA Banner" />
-		</a>
 	</div>
 {/if}
 
@@ -59,7 +59,6 @@
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		max-width: 250px;
 		display: flex;
-		flex-direction: column;
 		align-items: flex-end;
 		border: 1px solid #e2e8f0;
 	}
