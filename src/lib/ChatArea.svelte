@@ -463,31 +463,44 @@ function usePrompt(prompt: string) {
     .prompt-carousel {
         width: 100%;
         max-width: 768px;
-        margin: 0 auto 10px auto;
+        margin: 18px auto 18px auto;
         overflow: hidden;
         padding: 0 16px;
         position: relative;
-
-        /* soft edge fade (premium look) */
-        mask-image: linear-gradient(
-            to right,
-            transparent,
-            black 10%,
-            black 90%,
-            transparent
-        );
     }
-
-    .prompt-track {
+        .prompt-track {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap: 14px 18px;
+        width: 100%;
+    }
 
-        width: max-content;
-        will-change: transform;
+    .prompt-pill {
+        flex: 0 1 auto;
+        white-space: nowrap;
+        background: var(--card-bg);
+        border: 1.5px solid var(--border);
+        color: var(--text);
+        padding: 10px 22px;
+        border-radius: 999px;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(.4,1,.7,1);
+        background-clip: padding-box;
+    }
 
-        animation: promptScroll 30s linear infinite;
+    .prompt-pill:hover {
+        border-color: var(--brand);
+        color: var(--brand);
+        background: var(--btn-hover);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        transform: translateY(-2px) scale(1.04);
     }
 
     .prompt-carousel:hover .prompt-track {
@@ -506,15 +519,15 @@ function usePrompt(prompt: string) {
     .prompt-pill {
         flex: 0 0 auto; 
         white-space: nowrap;
-
         background: var(--card-bg);
         border: 1px solid var(--border);
         color: var(--text);
         padding: 8px 14px;
         border-radius: 999px;
-        font-size: 13px;
+        font-size: 15px;
         cursor: pointer;
         transition: all 0.2s ease;
+        margin-top:4px;
     }
 
     .prompt-pill:hover {
