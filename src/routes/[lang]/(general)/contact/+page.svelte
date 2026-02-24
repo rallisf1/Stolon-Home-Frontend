@@ -8,6 +8,9 @@
     let language = $derived(data.lang);
     let translations = $derived((data as any).translations);
 
+    // Selected subject for the form (auto-filled when coming from a related page)
+    let selectedSubject = $state("");
+
     onMount(() => {
         import("altcha");
     });
@@ -19,6 +22,14 @@
             goto($previousUrl);
         }
     }
+    $effect(() => {
+        const prev = $previousUrl || "";
+        if (!prev) return;
+        const m = prev.match(/(?:\/|^)(ai|business|computerization|education|marketing)(?:\/|$)/i);
+        if (m && m[1]) {
+            selectedSubject = m[1].toLowerCase();
+        }
+    });
 </script>
 
 <svelte:head>
@@ -52,7 +63,14 @@
 
             <div class="form-group">
                 <label for="subject">{translations[language].contact.subject}</label>
-                <input type="text" id="subject" name="subject" />
+                <select id="subject" name="subject" bind:value={selectedSubject} required>
+                    <option value="">{translations[language].contact.select_subject}</option>
+                    <option value="ai">AI</option>
+                    <option value="business">{translations[language].contact.subject_business}</option>
+                    <option value="computerization">{translations[language].contact.subject_computerization}</option>
+                    <option value="education">{translations[language].contact.subject_education}</option>
+                    <option value="marketing">{translations[language].contact.subject_marketing}</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -70,7 +88,6 @@
                     debug
                 ></altcha-widget>
             </div>
-           
             <button type="submit">{translations[language].contact.submit}</button>
         </form>
             <button onclick={goBack}>{$previousUrl === '' ? translations[language].general.go_home : translations[language].general.back}</button>
@@ -138,7 +155,8 @@
     }
 
     input,
-    textarea {
+    textarea,
+    select {
         width: 100%;
         padding: 0.75rem;
         border: 2px solid rgba(62, 155, 69, 0.2);
