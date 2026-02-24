@@ -55,7 +55,6 @@
     </div>
 
     <div class="chat-area">
-        <!-- Mobile Header (Logo + Cards Toggle) -->
         <div class="mobile-header">
             {#if showCardsMobile}
             <h3>{translations[language].cards.title}</h3>
