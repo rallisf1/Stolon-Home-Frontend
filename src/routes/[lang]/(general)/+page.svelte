@@ -229,7 +229,6 @@
 
     .mc-price {
         font-size: 14px;
-        font-weight: 800;
         color: var(--brand-dark, #0056b3);
     }
 
