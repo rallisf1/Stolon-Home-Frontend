@@ -123,26 +123,26 @@
         background: var(--bg-soft);
         border: 2px solid var(--brand-dark);
         border-radius: 12px;
-        padding: 3rem;
-        max-width: 500px;
+        padding: 2rem;
+        max-width: 520px;
         width: 100%;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     }
 
     .subtitle {
-        margin: 0 0 2rem 0;
+        margin: 0 0 1.5rem 0;
         color: var(--text-muted);
         font-size: 0.95rem;
         text-align: center;
     }
 
     .form-group {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     label {
         display: block;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
         font-weight: 500;
         color: var(--text);
         font-size: 0.9rem;
@@ -152,11 +152,11 @@
     textarea,
     select {
         width: 100%;
-        padding: 0.75rem;
+        padding: 0.6rem;
         border: 2px solid rgba(62, 155, 69, 0.2);
         border-radius: 6px;
         font-family: inherit;
-        font-size: 1rem;
+        font-size: 0.95rem;
         transition:
             border-color 0.3s,
             box-shadow 0.3s;
@@ -173,7 +173,7 @@
 
     textarea {
         resize: vertical;
-        min-height: 120px;
+        min-height: 80px;
     }
 
     button {
