@@ -6,7 +6,6 @@
 
     let language = $derived(data.lang);
     let translations = $derived((data as any).translations);
-    let showCardsMobile = $state(false);
 </script>
 
 <svelte:head>
@@ -21,31 +20,26 @@
 
 
 {#snippet cardsContent()}
-    <div class="cards-area">
-        {#each data.records as card}
-        <a href={card.link} target="_blank">
-            <div class="card">
-                <div class="card-glow"></div>
-                <div class="card-image-wrapper">
-                    <img
-                        src={card.image}
-                        alt={card.title}
-                        class="card-image"
-                    />
-                    <div class="card-image-overlay"></div>
-                </div>
-                <div class="card-content">
-                    <h4>{card.title}</h4>
-                    <div class="price-container">
-                        <span class="price-label">{card.label}</span>
-                        <div class="price-value">
-                            <span class="currency">{card.price}</span>
+    <div class="cards-carousel-container">
+        <div class="cards-track">
+            <!-- Ensure enough duplicates for looping (4 sets) -->
+            {#each [...data.records, ...data.records, ...data.records, ...data.records] as card}
+            <div class="card-slide">
+                <a href={card.link} target="_blank" class="mini-card">
+                    <div class="mc-img-wrapper">
+                        <img src={card.image} alt={card.title} />
+                    </div>
+                    <div class="mc-info">
+                        <h4>{card.title}</h4>
+                        <div class="mc-price-row">
+                            <span class="mc-label">{card.label}</span>
+                            <span class="mc-price">{card.price}</span>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
-            </a>
-        {/each}
+            {/each}
+        </div>
     </div>
 {/snippet}
 
@@ -55,58 +49,39 @@
     </div>
 
     <div class="chat-area">
-        <div class="mobile-header">
-            {#if showCardsMobile}
-            <h3>{translations[language].cards.title}</h3>
-            {/if}
-            <button
-                class="mobile-cards-toggle"
-                onclick={() => (showCardsMobile = !showCardsMobile)}
-                aria-label={showCardsMobile ? translations[language].cards.close : translations[language].cards.title}
-                title={showCardsMobile ? translations[language].cards.close : translations[language].cards.title}
-            >
-                <Icon icon={showCardsMobile ? "material-symbols:x-circle-outline" : "material-symbols:percent-discount-outline"} width="24" height="24" />
-            </button>
+        <div class="mobile-header-spacer"></div>
+        {@render cardsContent()}
+        <div class="chat-wrapper-outer">
+            {#key language}
+            <ChatArea 
+                floating={false}
+                chatService={data.chatService}
+                translations={translations}
+                lang={language}
+                info={translations[language].chat.ai_name}
+                button_title={translations[language].chat.new_chat}
+                place_holder={translations[language].chat.placeholder}
+                pills={[translations[language].chat.pill1, translations[language].chat.pill2, translations[language].chat.pill3, translations[language].chat.pill4]}
+            />
+            {/key}
         </div>
-        {#key language}
-        <ChatArea 
-            floating={false}
-            chatService={data.chatService}
-            translations={translations}
-            lang={language}
-            info={translations[language].chat.ai_name}
-            button_title={translations[language].chat.new_chat}
-            place_holder={translations[language].chat.placeholder}
-            pills={[translations[language].chat.pill1, translations[language].chat.pill2, translations[language].chat.pill3, translations[language].chat.pill4]}
-        />
-        {/key}
 
         <!-- Local Footer for Chat Page -->
         <footer class="local-footer">
             <p>&copy; {data.footer?.copyright}</p>
         </footer>
     </div>
-
-    <!-- Right Column / Cards -->
-    <div
-        class="right-panel {showCardsMobile ? 'mobile-active' : 'desktop-only'}"
-    >
-        {@render cardsContent()}
-    </div>
 </div>
 
 <style>
     .layout-container {
         display: grid;
-        grid-template-columns: 260px 1fr 300px; /* narrowed for smaller cards */
+        grid-template-columns: 260px 1fr;
         height: 100%; /* Fill available space (excluding hidden footer) */
         width: 100%;
         box-sizing: border-box;
         position: relative;
     }
-
-    /* Hide the global footer on this chat page */
-    /* Global footer is hidden conditionally in layout now */
 
     /* Left Panel (Logo area) */
     .left-panel {
@@ -116,7 +91,6 @@
         align-items: center;
         padding-top: 20px;
     }
-
 
     /* Chat Area */
     .chat-area {
@@ -129,6 +103,14 @@
         box-sizing: border-box;
         position: relative;
     }
+    
+    .chat-wrapper-outer {
+        flex: 1;
+        width: 100%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
 
     /* Local Footer */
     .local-footer {
@@ -140,142 +122,115 @@
         color: var(--text-muted);
         flex-shrink: 0;
     }
-
-    /* Cards */
-    .right-panel {
-        display: flex;
-        justify-content: center;
-        padding: 0 20px 20px 0;
-    }
-
-    .cards-area {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        width: 290px;
-        max-height: 100vh;
-        max-height: 100dvh;
-        justify-content: flex-start;
-        padding-top: 40px;
-        scrollbar-width: none;
-    }
-    .cards-area::-webkit-scrollbar {
+    
+    .mobile-header-spacer {
         display: none;
     }
 
-    .card {
-        position: relative;
-        background: var(--card-bg);
-        border-radius: 20px;
+    /* Cards Carousel */
+    .cards-carousel-container {
+        width: 100%;
+        max-width: 900px;
         overflow: hidden;
-        box-shadow: var(--card-shadow);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid var(--border);
-    }
-    .card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow:
-            0 20px 40px rgba(0, 0, 0, 0.2),
-            0 8px 16px rgba(0, 0, 0, 0.15);
+        padding: 20px 0 10px 0;
+        position: relative;
+        flex-shrink: 0;
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        margin: 0 auto;
     }
 
-    .card-glow {
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-            circle,
-            var(--brand-glow) 0%,
-            transparent 70%
-        );
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
-    }
-    .card:hover .card-glow {
-        opacity: 1;
+    .cards-track {
+        display: flex;
+        width: max-content;
+        animation: scroll 40s linear infinite;
     }
 
-    .card-image-wrapper {
-        position: relative;
-        overflow: hidden;
-        margin: 0;
-        border-radius: 20px 20px 0 0;
-        height: 140px;
+    .cards-track:hover {
+        animation-play-state: paused;
     }
-    .card-image {
+
+    @keyframes scroll {
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-25%, 0, 0); } /* Loops 4 sets */
+    }
+
+    .card-slide {
+        padding-right: 16px;
+        flex: 0 0 auto;
+    }
+
+    .mini-card {
+        display: flex;
+        align-items: center;
+        background: var(--card-bg, #fff);
+        border: 1px solid var(--border, #eaeaea);
+        border-radius: 12px;
+        padding: 8px;
+        gap: 12px;
+        width: 240px;
+        text-decoration: none;
+        color: var(--text, #333);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .mini-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        border-color: var(--brand, #007bff);
+        background: var(--brand-soft);
+    }
+
+    .mc-img-wrapper {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .mc-img-wrapper img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.4s ease;
-    }
-    .card:hover .card-image {
-        transform: scale(1.08);
     }
 
-    .card-image-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            180deg,
-            transparent 0%,
-            rgba(0, 0, 0, 0.3) 100%
-        );
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-    .card:hover .card-image-overlay {
-        opacity: 1;
-    }
-
-    .card-content {
-        padding: 0 20px 20px;
-    }
-    .card h4 {
-        margin: 10px 0 8px;
-        font-size: 17px;
-        font-weight: 800;
-        color: var(--text);
-        line-height: 1.3;
-        text-align: center;
-    }
-
-    .price-container {
-        background: var(--brand-soft);
-        border: 2px solid var(--border-strong);
-        border-radius: 14px;
-        padding: 16px;
-        text-align: center;
-        position: relative;
+    .mc-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         overflow: hidden;
+        flex: 1;
     }
-    .price-label {
-        display: block;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 1.5px;
-        color: var(--brand-dark);
-        margin-bottom: 8px;
-        text-transform: uppercase;
+
+    .mc-info h4 {
+        margin: 0 0 4px 0;
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-    .price-value {
+
+    .mc-price-row {
         display: flex;
         align-items: baseline;
-        justify-content: center;
-        gap: 2px;
-    }
-    .currency {
-        font-size: 24px;
-        font-weight: 800;
-        color: var(--brand-dark);
+        gap: 6px;
     }
 
-    /* Mobile */
-    /* Mobile */
-    .mobile-header {
-        display: none;
+    .mc-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: var(--brand, #888);
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+
+    .mc-price {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--brand-dark, #0056b3);
     }
 
     @media (max-width: 900px) {
@@ -287,68 +242,12 @@
         .left-panel {
             display: none;
         }
-
-        /* Mobile Header */
-        .mobile-header {
-            display: flex;
-            align-items: center;
-            justify-content: end;
-            width: 100%;
+        
+        .mobile-header-spacer {
+            display: block;
             height: 60px;
-            padding: 0 16px 0 60px; /* Left padding space for Burger from layout */
-            box-sizing: border-box;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 50;
-        }
-        .mobile-header h3 {
-            margin: 0;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        .mobile-cards-toggle {
-            background: transparent;
-            border: none;
-            color: var(--text);
-            cursor: pointer;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Right Panel (Cards) -> Mobile Overlay */
-        .right-panel {
-            display: none; /* Hidden by default on mobile */
-        }
-        .right-panel.mobile-active {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            inset: 0;
-            z-index: 10;
-            background: var(--bg);
-            padding: 70px 0 0 0;
-            opacity: 1;
-            /* Reset desktop styles if needed */
-            justify-content: flex-start;
-            align-items: stretch;
-        }
-
-        /* Cards Area in Overlay needs to scroll */
-        .right-panel.mobile-active .cards-area {
             width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .desktop-only {
-            display: none;
+            flex-shrink: 0;
         }
     }
 </style>
