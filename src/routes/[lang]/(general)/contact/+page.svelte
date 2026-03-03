@@ -101,20 +101,15 @@
         align-items: center;
         justify-content: center;
         min-height: 100%;
-        padding-top: 180px;
+        padding: 40px 20px;
         box-sizing: border-box;
     }
 
     .logo-area {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
+        position: relative;
         text-align: center;
-        padding: 2rem;
-        background: var(--bg);
+        padding-bottom: 2rem;
         z-index: 100;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
@@ -132,7 +127,6 @@
         max-width: 500px;
         width: 100%;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        margin: 2rem;
     }
 
     .subtitle {
@@ -214,20 +208,21 @@
     }
     @media (max-width: 600px) {
         .contact-page-container {
-            padding-top: 11px;
+            padding-top: 80px; /* Space for burger */
             padding-left: 1rem;
             padding-right: 1rem;
-            margin-bottom:-6rem;
+            padding-bottom: 2rem;
         }
 
         .logo-area {
-            padding: 1.5rem 1rem;
+            padding-bottom: 1.5rem;
         }
 
         .contact-form-wrapper {
             padding: 1.75rem;
             border-radius: 10px;
-            margin: 1rem;
+            margin: 0;
+            width: 100%;
         }
 
         h1 {

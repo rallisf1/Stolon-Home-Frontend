@@ -17,10 +17,8 @@
 <meta name="twitter:description" content={translations[language].general.description}>
 </svelte:head>
 
-
-
 {#snippet cardsContent()}
-    <div class="cards-carousel-container">
+    <div class="cards-carousel-container desktop-carousel">
         <div class="cards-track">
             <!-- Ensure enough duplicates for looping (4 sets) -->
             {#each [...data.records, ...data.records, ...data.records, ...data.records] as card}
@@ -44,10 +42,6 @@
 {/snippet}
 
 <div class="layout-container">
-    <div class="left-panel">
-        <!-- TODO animated Stolonas -->
-    </div>
-
     <div class="chat-area">
         <div class="mobile-header-spacer"></div>
         {@render cardsContent()}
@@ -75,21 +69,12 @@
 
 <style>
     .layout-container {
-        display: grid;
-        grid-template-columns: 260px 1fr;
+        display: flex;
+        flex-direction: column;
         height: 100%; /* Fill available space (excluding hidden footer) */
         width: 100%;
         box-sizing: border-box;
         position: relative;
-    }
-
-    /* Left Panel (Logo area) */
-    .left-panel {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 20px;
     }
 
     /* Chat Area */
@@ -127,7 +112,7 @@
         display: none;
     }
 
-    /* Cards Carousel */
+    /* Cards Carousel (Desktop Only) */
     .cards-carousel-container {
         width: 100%;
         max-width: 900px;
@@ -233,15 +218,10 @@
     }
 
     @media (max-width: 900px) {
-        .layout-container {
-            grid-template-columns: 1fr;
+        .desktop-carousel {
+            display: none !important;
         }
 
-        /* Hide Left Panel on Mobile */
-        .left-panel {
-            display: none;
-        }
-        
         .mobile-header-spacer {
             display: block;
             height: 60px;

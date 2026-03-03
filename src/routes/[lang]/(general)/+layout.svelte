@@ -82,7 +82,9 @@
                     <a
                         href={item.nav_link.url}
                         class="menu-link"
-                        onclick={() => (activeMenu = false)}
+                        onclick={() => {
+                            if (window.innerWidth <= 900) activeMenu = false;
+                        }}
                     >
                         <div class="menu-item">
                             {#if item.nav_link.icon}
@@ -98,6 +100,26 @@
                 </li>
                 {/each}
             </ul>
+
+            <!-- Cards in Sidebar -->
+            {#if data.records && data.records.length > 0}
+            <div class="sidebar-cards mobile-only-cards">
+                {#each data.records as card}
+                    <a href={card.link} target="_blank" class="mini-card sidebar-card">
+                        <div class="mc-img-wrapper">
+                            <img src={card.image} alt={card.title} />
+                        </div>
+                        <div class="mc-info">
+                            <h4>{card.title}</h4>
+                            <div class="mc-price-row">
+                                <span class="mc-label">{card.label}</span>
+                                <span class="mc-price">{card.price}</span>
+                            </div>
+                        </div>
+                    </a>
+                {/each}
+            </div>
+            {/if}
 
             <div class="drawer-footer">
                 <button
@@ -164,8 +186,8 @@
         position: relative;
         height: 100vh;
         height: 100dvh;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 280px 1fr;
     }
 
     /* Main Content */
@@ -173,65 +195,37 @@
         flex: 1;
         width: 100%;
         box-sizing: border-box;
-        padding-top: 0;
+        padding-top: 0; /* No top bar */
+        overflow-y: auto; /* Enable scroll for standard pages */
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
     }
 
-    /* Floating Burger */
+    /* Floating Burger (Mobile Only) */
     .burger-float {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 2000;
-        background: var(--btn-bg);
-        color: var(--text);
-        padding: 10px;
-        border-radius: 50%;
-        cursor: pointer;
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        transition: all 0.2s;
-    }
-
-    .burger-float:hover {
-        transform: scale(1.1);
-        background: var(--btn-hover);
-        border-color: var(--brand);
+        display: none;
     }
 
     .logo-float {
-        position: fixed;
-        top: 20px;
-        left: 90px;
-        z-index: 2000;
-        height: 48px;
-        width: auto;
+        display: none;
     }
 
     /* Sidebar/Drawer */
     .sidebar {
-        position: fixed;
+        position: relative;
         top: 0;
-        left: -320px;
-        width: 280px;
+        left: 0;
+        width: 100%;
         height: 100%;
         background: var(--sidebar-bg);
         color: var(--text);
-        padding: 80px 20px 20px; /* Space for burger */
-        transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        padding: 20px;
         z-index: 1500;
         border-right: 1px solid var(--border);
         display: flex;
         flex-direction: column;
-    }
-
-    .sidebar.active {
-        left: 0;
-        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
     }
 
     .menu {
@@ -241,8 +235,7 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        flex: 1; /* Push footer down */
-        overflow-y: auto;
+        flex-shrink: 0; 
     }
 
     .menu-link {
@@ -267,6 +260,111 @@
         color: var(--brand);
         border-color: var(--border);
     }
+    
+    /* Sidebar Cards */
+    .sidebar-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+        overflow-y: auto;
+        padding-bottom: 20px;
+        flex: 1; /* Push footer down */
+        scrollbar-width: thin;
+    }
+    
+    .mobile-only-cards {
+        display: none;
+    }
+    
+    @media (max-width: 900px) {
+        .mobile-only-cards {
+            display: flex;
+        }
+    }
+    
+    .sidebar-cards::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .sidebar-cards::-webkit-scrollbar-thumb {
+        background: var(--border-strong, #ccc);
+        border-radius: 4px;
+    }
+
+    .mini-card {
+        display: flex;
+        align-items: center;
+        background: var(--card-bg, #fff);
+        border: 1px solid var(--border, #eaeaea);
+        border-radius: 12px;
+        padding: 8px;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        text-decoration: none;
+        color: var(--text, #333);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .mini-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-color: var(--brand, #007bff);
+        background: var(--brand-soft);
+    }
+
+    .mc-img-wrapper {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .mc-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .mc-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        flex: 1;
+    }
+
+    .mc-info h4 {
+        margin: 0 0 4px 0;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .mc-price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+    }
+
+    .mc-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: var(--brand, #888);
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+
+    .mc-price {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--brand-dark, #0056b3);
+    }
 
     .drawer-footer {
         margin-top: auto;
@@ -275,6 +373,7 @@
         display: flex;
         gap: 15px;
         justify-content: center;
+        flex-shrink: 0;
     }
 
     .theme-toggle,
@@ -298,16 +397,6 @@
         border-color: var(--brand);
     }
 
-    /* Main Content */
-    .page-content {
-        flex: 1;
-        width: 100%;
-        box-sizing: border-box;
-        padding-top: 0; /* No top bar */
-        overflow-y: auto; /* Enable scroll for standard pages */
-        overflow-x: hidden;
-    }
-
     /* Footer */
     .simple-footer {
         padding: 20px;
@@ -318,21 +407,56 @@
         border-top: 1px solid var(--border);
     }
 
-    /* Responsive */
-    @media (max-width: 640px) {
+    /* Responsive - Mobile layout */
+    @media (max-width: 900px) {
+        .layout-wrapper {
+            display: flex; /* Reset grid to flex for full width */
+        }
+        
         .burger-float {
-            padding: 5px;
+            position: fixed;
             top: 10px;
             left: 10px;
+            z-index: 2000;
+            background: var(--btn-bg);
+            color: var(--text);
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
         }
         .burger-float :global(svg) {
             width: 24px;
             height: 24px;
         }
         .logo-float {
+            position: fixed;
             top: 10px;
             left: 60px;
+            z-index: 2000;
             height: 38px;
+            width: auto;
+            display: block;
+        }
+        
+        /* Reset sidebar for off-canvas sliding */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 280px;
+            padding-top: 70px; /* Space for burger/logo */
+            transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .sidebar.active {
+            left: 0;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
         }
     }
 </style>
