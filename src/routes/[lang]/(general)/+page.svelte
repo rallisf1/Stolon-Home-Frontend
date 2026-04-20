@@ -143,6 +143,7 @@
     .card-slide {
         padding-right: 16px;
         flex: 0 0 auto;
+        display: flex;
     }
 
     .mini-card {
@@ -154,6 +155,8 @@
         padding: 8px;
         gap: 12px;
         width: 240px;
+        flex: 1;
+        box-sizing: border-box;
         text-decoration: none;
         color: var(--text, #333);
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);

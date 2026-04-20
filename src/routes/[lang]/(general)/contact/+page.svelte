@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { goto } from "$app/navigation";
     import { previousUrl } from "$lib/stores";
+    import Icon from "@iconify/svelte";
 
     let { data } = $props();
 
@@ -15,13 +15,7 @@
         import("altcha");
     });
 
-    const goBack = () => {
-        if($previousUrl === '') {
-            goto(`/${language}`);
-        } else {
-            goto($previousUrl);
-        }
-    }
+
     $effect(() => {
         const prev = $previousUrl || "";
         if (!prev) return;
@@ -90,7 +84,13 @@
             </div>
             <button type="submit">{translations[language].contact.submit}</button>
         </form>
-            <button onclick={goBack}>{$previousUrl === '' ? translations[language].general.go_home : translations[language].general.back}</button>
+        <div class="call-us-section">
+            <h3>{language === 'el' ? 'Ή καλέστε μας' : 'Or call us'}</h3>
+            <a href="tel:+302152159622" class="call-button">
+                <Icon icon="mdi:phone" width="22" height="22" />
+                <span>+30 215 215 9622</span>
+            </a>
+        </div>
     </div>
 </div>
 
@@ -191,12 +191,55 @@
             transform 0.1s;
     }
 
-    form + button {
-        margin-top: 2rem;
-    }
-
     button[type="submit"] {
         background-color: #15803D;
+    }
+
+    .call-us-section {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .call-us-section h3 {
+        margin: 0 0 1rem 0;
+        font-size: 1.1rem;
+        color: var(--text, #333);
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .call-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.875rem;
+        background-color: transparent;
+        color: var(--text, #333);
+        border: 2px solid var(--border, #eaeaea);
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-sizing: border-box;
+        transition:
+            background-color 0.3s,
+            transform 0.1s,
+            border-color 0.3s;
+    }
+
+    .call-button:hover {
+        background-color: rgba(62, 155, 69, 0.05);
+        border-color: #15803D;
+        color: #15803D;
+    }
+    
+    .call-button:active {
+        transform: scale(0.98);
     }
 
     button:hover {
