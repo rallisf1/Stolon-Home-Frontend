@@ -7,31 +7,35 @@
     let { data, children } = $props();
 
     // State
-    let activeMenu = $state(true);
+    let activeMenu = $state(false);
     let theme = $state("light");
 
     // Derived
     let language = $derived(data.lang);
     let translations = $derived((data as any).translations);
-    const activeLanguages = languages.filter(l => Object.keys(translations).includes(l.key));
-    
-    let nextLanguage = $derived(activeLanguages.find(l => l.key != data.lang));
+    const activeLanguages = languages.filter((l) =>
+        Object.keys(translations).includes(l.key),
+    );
+
+    let nextLanguage = $derived(
+        activeLanguages.find((l) => l.key != data.lang),
+    );
     let nextLanguageUrl = $derived.by(() => {
         if (!nextLanguage) return "#";
-        const parts = page.url.pathname.split('/').filter(Boolean);
+        const parts = page.url.pathname.split("/").filter(Boolean);
         parts.shift();
         parts.unshift(nextLanguage.key);
-        return "/" + parts.join('/');
+        return "/" + parts.join("/");
     });
     let menuItems = $derived([
         ...(data.menu?.nav_items || []),
         {
             nav_link: {
                 url: `/${language}/about`,
-                label: language === 'el' ? 'Σχετικά' : 'About',
-                icon: "material-symbols:info-outline"
-            }
-        }
+                label: language === "el" ? "Σχετικά" : "About",
+                icon: "material-symbols:info-outline",
+            },
+        },
     ]);
     let footerCopyright = $derived(data.footer?.copyright || "");
 
@@ -49,8 +53,10 @@
             document.documentElement.setAttribute("data-theme", theme);
         }
     });
-    
-    let chatView = $derived(page.route.id === "/[lang]/(general)" ? "full" : "floating");
+
+    let chatView = $derived(
+        page.route.id === "/[lang]/(general)" ? "full" : "floating",
+    );
     // Translations and chat service are already in layout's data or provided by sub-pages.
     // However, chatService is currently created in +page.ts for the home page.
     // I should move it to +layout.ts if I want it globally available.
@@ -61,7 +67,7 @@
     <!-- Floating Burger Button -->
     <button
         class="burger-float"
-        onclick={() => activeMenu = !activeMenu}
+        onclick={() => (activeMenu = !activeMenu)}
         aria-label="Toggle menu"
     >
         <Icon
@@ -70,82 +76,105 @@
             height="32"
         />
     </button>
-    
-    <img class="logo-float" src={theme === "light" ? "/logo-light.png" : "/logo-dark.png"} alt={translations[language].general.name} />
+
+    <img
+        class="logo-float"
+        src={theme === "light" ? "/logo-light.png" : "/logo-dark.png"}
+        alt={translations[language].general.name}
+    />
 
     <!-- Drawer / Sidebar -->
     <div class="drawer">
         <aside class="sidebar" class:active={activeMenu}>
             <div class="sidebar-logo">
                 <a href={`/${language}`}>
-                    <img src={theme === "light" ? "/logo-light.png" : "/logo-dark.png"} alt={translations[language].general.name} />
+                    <img
+                        src={theme === "light"
+                            ? "/logo-light.png"
+                            : "/logo-dark.png"}
+                        alt={translations[language].general.name}
+                    />
                 </a>
             </div>
             <ul class="menu">
                 {#each menuItems as item}
-                <li>
-                    <a
-                        href={item.nav_link.url}
-                        class="menu-link"
-                        onclick={() => {
-                            if (window.innerWidth <= 900) activeMenu = false;
-                        }}
-                    >
-                        <div class="menu-item">
-                            {#if item.nav_link.icon}
-                                <Icon
-                                    icon={item.nav_link.icon}
-                                    width="24"
-                                    height="24"
-                                />
-                            {/if}
-                            {item.nav_link.label}
-                        </div>
-                    </a>
-                </li>
+                    <li>
+                        <a
+                            href={item.nav_link.url}
+                            class="menu-link"
+                            onclick={() => {
+                                if (window.innerWidth <= 900)
+                                    activeMenu = false;
+                            }}
+                        >
+                            <div class="menu-item">
+                                {#if item.nav_link.icon}
+                                    <Icon
+                                        icon={item.nav_link.icon}
+                                        width="24"
+                                        height="24"
+                                    />
+                                {/if}
+                                {item.nav_link.label}
+                            </div>
+                        </a>
+                    </li>
                 {/each}
             </ul>
 
             <!-- Cards in Sidebar -->
             {#if data.records && data.records.length > 0}
-            <div class="sidebar-cards mobile-only-cards">
-                {#each data.records as card}
-                    <a href={card.link} target="_blank" class="mini-card sidebar-card">
-                        <div class="mc-img-wrapper">
-                            <img src={card.image} alt={card.title} />
-                        </div>
-                        <div class="mc-info">
-                            <h4>{card.title}</h4>
-                            <div class="mc-price-row">
-                                <span class="mc-label">{card.label}</span>
-                                <span class="mc-price">{card.price}</span>
+                <div class="sidebar-cards mobile-only-cards">
+                    {#each data.records as card}
+                        <a
+                            href={card.link}
+                            target="_blank"
+                            class="mini-card sidebar-card"
+                        >
+                            <div class="mc-img-wrapper">
+                                <img src={card.image} alt={card.title} />
                             </div>
-                        </div>
-                    </a>
-                {/each}
-            </div>
+                            <div class="mc-info">
+                                <h4>{card.title}</h4>
+                                <div class="mc-price-row">
+                                    <span class="mc-label">{card.label}</span>
+                                    <span class="mc-price">{card.price}</span>
+                                </div>
+                            </div>
+                        </a>
+                    {/each}
+                </div>
             {/if}
 
             <div class="drawer-footer">
                 <button
                     class="theme-toggle"
                     onclick={toggleTheme}
-                    aria-label={translations[language].sidebar[`theme_${theme}`]}
+                    aria-label={translations[language].sidebar[
+                        `theme_${theme}`
+                    ]}
                     title={translations[language].sidebar[`theme_${theme}`]}
                 >
                     <Icon
-                        icon={theme === "light" ? "material-symbols:moon-stars-outline" : "material-symbols:sunny-outline"}
+                        icon={theme === "light"
+                            ? "material-symbols:moon-stars-outline"
+                            : "material-symbols:sunny-outline"}
                         width="24"
                         height="24"
                     />
                 </button>
 
-                <a href={nextLanguageUrl}
+                <a
+                    href={nextLanguageUrl}
                     class="language-toggle"
                     aria-label={nextLanguage?.name}
                     title={nextLanguage?.name}
                 >
-                    <Icon icon={`circle-flags:${nextLanguage?.key}`} width="24" height="24" />
+                    <Icon
+                        icon={`circle-flags:${nextLanguage?.key}`}
+                        width="24"
+                        height="24"
+                    />
                 </a>
             </div>
         </aside>
@@ -162,15 +191,14 @@
         {/if}
 
         {#if chatView === "floating"}
-            <ChatArea 
+            <ChatArea
                 floating={true}
                 chatService={data.chatService}
-                translations={translations}
+                {translations}
                 lang={language}
                 info={translations[language].chat.ai_name}
                 button_title={translations[language].chat.new_chat}
                 place_holder={translations[language].chat.placeholder}
-                
             />
         {/if}
     </main>
@@ -239,7 +267,7 @@
         margin-bottom: 24px;
         padding: 0 10px;
     }
-    
+
     .sidebar-logo img {
         height: 64px;
         width: auto;
@@ -252,7 +280,7 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        flex-shrink: 0; 
+        flex-shrink: 0;
     }
 
     .menu-link {
@@ -277,7 +305,7 @@
         color: var(--brand);
         border-color: var(--border);
     }
-    
+
     /* Sidebar Cards */
     .sidebar-cards {
         display: flex;
@@ -289,21 +317,21 @@
         flex: 1; /* Push footer down */
         scrollbar-width: thin;
     }
-    
+
     .mobile-only-cards {
         display: none;
     }
-    
+
     @media (max-width: 900px) {
         .mobile-only-cards {
             display: flex;
         }
     }
-    
+
     .sidebar-cards::-webkit-scrollbar {
         width: 4px;
     }
-    
+
     .sidebar-cards::-webkit-scrollbar-thumb {
         background: var(--border-strong, #ccc);
         border-radius: 4px;
@@ -321,13 +349,17 @@
         box-sizing: border-box;
         text-decoration: none;
         color: var(--text, #333);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            border-color 0.2s ease,
+            background 0.2s ease;
     }
 
     .mini-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         border-color: var(--brand, #007bff);
         background: var(--brand-soft);
     }
@@ -429,7 +461,7 @@
         .layout-wrapper {
             display: flex; /* Reset grid to flex for full width */
         }
-        
+
         .burger-float {
             position: fixed;
             top: 10px;
@@ -456,11 +488,15 @@
             top: 10px;
             left: 60px;
             z-index: 2000;
-            height: 38px;
+            height: 48px;
             width: auto;
             display: block;
         }
-        
+
+        .sidebar-logo {
+            display: none;
+        }
+
         /* Reset sidebar for off-canvas sliding */
         .sidebar {
             position: fixed;
@@ -470,7 +506,7 @@
             padding-top: 70px; /* Space for burger/logo */
             transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
+
         .sidebar.active {
             left: 0;
             box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
