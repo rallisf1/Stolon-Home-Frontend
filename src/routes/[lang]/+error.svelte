@@ -10,7 +10,7 @@
         if ($previousUrl) {
             await goto($previousUrl);
         } else {
-            await goto('/');
+            await goto(`/${$page.params.lang || 'en'}/chat`);
         }
     }
 </script>
@@ -28,7 +28,7 @@
             <button onclick={goBack} class="btn-primary">
                 <span class="icon">←</span> Go Back
             </button>
-            <a href="/" class="btn-secondary">
+            <a href={`/${$page.params.lang || 'en'}/chat`} class="btn-secondary">
                 Home Page
             </a>
         </div>
@@ -65,6 +65,7 @@
         margin: 0;
         line-height: 1;
         background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+        background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         position: relative;

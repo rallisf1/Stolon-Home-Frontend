@@ -141,7 +141,7 @@ $effect(() => {
 });
 
 let promptPills = $derived(
-    Array.from(new Set((pills && pills.length) ? pills : (chatTrans?.prompt_pills || [])))
+    Array.from(new Set((pills && pills.length) ? pills : (chatTrans?.prompt_pills || []))) as string[]
 );
 
 function usePrompt(prompt: string) {

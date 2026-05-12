@@ -9,7 +9,6 @@ export const load: LayoutLoad = async ({ params, data }) => {
 	}
 
 	return {
-		lang,
 		chatService: new ChatService(),
 		...data
 	};

@@ -55,7 +55,7 @@
     });
 
     let chatView = $derived(
-        page.route.id === "/[lang]/(general)" ? "full" : "floating",
+        page.route.id === "/[lang]/(general)/chat" ? "full" : "floating",
     );
     // Translations and chat service are already in layout's data or provided by sub-pages.
     // However, chatService is currently created in +page.ts for the home page.
@@ -87,7 +87,7 @@
     <div class="drawer">
         <aside class="sidebar" class:active={activeMenu}>
             <div class="sidebar-logo">
-                <a href={`/${language}`}>
+                <a href={`/${language}/chat`}>
                     <img
                         src={theme === "light"
                             ? "/logo-light.png"
@@ -184,7 +184,7 @@
     <main class="page-content">
         {@render children()}
 
-        {#if page.route.id !== "/[lang]/(general)"}
+        {#if page.route.id !== "/[lang]/(general)/chat"}
             <footer class="simple-footer">
                 <p>&copy; {footerCopyright}</p>
             </footer>

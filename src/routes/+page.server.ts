@@ -10,5 +10,5 @@ export const load: PageServerLoad = async ({ request }) => {
         preferredLang = 'el';
     }
 
-    throw redirect(302, `/${preferredLang}`);
+    throw redirect(302, `/${preferredLang}/chat`);
 };
