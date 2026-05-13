@@ -1,17 +1,17 @@
-import { type Handle } from '@sveltejs/kit';
+import { type Reroute } from '@sveltejs/kit';
 
-export const handle: Handle = async ({ event, resolve }) => {
-    const { pathname } = event.url;
-
-    if (pathname === '/') {
-        const prefLang = event.request.headers.get('accept-language');
-        const targetLang = prefLang?.includes('el') || prefLang?.includes('gr') ? 'el' : 'en';
-        
-        return new Response(null, {
-            status: 302,
-            headers: { location: `/${targetLang}` }
-        });
+export const reroute: Reroute = ({ url }) => {
+	// If the user visits the root '/', 
+	// SvelteKit will internally treat it as '/home'
+	if (url.pathname === '/en') {
+		return '/en/home';
+	}
+	if (url.pathname === '/el') {
+		return '/el/home';
+	}
+    const homePages = ['foss-credits', 'privacy-policy', 'terms-and-conditions'];
+    const parts = url.pathname.split('/').filter(Boolean);
+    if(homePages.includes(parts[1])) {
+        return `/${parts[0]}/home/${parts[1]}`;
     }
-
-    return await resolve(event);
-};
+}
