@@ -13,4 +13,16 @@ services:
       PB_PASS: ${PB_PASS:?}
       N8N_URL: ${N8N_URL:?}
       FORM_ID: ${FORM_ID:?}
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "bun",
+          "-e",
+          "const response = await fetch('http://127.0.0.1:3000/health'); if (!response.ok) process.exit(1);",
+        ]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
       
