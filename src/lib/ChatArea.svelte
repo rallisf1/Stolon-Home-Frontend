@@ -126,6 +126,12 @@ function toggleChat() {
 }
 
 onMount(() => {
+    const presetPrompt = page.url.searchParams.get("prompt");
+    if (presetPrompt) {
+        userInput = presetPrompt;
+        // If you want it to auto-send, uncomment the next line:
+        // tick().then(() => sendMessage());
+    }
     if (typeof localStorage !== "undefined") {
         loadMessages();
     }
