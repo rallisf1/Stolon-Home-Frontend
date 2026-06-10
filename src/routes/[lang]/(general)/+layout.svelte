@@ -27,16 +27,6 @@
         parts.unshift(nextLanguage.key);
         return "/" + parts.join("/");
     });
-    let menuItems = $derived([
-        ...(data.menu?.nav_items || []),
-        {
-            nav_link: {
-                url: `/${language}/about`,
-                label: language === "el" ? "Σχετικά" : "About",
-                icon: "material-symbols:info-outline",
-            },
-        },
-    ]);
     let footerCopyright = $derived(data.footer?.copyright || "");
 
     function toggleTheme() {
