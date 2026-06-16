@@ -173,9 +173,14 @@ function usePrompt(prompt: string) {
                     <img src="/stolonas-thumb.png" alt="Stolonas" class="header-avatar" />
                     <span>{chatTrans.ai_name || "Stolonas"}</span>
                 </div>
-                <button class="close-btn" title={chatTrans.close_chat || "Close chat"} onclick={() => isOpen = false}>
-                    <Icon icon="material-symbols:close-rounded" />
-                </button>
+                <div class="header-info">
+                    <a href="/{lang}/chat" class="close-btn" title={chatTrans.full_chat || "Maximize"}>
+                        <Icon icon="material-symbols:chrome-maximize-outline" />
+                    </a>
+                    <button class="close-btn" title={chatTrans.close_chat || "Minimize"} onclick={() => isOpen = false}>
+                        <Icon icon="material-symbols:chrome-minimize" />
+                    </button>
+                </div>
             </div>
         {/if}
 
@@ -374,6 +379,7 @@ function usePrompt(prompt: string) {
         align-items: center;
         gap: 10px;
         font-weight: bold;
+        color: white;
     }
 
     .header-avatar {
@@ -391,6 +397,7 @@ function usePrompt(prompt: string) {
         padding: 4px;
         display: flex;
         opacity: 0.8;
+        color: white;
     }
 
     .close-btn:hover {
@@ -431,7 +438,7 @@ function usePrompt(prompt: string) {
     }
 
     .message.user { justify-content: flex-end; }
-    .message-wrapper { display: flex; gap: 12px; max-width: 85%; align-items: flex-end; }
+    .message-wrapper { display: flex; gap: 12px; align-items: flex-end; }
     
     .avatar {
         width: 36px;
@@ -474,7 +481,8 @@ function usePrompt(prompt: string) {
         padding: 0 16px;
         position: relative;
     }
-        .prompt-track {
+
+    .prompt-track {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;

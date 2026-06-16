@@ -77,7 +77,7 @@
     <div class="drawer">
         <aside class="sidebar" class:active={activeMenu}>
             <div class="sidebar-logo">
-                <a href={`/${language}/chat`}>
+                <a href={`/${language}`}>
                     <img
                         src={theme === "light"
                             ? "/logo-light.png"
