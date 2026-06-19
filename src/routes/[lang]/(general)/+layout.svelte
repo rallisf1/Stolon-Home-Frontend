@@ -12,6 +12,7 @@
 
     // Derived
     let language = $derived(data.lang);
+    let menuItems = $derived(data.menu?.nav_items || []);
     let translations = $derived((data as any).translations);
     const activeLanguages = languages.filter((l) =>
         Object.keys(translations).includes(l.key),
