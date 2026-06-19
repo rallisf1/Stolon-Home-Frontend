@@ -1,5 +1,4 @@
 import type { LayoutServerLoad } from './$types'
-import { error } from '@sveltejs/kit'
 import pb from '$lib/server/pb'
 
 type Nav = {
@@ -53,7 +52,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
         menu.nav_items.push({
             nav_link: {
                 id: record.id,
-                url: record.slug === '/' ? `/${lang}` : `/${lang}/${record.slug}`,
+                url: record.slug === '/' ? `/${lang}` : record.slug.startsWith('#') ? `/${lang}${record.slug}` : `/${lang}/${record.slug}`,
                 label: record.title,
                 icon: record.icon
             }
