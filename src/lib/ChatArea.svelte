@@ -4,6 +4,7 @@ import Icon from "@iconify/svelte";
 import { marked } from "marked";
 import { page } from "$app/state";
 import type { ChatService } from "./chat";
+import { chatStore } from "$lib/stores";
 
 type ChatArea = {
     floating: boolean;
@@ -143,6 +144,22 @@ $effect(() => {
             localStorage.setItem("chat_history", JSON.stringify(messages));
             scrollToBottom();
         }
+    }
+});
+
+$effect(() => {
+    if ($chatStore.isOpen) {
+        isOpen = true;
+        if ($chatStore.prompt) {
+            userInput = $chatStore.prompt;
+        }
+        // Reset the store so manual close doesn't re-trigger it
+        chatStore.set({ isOpen: false, prompt: '' });
+        
+        setTimeout(() => {
+            scrollToBottom();
+            messageInputel?.focus();
+        }, 300);
     }
 });
 
