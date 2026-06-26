@@ -48,7 +48,7 @@ beforeNavigate(({ from }) => {
 </script>
 
 {@render children()}
-{#if ($page.url.pathname as string) !== '/en/chat' && ($page.url.pathname as string) !== '/el/chat'}
+{#if $page.route.id !== '/[lang]/(general)/chat'}
 	<ChatArea
 		floating={true}
 		chatService={data.chatService}

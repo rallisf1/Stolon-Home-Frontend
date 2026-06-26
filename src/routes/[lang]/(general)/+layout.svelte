@@ -45,9 +45,7 @@
         }
     });
 
-    let chatView = $derived(
-        page.route.id === "/[lang]/(general)/chat" ? "full" : "floating",
-    );
+
     // Translations and chat service are already in layout's data or provided by sub-pages.
     // However, chatService is currently created in +page.ts for the home page.
     // I should move it to +layout.ts if I want it globally available.
@@ -181,17 +179,7 @@
             </footer>
         {/if}
 
-        {#if chatView === "floating"}
-            <ChatArea
-                floating={true}
-                chatService={data.chatService}
-                {translations}
-                lang={language}
-                info={translations[language].chat.ai_name}
-                button_title={translations[language].chat.new_chat}
-                place_holder={translations[language].chat.placeholder}
-            />
-        {/if}
+
     </main>
 </div>
 
