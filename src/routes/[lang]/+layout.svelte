@@ -47,7 +47,9 @@ beforeNavigate(({ from }) => {
 });
 </script>
 
-{@render children()}
+{#key $page.url.pathname.split('/')[2]}
+	{@render children()}
+{/key}
 {#if $page.route.id !== '/[lang]/(general)/chat'}
 	<ChatArea
 		floating={true}
