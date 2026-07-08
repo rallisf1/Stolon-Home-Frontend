@@ -189,7 +189,7 @@
       if (shouldSend) {
         tick().then(() => sendMessage());
       }
-      
+
       setTimeout(() => {
         scrollToBottom();
         messageInputel?.focus();
@@ -578,6 +578,7 @@
   .message-info {
     font-size: 10px;
     font-weight: 700;
+    color: #111111;
     text-transform: uppercase;
     margin-bottom: 2px;
     opacity: 0.7;
